@@ -3,8 +3,8 @@
 % !TeX program = xelatex
 % !BIB program = bibtex
 
-\documentclass[notes]{beamer}
-% \documentclass[draft]{beamer}	
+% \documentclass[notes]{beamer}
+\documentclass[draft]{beamer}	
 \usetheme{Singapore}
 % \usecolortheme{default}
 %\usepackage{pgfpages}
@@ -102,7 +102,7 @@
 % The author(s) of the presentation:
 %  - again first a short version to be displayed at the bottom;
 %  - next the full list of authors, which may include contact information;
-\author[YingmingLi]{Yingming Li \\ yingming@zju.edu.cn}
+\author[YingmingLi]{Yingming Li \\ \textrm{yingming@zju.edu.cn} } 
 % The institute:
 %  - to start the name of the university as displayed on the top of each slide
 %    this can be adjusted such that you can also create a Dutch version
@@ -137,9 +137,31 @@
 %    \end{frame}
 % }
 
+\section{Administrative things} 
+
+\begin{frame}
+	\begin{block}{Lecturer}
+		Prof. YingMing Li  \\ 
+		Data Science \& Engineering Research Center, Zhejiang University \\  
+		Email: \textrm{yingming@zju.edu.cn} 
+	\end{block} 
+	\begin{block}{QQ group chat} 
+		Number: xxx
+	\end{block}
+\end{frame}
+
+\begin{frame}{Course Schedule} 
+\end{frame}
+
+\begin{frame}
+	{Examination Regulations} 
+
+	xx \% Homework/Class Participation \\ 
+	xx \% Midterm Lab Project \\ 
+	xx \% Final Examination (written, closed-book)  
+\end{frame}
+
 \section{What is optimization?} 
-% \subsection{Examples in machine learning} 
-% \subsection{Unconstrained vs constrained} 
 
 \begin{frame}{What is optimization?}
 	\begin{itemize}
@@ -292,15 +314,15 @@ A set $C \subseteq \real^n$ is convex if for $x,y \in C$ and any $\alpha \in [0,
 
 \subsection{Convex optimization} 
 
-\begin{frame}
+\begin{frame}{Convex optimization} 
 	\begin{define}
 		An optimization problem is \emph{convex} if its objective is a convex function. The inequality constrains $f_j$ are convex, and the equality constraints $h_j$ are affine. 
 	\end{define} 
 	\begin{equation}
 		\begin{aligned}
 			\min_x \quad & f_0(x)  & \text{(Convex function)} \\ 
-			\textrm{s.t.} \quad & f_i(x) \le 0, i = \{1,...,k\} & (Convex sets) \\  
-					 \quad & h_j(x) = 0, j = \{1,...,l\} & (Affine) \\ 
+			\textrm{s.t.} \quad & f_i(x) \le 0, i = \{1,...,k\} & \text{(Convex sets)} \\  
+					 \quad & h_j(x) = 0, j = \{1,...,l\} & \text{(Affine)} \\ 
 		\end{aligned}
 	\end{equation}
 \end{frame}
@@ -320,7 +342,7 @@ A set $C \subseteq \real^n$ is convex if for $x,y \in C$ and any $\alpha \in [0,
 	\begin{thm}
 		\begin{itemize}
 			\item $\nabla f(x)=0$. We have $f(y) \ge f(x)+\nabla f(x)^T (y-x) = f(x) $. 
-			\item  $\nabla f(x) \neq =0 $. There is a direction of descent. 
+			\item  $\nabla f(x) \neq0 $. There is a direction of descent. 
 		\end{itemize}
 	\end{thm}
 \end{frame}
@@ -371,7 +393,7 @@ A set $C \subseteq \real^n$ is convex if for $x,y \in C$ and any $\alpha \in [0,
 \subsection{Newton's method} 
 \begin{frame}{Newton's method} 
 	Idea: use a second-order approximation to function. 
-	\[f(x+\Delta x) \approxeq f(x)+\nabla f(x)^T \Delta x + 1/2 \Delta x^T \nabla^2 f(x) \Delta x \] 
+	\[f(x+\Delta x) \approx f(x)+\nabla f(x)^T \Delta x + 1/2 \Delta x^T \nabla^2 f(x) \Delta x \] 
 	Choose $\Delta x $ to minimize above: 
 	\[\Delta x = - [ \nabla^2 f(x)]^{-1} \nabla f(x) \] 
 	This is descent direction: 
@@ -389,7 +411,7 @@ A set $C \subseteq \real^n$ is convex if for $x,y \in C$ and any $\alpha \in [0,
 	{Convergence rate} 
 	\begin{itemize}
 		\item Strongly convex case: $\nabla^2f(x) \succeq  mI $, then "Linear convergence". For some $\gamma\in (0,1), f(x_t) - f(x*) \le \gamma^t , \gamma \le 1 $. 
-		\[f(x_t) - f(x*) \le \gamma^t \text{ or } t \ge \frac{1}{\gamma} \log \frac{1}{\epsilon} = \Rightarrow f(x_t ) - f(x^* ) \le \epsilon \]. 
+		\[f(x_t) - f(x*) \le \gamma^t, t \ge \frac{1}{\gamma} \log \frac{1}{\epsilon} \Rightarrow f(x_t ) - f(x^* ) \le \epsilon \]. 
 		\item Smooth case: $\|\nabla f(x) - \nabla f(y) \| \le C \| x-y \|$. 
 		\[ f(x_t) - f(x^*) \le \frac{K}{t^2} \]
 		\item Newton's method often is faster, especially when $f$ has "long valleys". 
@@ -413,7 +435,7 @@ A set $C \subseteq \real^n$ is convex if for $x,y \in C$ and any $\alpha \in [0,
 		\item Goal of machine learning 
 		\begin{itemize}
 			\item Minimize expected loss $L(h) = \mE [ \mathrm{loss} (h(x),y )] $ given samples $(x_i,y_i ), i = 1,2,...,m $ 
-			\item But we don't know $P(x,y$, nor can we estimate it well. 
+			\item But we don't know $P(x,y)$, nor can we estimate it well. 
 			
 		\end{itemize}
 		\item Empirical risk minimization
@@ -436,7 +458,7 @@ A set $C \subseteq \real^n$ is convex if for $x,y \in C$ and any $\alpha \in [0,
 		\left( \frac{1}{n} \sum_{i=1}^{n}
 		 \frac{\partial L(w,x_i,y_i)}{\partial w} \right) $$
 		\item Note: at each step, gradient is the averageof the gradient for all samples $(i=1,...,n)$. 
-		\item Very slow when n  is very large. 
+		\item Very slow when $n$  is very large. 
 	\end{itemize}
 	
 \end{frame}
@@ -452,7 +474,7 @@ A set $C \subseteq \real^n$ is convex if for $x,y \in C$ and any $\alpha \in [0,
 		\item Q1: Would this work at all? 
 		\item Q2: How good is it? 
 		\item<2-> A1: SGD converges to not only thy empirical loss minimum, but also to the expected loss minimum! 
-		\item<2-> A2: Convergence (to expected loss) is slow: $f(w_t) -E[f(w*)] \le O(1/t) $ or $O(1/\sqrt{t}) $
+		\item<2-> A2: Convergence (to expected loss) is slow: $f(w_t) -E[f(w^*)] \le O(1/t) $ or $O(1/\sqrt{t}) $
 	\end{itemize}
 \end{frame}
 
