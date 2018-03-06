@@ -3,8 +3,8 @@
 % !TeX program = xelatex
 % !BIB program = bibtex
 
-% \documentclass[notes]{beamer}
-\documentclass[draft]{beamer}	
+\documentclass[notes]{beamer}
+% \documentclass[draft]{beamer}	
 \usetheme{Singapore}
 % \usecolortheme{default}
 %\usepackage{pgfpages}
@@ -16,9 +16,10 @@
 \usepackage{mmstyles}
 % \usepackage{hanging}
 \usepackage{listings}
-\usepackage{fontspec}
 \usefonttheme[onlymath]{serif}
-\usepackage{xeCJK}
+% \usepackage{fontspec}
+% \usepackage{xeCJK}
+
 % \usepackage[backend=biber]{biblatex}
 % \bibliography{./ref.bib}
 %\addbibresource{ref.bib}
@@ -94,15 +95,15 @@
 % The title of the presentation:
 %  - first a short version which is visible at the bottom of each slide;
 %  - second the full title shown on the title slide;
-\title[Opt for ML]{Optimization for Machine Learning}
+\title[Opt for ML]{Linear Optimization}
 
 % Optional: a subtitle to be dispalyed on the title slide
-\subtitle{Introduction}
+\subtitle{Optimization for Machine Learning}
 
 % The author(s) of the presentation:
 %  - again first a short version to be displayed at the bottom;
 %  - next the full list of authors, which may include contact information;
-\author[YingmingLi]{Yingming Li \\ \textrm{yingming@zju.edu.cn} } 
+\author[YingmingLi]{Yingming Li \\ yingming@zju.edu.cn}
 % The institute:
 %  - to start the name of the university as displayed on the top of each slide
 %    this can be adjusted such that you can also create a Dutch version
@@ -118,15 +119,52 @@
 \begin{document}
 
 \begin{frame}
-  \titlepage
+	\titlepage
+	Adapted from slides provided by Prof. Jihun Hamm
+
 \end{frame}
 
+\begin{frame}
+	\begin{block}{Course Content and Arrangement (tentative)}
+		\begin{itemize}
+			\item Introduction to Optimization
+			\item Perceptrons
+			\item Regression problem
+			\item Multi-layer perceptrons
+			\item Support vector machines
+			\item Deep neural networks
+		\end{itemize}
+	\end{block}
+	\begin{block}{Examinations Regulations}
+		\begin{itemize}
+			\item 60\% Homework/Project/Class Participation
+			\item 40\% Final Examination
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\begin{block}{Instructor: Dr Yingming Li}
+		\begin{itemize}
+			\item Assistant professor in ISEE since May 2016
+			\item Research interest: Machine Learning \& Data Mining
+			\item Related publications: more than 10 papers in top conferences and journals, such as ICML, AAAI, IJCAI, and TKDE.
+		\end{itemize}
+	\end{block}
+	\begin{block}{Teaching Assistant: Xinglu Wang}
+		Email: 3140102282@zju.edu.cn, QQ Group: 680965368
+	\end{block}
+	\begin{block}{Textbook}
+		Yaxiang Yuan, Wenyu Sun, Optimization Theory and Methods, 1st edition, 1997\\
+		Christopher M. Bishop, Pattern Recognition and Machine Learning, April, 2011
+	\end{block}
+\end{frame}
 \AtBeginSection[]
 {
-   \begin{frame}
-       \frametitle{Outline}
-       \tableofcontents[currentsection]
-   \end{frame}
+	\begin{frame}
+		\frametitle{Outline}
+		\tableofcontents[currentsection]
+	\end{frame}
 }
 
 % \AtBeginSubsection[2-]
@@ -137,499 +175,499 @@
 %    \end{frame}
 % }
 
-\section{Administrative things} 
+% \section{Administrative things}
 
 \begin{frame}
 	\begin{block}{Lecturer}
-		Prof. YingMing Li  \\ 
-		Data Science \& Engineering Research Center, Zhejiang University \\  
-		Email: \textrm{yingming@zju.edu.cn} 
-	\end{block} 
-	\begin{block}{QQ group chat} 
+		Prof. YingMing Li  \\
+		Data Science \& Engineering Research Center, Zhejiang University \\
+		Email: \textrm{yingming@zju.edu.cn}
+	\end{block}
+	\begin{block}{QQ group chat}
 		Number: xxx
 	\end{block}
 \end{frame}
 
-\begin{frame}{Course Schedule} 
+\begin{frame}{Course Schedule}
 \end{frame}
 
 \begin{frame}
-	{Examination Regulations} 
+	{Examination Regulations}
 
-	xx \% Homework/Class Participation \\ 
-	xx \% Midterm Lab Project \\ 
-	xx \% Final Examination (written, closed-book)  
+	xx \% Homework/Class Participation \\
+	xx \% Midterm Lab Project \\
+	xx \% Final Examination (written, closed-book)
 \end{frame}
 
-\section{What is optimization?} 
+\section{What is optimization?}
 
 \begin{frame}{What is optimization?}
 	\begin{itemize}
-		\item<1-> Finding (one or more)  minimizer of a function subject to constraints 
-			\begin{equation}
-			\begin{aligned}
-				\argmin_x \quad & f_0(x)  \\ 
-				\textrm{s.t.} \quad & f_i(x) \le 0, i = \{1,...,k\} \\  
-				 		\quad & h_j(x) = 0, j = \{1,...,l\} \\ 
-			\end{aligned}
-			\end{equation}
-		\item<2-> Most of the machine learning problems are, in the end, optimization problems. 
-	\end{itemize}
-\end{frame}	
-
-\begin{frame}{Examples} 
-	\begin{itemize} 
-		\item (Soft) Linear SVM 
-		\begin{equation}
-			\begin{aligned}
-				\argmin_x \quad & \sum_{i=1}^{n} \|w\|^2 + C \sum_{i=1}{n} \epsilon_i  \\ 
-				\textrm{s.t.} \quad & 1-y_ix_i^Tw\le \epsilon_i \\  
-				 		\quad & \epsilon_i \ge 0 \\ 
-			\end{aligned}
-		\end{equation}
-		\item Maximum Likelihood 
-		\begin{equation}
-			\argmax_\theta \sum_{i=1}^{n} \log p_\theta (x_i)
-		\end{equation}
-		\item K-means 
-		\begin{equation}
-			\argmin_{\mu_1,\mu_2,...,\mu_k} J(\mu) = \sum_{j=1}^{k} \sum_i\in C_j \|x_i-\mu_j\|^2 
-		\end{equation}
+		\item<1-> Finding (one or more)  minimizer of a function subject to constraints
+		      \begin{equation}
+			      \begin{aligned}
+				      \argmin_x \quad     & f_0(x)                        \\
+				      \textrm{s.t.} \quad & f_i(x) \le 0, i = \{1,...,k\} \\
+				      \quad               & h_j(x) = 0, j = \{1,...,l\}   \\
+			      \end{aligned}
+		      \end{equation}
+		\item<2-> Most of the machine learning problems are, in the end, optimization problems.
 	\end{itemize}
 \end{frame}
 
-\section{Convex optimization} 
-\subsection{Convex sets} 
+\begin{frame}{Examples}
+	\begin{itemize}
+		\item (Soft) Linear SVM
+		      \begin{equation}
+			      \begin{aligned}
+				      \argmin_w \quad     & \sum_{i=1}^{n} \|w\|^2 + C \sum_{i=1}{n} \epsilon_i \\
+				      \textrm{s.t.} \quad & 1-y_ix_i^Tw\le \epsilon_i                           \\
+				      \quad               & \epsilon_i \ge 0                                    \\
+			      \end{aligned}
+		      \end{equation}
+		\item Maximum Likelihood
+		      \begin{equation}
+			      \argmax_\theta \sum_{i=1}^{n} \log p_\theta (x_i)
+		      \end{equation}
+		\item K-means
+		      \begin{equation}
+			      \argmin_{\mu_1,\mu_2,...,\mu_k} J(\mu) = \sum_{j=1}^{k} \sum_{i\in C_j} \|x_i-\mu_j\|^2
+		      \end{equation}
+	\end{itemize}
+\end{frame}
+
+\section{Convex optimization}
+\subsection{Convex sets}
 
 \begin{frame}{Convex sets}
-\begin{define}
-A set $C \subseteq \real^n$ is convex if for $x,y \in C$ and any $\alpha \in [0,1]$, $\alpha x +(1-\alpha)y \in C$. 
-\end{define}
-\begin{figure}
-\includegraphics[width=.45\textwidth]{2018-03-04-21-52-01.png} 
-\caption{Convex Set}
-\end{figure}
+	\begin{define}
+		A set $C \subseteq \real^n$ is convex if for $x,y \in C$ and any $\alpha \in [0,1]$, $\alpha x +(1-\alpha)y \in C$.
+	\end{define}
+	\begin{figure}
+		\includegraphics[width=.45\textwidth]{2018-03-04-21-52-01.png}
+		\caption{Convex Set}
+	\end{figure}
 
 \end{frame}
 
-\begin{frame}{Convex sets} 
+\begin{frame}{Convex sets}
 	\begin{example}
 		\begin{itemize}
 			\item All of $\real^n$
-			\item Non-negative orthant, $\real_+^n$: let $x \ge 0, y\ge 0$, clearly $\alpha x + (1-\alpha) y \ge 0$. 
-			\item Afline subspaces: $Ax=b, Ay=b$, then 
-			$$A(\alpha x+(1-\alpha) y)=\alpha Ax + (1-\alpha)Ay = b$$. 
-			\item Aebitrary intersections of convex sets: let $C_i$ be convex for $i\in \cI, C = \bigcap_i C_i$, then 
-			$$x\in C,y\in C \Rightarrow \alpha x +(1-\alpha y) \in C_i \subseteq C, \forall i \in \cI $$.
+			\item Non-negative orthant, $\real_+^n$: let $x \ge 0, y\ge 0$, clearly $\alpha x + (1-\alpha) y \ge 0$.
+			\item Affine subspaces: $Ax=b, Ay=b$, then
+			      $$A(\alpha x+(1-\alpha) y)=\alpha Ax + (1-\alpha)Ay = b$$.
+			\item Arbitrary intersections of convex sets: let $C_i$ be convex for $i\in \cI, C = \bigcap_i C_i$, then
+			      $$x\in C,y\in C \Rightarrow \alpha x +(1-\alpha y) \in C_i \subseteq C, \forall i \in \cI $$.
 		\end{itemize}
 	\end{example}
 \end{frame}
 
-\subsection{Convex functions} 
-\begin{frame}{Convex functions} 
+\subsection{Convex functions}
+\begin{frame}{Convex functions}
 	\begin{define}
-		A function $f: \real^n \rightarrow \real$ is convex if  for $x,y \in \text{dom } f$ and any $a\in [0,1]$, 
+		A function $f: \real^n \rightarrow \real$ is convex if  for $x,y \in \text{dom } f$ and any $a\in [0,1]$,
 		$$f(ax+(1-a)y)\le af(x)+(1-a) f(y)$$
 	\end{define}
 	\begin{figure}
-	\includegraphics[width=.45\textwidth]{2018-03-04-22-09-28.png} 
-	\caption{Convex Function}
+		\includegraphics[width=.45\textwidth]{2018-03-04-22-09-28.png}
+		\caption{Convex Function}
 	\end{figure}
 
 \end{frame}
-\begin{frame}{Convexity condition 1} 
+\begin{frame}{Convexity condition 1}
 	\begin{thm}
-		Suppose $f:\real^n \rightarrow \real$ is differentiable. Then $f$ is convex if and only if for all $x,y \in \text{dom } f$. 
+		Suppose $f:\real^n \rightarrow \real$ is differentiable. Then $f$ is convex if and only if for all $x,y \in \text{dom } f$.
 		$$f(y) \ge f(x) + \nabla f(x)^T (y-x) $$
 	\end{thm}
 	\begin{figure}
-		\includegraphics[width=.45\textwidth]{2018-03-04-22-24-12.png} 
-		\end{figure}
+		\includegraphics[width=.45\textwidth]{2018-03-04-22-24-12.png}
+	\end{figure}
 \end{frame}
 \begin{frame}{Subgradient}
 	\begin{define}
-		The \textit{subgradient} set, or subdifferential set, $\partial f(x)$ of f at x is $$\partial f(x) = \{ g: f(y) \ge f(x) +g^T(y-x) \forall y\}$$. 
+		The \textit{subgradient} set, or subdifferential set, $\partial f(x)$ of f at x is $$\partial f(x) = \{ g: f(y) \ge f(x) +g^T(y-x) \quad \forall y\}$$.
 	\end{define}
-	
+
 	\begin{minipage}{\textwidth}
 		\begin{minipage}{.47\textwidth}
 			\begin{thm}
-				$f:\real^n\rightarrow \real$ is convex iff it has ono-empty subdifferential set everywhere. 
+				$f:\real^n\rightarrow \real$ is convex iff it has ono-empty subdifferential set everywhere.
 			\end{thm}
 		\end{minipage}
 		\hfill
 		\begin{minipage}{.47\textwidth}
 			\begin{figure}
-				\includegraphics[width=\textwidth]{2018-03-04-22-37-40.png} 
+				\includegraphics[width=\textwidth]{2018-03-04-22-37-40.png}
 			\end{figure}
 		\end{minipage}
 	\end{minipage}
-\end{frame} 
-\begin{frame}{Convexity condition 2} 
+\end{frame}
+\begin{frame}{Convexity condition 2}
 	\begin{thm}
 		Suppose $f: \real^{n} \rightarrow \real $ is twice differentiable, Then $f$ is convex iff for all $x \in \text{dom } f $, \[\nabla^2f(x) \succeq 0. \]
 	\end{thm}
 	\begin{figure}
-	\includegraphics[width=0.6\textwidth]{2018-03-05-10-37-24.png} 
+		\includegraphics[width=0.6\textwidth]{2018-03-05-10-37-24.png}
 	\end{figure}
 \end{frame}
 \begin{frame}
-	{Examples of convex functions} 
+	{Examples of convex functions}
 	\begin{itemize}
-		\item Linear/affine functions: $f(x)=b^Tx +c$ 
-		\item Quadratic function: $f(x)=\frac{1}{2}x^TAx+b^Tx+c $, for $A\succeq 0$. 
-		
-		\eg, for regression:  \[\frac{1}{2}\|\mX w-y\|^2 = \frac{1}{2} w^{T} \mX ^T \mX w -y^T \mX w + \frac{1}{2} y^T y \].
-		 
+		\item Linear/affine functions: $f(x)=b^Tx +c$
+		\item Quadratic function: $f(x)=\frac{1}{2}x^TAx+b^Tx+c $, for $A\succeq 0$.
+
+		      \eg, for regression:  \[\frac{1}{2}\|\mX w-y\|^2 = \frac{1}{2} w^{T} \mX ^T \mX w -y^T \mX w + \frac{1}{2} y^T y \].
+
 	\end{itemize}
 \end{frame}
 \begin{frame}
-	{Examples of convex functions} 
+	{Examples of convex functions}
 	\begin{itemize}
-		 
-		\item Norms (like $\l_l$ or $\l_2$ for regularization): 
-		\[ \|ax+(1-a)y\|\le \|ax\| +\|(1-a)y\| = a\|x\| (1-a) \|y\| \]. 
-		\item Composition with an affine function $f(Ax+b)$: 
-		\begin{equation*}
-			\begin{aligned}
-				f(A(ax+(1-a)y)+b) & = f( a(Ax+b) + (1-a) (Ay+b)) \\
-				& \le af(Ax+b) + (1-a) f(Ay+b) \\ 
-			\end{aligned}
-		\end{equation*} 
-		\item Log-sum-exp (via $\nabla^2 f(x)$ PSD): $$f(x)=\log \left(\sum_{i=1}^{n} \exp(x_i) \right)$$		 
+
+		\item Norms (like $l_l$ or $l_2$ for regularization):
+		      \[ \|ax+(1-a)y\|\le \|ax\| +\|(1-a)y\| = a\|x\| +  (1-a) \|y\| \].
+		\item Composition with an affine function $f(Ax+b)$:
+		      \begin{equation*}
+			      \begin{aligned}
+				      f\left(A(ax+(1-a)y)+b\right) & = f( a(Ax+b) + (1-a) (Ay+b)) \\
+				                                   & \le af(Ax+b) + (1-a) f(Ay+b) \\
+			      \end{aligned}
+		      \end{equation*}
+		\item Log-sum-exp (via $\nabla^2 f(x)$ PSD): $$f(x)=\log \left(\sum_{i=1}^{n} \exp(x_i) \right)$$
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
-	{Examples in machine learning} 
+	{Examples in machine learning}
 	\begin{itemize}
 		\item SVM loss: $f(w) = [1-y_i x_i^T w]_+ $
-		\item Binary logistic loss: $f(w)=\log ( 1+ \exp ( -y_i  x_i ^T w ))$ 
+		\item Binary logistic loss: $f(w)=\log ( 1+ \exp ( -y_i  x_i ^T w ))$
 	\end{itemize}
 	\begin{figure}
-		\includegraphics[width=0.4\textwidth]{2018-03-05-11-53-58.png} 
-		\end{figure}
-	
+		\includegraphics[width=0.4\textwidth]{2018-03-05-11-53-58.png}
+	\end{figure}
+
 \end{frame}
 
-\subsection{Convex optimization} 
+\subsection{Convex optimization}
 
-\begin{frame}{Convex optimization} 
+\begin{frame}{Convex optimization}
 	\begin{define}
-		An optimization problem is \emph{convex} if its objective is a convex function. The inequality constrains $f_j$ are convex, and the equality constraints $h_j$ are affine. 
-	\end{define} 
+		An optimization problem is \emph{convex} if its objective is a convex function. The inequality constrains $f_j$ are convex, and the equality constraints $h_j$ are affine.
+	\end{define}
 	\begin{equation}
 		\begin{aligned}
-			\min_x \quad & f_0(x)  & \text{(Convex function)} \\ 
-			\textrm{s.t.} \quad & f_i(x) \le 0, i = \{1,...,k\} & \text{(Convex sets)} \\  
-					 \quad & h_j(x) = 0, j = \{1,...,l\} & \text{(Affine)} \\ 
+			\min_x \quad        & f_0(x)                        & \text{(Convex function)} \\
+			\textrm{s.t.} \quad & f_i(x) \le 0, i = \{1,...,k\} & \text{(Convex sets)}     \\
+			\quad               & h_j(x) = 0, j = \{1,...,l\}   & \text{(Affine)}          \\
 		\end{aligned}
 	\end{equation}
 \end{frame}
 \begin{frame}
 	{Convex Problems are nice ...}
 	\begin{thm}
-		If $\hat{x}$ is a local minimizer of a convex optimization problem, it is a global minimizer. 
+		If $\hat{x}$ is a local minimizer of a convex optimization problem, it is a global minimizer.
 	\end{thm}
 	\begin{figure}
-		\includegraphics[width=0.55\textwidth]{2018-03-05-12-00-04.png} 
-		\end{figure}
-	
+		\includegraphics[width=0.55\textwidth]{2018-03-05-12-00-04.png}
+	\end{figure}
+
 \end{frame}
 
 \begin{frame}
-	{For smooth functions} 
+	{For smooth functions}
 	\begin{thm}
 		\begin{itemize}
-			\item $\nabla f(x)=0$. We have $f(y) \ge f(x)+\nabla f(x)^T (y-x) = f(x) $. 
-			\item  $\nabla f(x) \neq0 $. There is a direction of descent. 
+			\item $\nabla f(x)=0$. We have $f(y) \ge f(x)+\nabla f(x)^T (y-x) = f(x) $.
+			\item  $\nabla f(x) \neq 0 $. There is a direction of descent.
 		\end{itemize}
 	\end{thm}
 \end{frame}
 
-\section{Unconstrained optimization} 
-\subsection{Gradient descent} 
+\section{Unconstrained optimization}
+\subsection{Gradient descent}
 \begin{frame}
-	{Gradient descent} 
+	{Gradient descent}
 	\begin{itemize}
-		\item Consider convex and unconstrained optimization. 
-		\item Solve $\min_xf(x)$. 
-		\item One of the simplest approach: 
-			\begin{itemize}
-				\item For $t=1,...,T$, $x_{t+1} \leftarrow x_t - \eta_t \nabla f(x_t)$
-				\item Until convergence 
-				\item $\eta_t$ is called step-size of learning rate. 
-			\end{itemize}
+		\item Consider convex and unconstrained optimization.
+		\item Solve $\min_xf(x)$.
+		\item One of the simplest approach:
+		      \begin{itemize}
+			      \item For $t=1,...,T$, $x_{t+1} \leftarrow x_t - \eta_t \nabla f(x_t)$
+			      \item Until convergence
+			      \item $\eta_t$ is called step-size of learning rate.
+		      \end{itemize}
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
-	{Single step in gradient descent} 
+	{Single step in gradient descent}
 	\begin{figure}
-		\includegraphics[width=0.55\textwidth]{2018-03-05-12-06-49.png} 
-		\end{figure}
+		\includegraphics[width=0.55\textwidth]{2018-03-05-12-06-49.png}
+	\end{figure}
 \end{frame}
 
 \begin{frame}
-	{Full gradient descent} 
+	{Full gradient descent}
 	$f(x) =\log (\exp (x_1+3x_2-.1)+\exp (x_1 - 3x_2 -.1) +\exp(-x_1-.1)) $
 	\begin{figure}
-		\includegraphics[width=0.55\textwidth]{2018-03-05-12-09-59.png} 
-		\end{figure}
+		\includegraphics[width=0.55\textwidth]{2018-03-05-12-09-59.png}
+	\end{figure}
 \end{frame}
 
 \begin{frame}
-	{How to choose step size?} 
+	{How to choose step size?}
 	\begin{itemize}
-		\item Idea 1: exact line search 
-		\[\eta_t = \argmin_\eta f(x- \eta \nabla f(x) ) \] 
-		Too expensive to be practical. 
-		\item Idea 2: backtracking (Armijo) line search. Let $\alpha \in (0,1/2), \beta \in (0,1)$. Multiply $\eta = \beta \eta $ until 
-		\[f(x-\eta \nabla f(x)) \le f(x) -\alpha \eta \| \nabla f(x)\|^2 \] 
-		Works well in practice. 
+		\item Idea 1: exact line search
+		      \[\eta_t = \argmin_\eta f(x- \eta \nabla f(x) ) \]
+		      Too expensive to be practical.
+		\item Idea 2: backtracking (Armijo) line search. Let $\alpha \in (0,1/2), \beta \in (0,1)$. Multiply $\eta = \beta \eta $ until
+		      \[f(x-\eta \nabla f(x)) \le f(x) -\alpha \eta \| \nabla f(x)\|^2 \]
+		      Works well in practice.
 	\end{itemize}
 \end{frame}
 
-\subsection{Newton's method} 
-\begin{frame}{Newton's method} 
-	Idea: use a second-order approximation to function. 
-	\[f(x+\Delta x) \approx f(x)+\nabla f(x)^T \Delta x + 1/2 \Delta x^T \nabla^2 f(x) \Delta x \] 
-	Choose $\Delta x $ to minimize above: 
-	\[\Delta x = - [ \nabla^2 f(x)]^{-1} \nabla f(x) \] 
-	This is descent direction: 
+\subsection{Newton's method}
+\begin{frame}{Newton's method}
+	Idea: use a second-order approximation to function.
+	\[f(x+\Delta x) \approx f(x)+\nabla f(x)^T \Delta x + 1/2 \Delta x^T \nabla^2 f(x) \Delta x \]
+	Choose $\Delta x $ to minimize above:
+	\[\Delta x = - [ \nabla^2 f(x)]^{-1} \nabla f(x) \]
+	This is descent direction:
 	\[\nabla f(x)^T \Delta x = - \nabla f(x)^T [ \nabla^2 f(x)]^{-1} \nabla f(x)  \le 0  \]
 \end{frame}
 
 \begin{frame}
-	{Single step in Newton's method} 
+	{Single step in Newton's method}
 	\begin{figure}
 		\includegraphics[width=0.55\textwidth]{2018-03-05-12-44-34.png}
-		\end{figure}
+	\end{figure}
 \end{frame}
 
 \begin{frame}
-	{Convergence rate} 
+	{Convergence rate}
 	\begin{itemize}
-		\item Strongly convex case: $\nabla^2f(x) \succeq  mI $, then "Linear convergence". For some $\gamma\in (0,1), f(x_t) - f(x*) \le \gamma^t , \gamma \le 1 $. 
-		\[f(x_t) - f(x*) \le \gamma^t, t \ge \frac{1}{\gamma} \log \frac{1}{\epsilon} \Rightarrow f(x_t ) - f(x^* ) \le \epsilon \]. 
-		\item Smooth case: $\|\nabla f(x) - \nabla f(y) \| \le C \| x-y \|$. 
-		\[ f(x_t) - f(x^*) \le \frac{K}{t^2} \]
-		\item Newton's method often is faster, especially when $f$ has "long valleys". 
+		\item Strongly convex case: $\nabla^2f(x) \succeq  mI $, then "Linear convergence". For some $\gamma\in (0,1), f(x_t) - f(x^*) \le \gamma^t , \gamma \le 1 $.
+		      \[f(x_t) - f(x^*) \le \gamma^t, t \ge \frac{1}{\gamma} \log \frac{1}{\epsilon} \Rightarrow f(x_t ) - f(x^* ) \le \epsilon \].
+		\item Smooth case: $\|\nabla f(x) - \nabla f(y) \| \le C \| x-y \|$.
+		      \[ f(x_t) - f(x^*) \le \frac{K}{t^2} \]
+		\item Newton's method often is faster, especially when $f$ has "long valleys".
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
-	{Newton's method} 
+	{Newton's method}
 	\begin{itemize}
-		\item Inverting a Hessian is very expensive: $O(d^3)$ 
+		\item Inverting a Hessian is very expensive: $O(d^3)$
 		\item Approximate inverse Hessian: BFGS, Limited-memory BFGS
-		\item Or use Conjugate Gradient Descent.  
-		\item For unconstrained problems, you can use these off-the-shelf optimization methods 
-		\item For unconstrained non-convex problems, these methods  will find local optima 
+		\item Or use Conjugate Gradient Descent.
+		\item For unconstrained problems, you can use these off-the-shelf optimization methods
+		\item For unconstrained non-convex problems, these methods  will find local optima
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
-	{Optimization for machine learning} 
+	{Optimization for machine learning}
 	\begin{itemize}
-		\item Goal of machine learning 
-		\begin{itemize}
-			\item Minimize expected loss $L(h) = \mE [ \mathrm{loss} (h(x),y )] $ given samples $(x_i,y_i ), i = 1,2,...,m $ 
-			\item But we don't know $P(x,y)$, nor can we estimate it well. 
-			
-		\end{itemize}
+		\item Goal of machine learning
+		      \begin{itemize}
+			      \item Minimize expected loss $L(h) = \mE [ \mathrm{loss} (h(x),y )] $ given samples $(x_i,y_i ), i = 1,2,...,m $
+			      \item But we don't know $P(x,y)$, nor can we estimate it well.
+
+		      \end{itemize}
 		\item Empirical risk minimization
-		\begin{itemize}
-			\item Substitute sample mean for expectation. 
-			\item Minimize empirical loss: $L(h) = 1/n \sum_i \mathrm{loss} (h(x_i), y_i ) $ 
-			\item \textit{a.k.a. } Sample Average Approximation. 
-		\end{itemize}
+		      \begin{itemize}
+			      \item Substitute sample mean for expectation.
+			      \item Minimize empirical loss: $L(h) = 1/n \sum_i \mathrm{loss} (h(x_i), y_i ) $
+			      \item \textit{a.k.a. } Sample Average Approximation.
+		      \end{itemize}
 	\end{itemize}
 \end{frame}
 
-\subsection{Batch vs online learning} 
+\subsection{Batch vs online learning}
 
-\begin{frame}{Batch gradient descent} 
-	Minimize empirical loss, assuming it's convex and unconstrained 
+\begin{frame}{Batch gradient descent}
+	Minimize empirical loss, assuming it's convex and unconstrained
 	\begin{itemize}
-		\item Gradient descent on the empirical loss: 
-		\item At each step, 
-		$$w^{k+1} \leftarrow w^{k} - \eta_t 
-		\left( \frac{1}{n} \sum_{i=1}^{n}
-		 \frac{\partial L(w,x_i,y_i)}{\partial w} \right) $$
-		\item Note: at each step, gradient is the averageof the gradient for all samples $(i=1,...,n)$. 
-		\item Very slow when $n$  is very large. 
+		\item Gradient descent on the empirical loss:
+		\item At each step,
+		      $$w^{k+1} \leftarrow w^{k} - \eta_t
+			      \left( \frac{1}{n} \sum_{i=1}^{n}
+			      \frac{\partial L(w,x_i,y_i)}{\partial w} \right) $$
+		\item Note: at each step, gradient is the average of the gradient for all samples $(i=1,...,n)$.
+		\item Very slow when $n$  is very large.
 	\end{itemize}
-	
+
 \end{frame}
 
-\subsection{Stochastic Gradient Descent} 
-\begin{frame}{Stochastic Gradient Descent} 
+\subsection{Stochastic Gradient Descent}
+\begin{frame}{Stochastic Gradient Descent}
 	\begin{itemize}
-		\item Alternative: compute gradient from just one (or a few samples) 
-		\item Known as SGD: At each step, 
-		\[ w^{k+1} \leftarrow w^{k} - \eta_t \frac{L(w,x_i,y_i)}{w}  \] 
-		(choose one sample $i$ and compute gradient for that sample only) 
-		\item the gradient of one random sample is not the gradient of the objective function. 
-		\item Q1: Would this work at all? 
-		\item Q2: How good is it? 
-		\item<2-> A1: SGD converges to not only thy empirical loss minimum, but also to the expected loss minimum! 
+		\item Alternative: compute gradient from just one (or a few samples)
+		\item Known as SGD: At each step,
+		      \[ w^{k+1} \leftarrow w^{k} - \eta_t \frac{\partial L(w,x_i,y_i)}{\partial w}  \]
+		      (choose one sample $i$ and compute gradient for that sample only)
+		\item the gradient of one random sample is not the gradient of the objective function.
+		\item Q1: Would this work at all?
+		\item Q2: How good is it?
+		\item<2-> A1: SGD converges to not only thy empirical loss minimum, but also to the expected loss minimum!
 		\item<2-> A2: Convergence (to expected loss) is slow: $f(w_t) -E[f(w^*)] \le O(1/t) $ or $O(1/\sqrt{t}) $
 	\end{itemize}
 \end{frame}
 
 \begin{frame}{Practically speaking ... }
 	\begin{itemize}
-		\item If the training set is small, we should use batch learning using quasi-Newton or conjugate gradient descent. 
-		\item If the training set is large, we should use SGD. 
-		\item If the size of training set is somewhere in between, we use mini-batch SGD. 
-		\item Convergence is very sensitive to learning rate, which needs to be determined by trial-and-error (model selection or cross-validation) 
+		\item If the training set is small, we should use batch learning using quasi-Newton or conjugate gradient descent.
+		\item If the training set is large, we should use SGD.
+		\item If the size of training set is somewhere in between, we use mini-batch SGD.
+		\item Convergence is very sensitive to learning rate, which needs to be determined by trial-and-error (model selection or cross-validation)
 	\end{itemize}
 \end{frame}
-\section{Constrained optimization} 
-\subsection{Lagrange duality} 
+\section{Constrained optimization}
+\subsection{Lagrange duality}
 
-\begin{frame}{Lagrangian function} 
-	Start with optimization Problem: 
+\begin{frame}{Lagrangian function}
+	Start with optimization Problem:
 	\begin{equation}
 		\begin{aligned}
-			\min_x \quad & f_0(x)  \\ 
-			\textrm{s.t.} \quad & f_i(x) \le 0, i = \{1,...,k\} \\  
-					 \quad & h_j(x) = 0, j = \{1,...,l\} \\ 
+			\min_x \quad        & f_0(x)                        \\
+			\textrm{s.t.} \quad & f_i(x) \le 0, i = \{1,...,k\} \\
+			\quad               & h_j(x) = 0, j = \{1,...,l\}   \\
 		\end{aligned}
 	\end{equation}
-	From \emph{Lagrangian} using Lagrange multipliers $\lambda_i \ge 0, \nu_i \in \real$ 
+	From \emph{Lagrangian} using Lagrange multipliers $\lambda_i \ge 0, \nu_i \in \real$
 	\begin{equation}
-		\cL(x,\lambda,\nu) = f_0(x)+\sum_{i=1}^{k} \lambda_i f_i(x) + \sum_{j=1}^{l} \nu_j h_j (x) 
+		\cL(x,\lambda,\nu) = f_0(x)+\sum_{i=1}^{k} \lambda_i f_i(x) + \sum_{j=1}^{l} \nu_j h_j (x)
 	\end{equation}
 \end{frame}
 
 \begin{frame}
 	{Lagrangian function}
-	Original/primal problem: 
+	Original/primal problem:
 	\begin{equation*}
 		\begin{aligned}
-			\min_x \quad & f_0(x)  \\ 
-			\textrm{s.t.} \quad & f_i(x) \le 0, i = \{1,...,k\} \\  
-					 \quad & h_j(x) = 0, j = \{1,...,l\} \\ 
+			\min_x \quad        & f_0(x)                        \\
+			\textrm{s.t.} \quad & f_i(x) \le 0, i = \{1,...,k\} \\
+			\quad               & h_j(x) = 0, j = \{1,...,l\}   \\
 		\end{aligned}
 	\end{equation*}
-	is equivalent to min-max optimization: 
-	\[\min_x [\sup_{\lambda \succeq 0, \nu} \cL(x,\lambda, \nu)] \] 
-	Why? 
+	is equivalent to min-max optimization:
+	\[\min_x [\sup_{\lambda \succeq 0, \nu} \cL(x,\lambda, \nu)] \]
+	Why?
 	\pause
 	\begin{itemize}
-		\item consider a two-player game, if palyer 1 chooses $x$ that violates a constraint $f_1(x)>0$, player 2 chooses $\lambda_1 \rightarrow \infty$ so that $\cL (x,\lambda,\nu)=...+\lambda_1 f_1(x)+... \rightarrow \infty $
-		\item Therefore, player 1 is forced to satisfy constraints. 
+		\item consider a two-player game, if player 1 chooses $x$ that violates a constraint $f_1(x)>0$, player 2 chooses $\lambda_1 \rightarrow \infty$ so that $\cL (x,\lambda,\nu)=...+\lambda_1 f_1(x)+... \rightarrow \infty $
+		\item Therefore, player 1 is forced to satisfy constraints.
 	\end{itemize}
 \end{frame}
 
 \subsection{SVM in primal and dual forms}
 
 \begin{frame}
-	{Dual function and dual problem} 
+	{Dual function and dual problem}
 	\begin{itemize}
-		\item Dual function: 
-		\begin{equation*}
-			\begin{aligned}
-				g(\lambda , \nu) & = \inf_x \cL (x,\lambda,\nu ) \\ 
-				& =\inf_x \left\{ f_0(x)+\sum_{i=1}^{k} \lambda_i f_i(x) + \sum_{j=1}^{l} \nu_j h_j (x) \right\}  \\
-			\end{aligned}
-		\end{equation*}
-		 
-		\item Dual problem: \[\max_{\lambda \succeq 0,\nu} [\inf_{x} \cL(x,\lambda, \nu)] \] 
-		\item Primal problem: \[\min_x [\sup_{\lambda \succeq 0, \nu} \cL(x,\lambda, \nu)] \] 
-		\item Q: How are primal and dual solutions related? 
+		\item Dual function:
+		      \begin{equation*}
+			      \begin{aligned}
+				      g(\lambda , \nu) & = \inf_x \cL (x,\lambda,\nu )                                                                  \\
+				                       & =\inf_x \left\{ f_0(x)+\sum_{i=1}^{k} \lambda_i f_i(x) + \sum_{j=1}^{l} \nu_j h_j (x) \right\} \\
+			      \end{aligned}
+		      \end{equation*}
+
+		\item Dual problem: \[\max_{\lambda \succeq 0,\nu} [\inf_{x} \cL(x,\lambda, \nu)] \]
+		\item Primal problem: \[\min_x [\sup_{\lambda \succeq 0, \nu} \cL(x,\lambda, \nu)] \]
+		\item Q: How are primal and dual solutions related?
 	\end{itemize}
 \end{frame}
 \begin{frame}
-	{Weak duality} 
-	Dual function lowe-bounds the primal optimal value!
+	{Weak duality}
+	Dual function lower-bounds the primal optimal value!
 	\begin{block}{Lemma (Weak Duality)}
 		If $\lambda \succeq 0$, then \[
 			g(\lambda, \nu) \le f_0 (x^*)
-			\]
-	\end{block} 
+		\]
+	\end{block}
 	\begin{block}{Proof.}
 		\begin{equation*}
 			\begin{aligned}
-				g(\lambda, \nu) & = \inf_x \cL (x,\lambda,\nu) \le \cL (x^*, \lambda, \nu ) \\
-				& = f_0(x^*) +\sum_{i=1}^{k} \lambda_i f_i(x^*) + \sum_{j=1}^{l} \nu_j h_j (x^*) \le f_0(x^*). \\ 
+				g(\lambda, \nu) & = \inf_x \cL (x,\lambda,\nu) \le \cL (x^*, \lambda, \nu )                                    \\
+				                & = f_0(x^*) +\sum_{i=1}^{k} \lambda_i f_i(x^*) + \sum_{j=1}^{l} \nu_j h_j (x^*) \le f_0(x^*). \\
 			\end{aligned}
 		\end{equation*}
 	\end{block}
-	
+
 \end{frame}
 
 \begin{frame}
-	{Strong duality} 
+	{Strong duality}
 	\begin{itemize}
-		\item For convex problems, primal and dual solutions are equivalent! $\sup_{\lambda \succeq 0, \nu } g(\lambda,\nu) =f_0(x^*) $ 
-		\item Equivalently, $\max \min \cL (x , \lambda, \nu) =\min \max \cL (x, \lambda, \nu) $ 
-		\item What does the theorem mean in practice? 
-		
-		\item When you have a primal constrained minimization problem, which may be hard to solve, you may solve the dual problem, which may be easier to solve (simpler constrains), it yields the same solution!  
-		
+		\item For convex problems, primal and dual solutions are equivalent! $\sup_{\lambda \succeq 0, \nu } g(\lambda,\nu) =f_0(x^*) $
+		\item Equivalently, $\max \min \cL (x , \lambda, \nu) =\min \max \cL (x, \lambda, \nu) $
+		\item What does the theorem mean in practice?
+
+		\item When you have a primal constrained minimization problem, which may be hard to solve, you may solve the dual problem, which may be easier to solve (simpler constrains), it yields the same solution!
+
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
-	{SVM Recap} 
+	{SVM Recap}
 	\begin{figure}
-		\includegraphics[width=.75\textwidth]{2018-03-05-10-14-45.png} 
-		\end{figure}
-	
+		\includegraphics[width=.75\textwidth]{2018-03-05-10-14-45.png}
+	\end{figure}
+
 \end{frame}
 
 \begin{frame}
-	{SVM in primal form} 
+	{SVM in primal form}
 	Primal SVM:
 	\begin{equation*}
 		\begin{aligned}
-			\min \quad & 1/2 \|w\|^2\\
-			\mathrm{s.t.} \quad  & y_i(wx_i+w_0)\ge 1 \text{ for } i=1,...,m\\ 
+			\min \quad          & 1/2 \|w\|^2                               \\
+			\mathrm{s.t.} \quad & y_i(wx_i+w_0)\ge 1 \text{ for } i=1,...,m \\
 		\end{aligned}
 	\end{equation*}
 	\begin{itemize}
-		\item for linearly separable cases. 
+		\item for linearly separable cases.
 		\item It is a linearly constrained QP, and therefore a convex problem.
 	\end{itemize}
 \end{frame}
 \begin{frame}
-	{SVM in dual form} 
+	{SVM in dual form}
 	The \emph{Lagrangean function} associated to the primal form of the given QP is \[
 		L_P(w,w_0,\alpha)=\frac{1}{2}\|w\|^2 - \sum_{i=1}{m} \alpha_i(y_i(wx_i+w_0)-1)
 	\]
 	with $\alpha_i\ge 0, i =1,...,m$. Finding the minimum of $L_P$ implies
 	\begin{equation*}
 		\begin{aligned}
-			\frac{\partial L_P}{\partial w_0}&=-\sum_{i=1}^{m}y_i\alpha_i=0  \\ 
-			\frac{\partial L_P}{\partial w}&=w-\sum_{i=1}^{m}y_i \alpha_i x_i=0 \Rightarrow w=\sum_{i=1}^{m}y_i \alpha_i x_i  \\ 
-			\quad & \text{where } \frac{\partial L_P}{\partial w}=(\frac{\partial L_P}{\partial w_1}, ..., \frac{\partial L_P}{\partial w_d}) \\
+			\frac{\partial L_P}{\partial w_0} & =-\sum_{i=1}^{m}y_i\alpha_i=0                                                                                             \\
+			\frac{\partial L_P}{\partial w}   & =w-\sum_{i=1}^{m}y_i \alpha_i x_i=0 \Rightarrow w=\sum_{i=1}^{m}y_i \alpha_i x_i                                          \\
+			\quad                             & \text{where } \frac{\partial L_P}{\partial w}=(\frac{\partial L_P}{\partial w_1}, ..., \frac{\partial L_P}{\partial w_d}) \\
 		\end{aligned}
 	\end{equation*}
-	
+
 	By substituting these constraints into $L_P$ we get its dual form
 	$L_D(\alpha) = \sum_{i=1}^{m} \alpha_i - 1/2 \sum_{i=1}^{m} \sum_{j=1}^{m} \alpha_i \alpha_j y_i y_j x_i x_j$
 
 \end{frame}
-\subsection{Constrained methods} 
+\subsection{Constrained methods}
 \begin{frame}{Constrained optimization methods}
 	\begin{itemize}
-		\item Log barrier method 
-		\item Projected (sub)gradient 
-		\item Interior point method 
-		\item Specialized methods 
-		\begin{itemize}
-			\item SVM: Sqeutial Minimal Optimization 
-			\item Structured-output SVM: cutting-plane method 
-		\end{itemize}
-		\item Other optimization not covered in this lecture: 
-		\begin{itemize}
-			\item Bayesian models: EM, variational methods 
-			\item Discreet optimization 
-			\item Graph optimization 
-		\end{itemize}
+		\item Log barrier method
+		\item Projected (sub)gradient
+		\item Interior point method
+		\item Specialized methods
+		      \begin{itemize}
+			      \item SVM: Sequential Minimal Optimization
+			      \item Structured-output SVM: cutting-plane method
+		      \end{itemize}
+		\item Other optimization not covered in this lecture:
+		      \begin{itemize}
+			      \item Bayesian models: EM, variational methods
+			      \item Discreet optimization
+			      \item Graph optimization
+		      \end{itemize}
 	\end{itemize}
 \end{frame}
 
@@ -641,8 +679,8 @@ A set $C \subseteq \real^n$ is convex if for $x,y \in C$ and any $\alpha \in [0,
 %\end{frame}
 
 \begin{frame}
-\chuhao Thank you! %\fontspec{LHANDW.TTF}
+	\chuhao Thank you! %\fontspec{LHANDW.TTF}
 \end{frame}
-		
-	
-\end{document} 
+
+
+\end{document}

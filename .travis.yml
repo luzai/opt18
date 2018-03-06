@@ -1,0 +1,21 @@
+sudo: required
+dist: xenial
+before_install:
+- sudo apt-get -qq update && sudo apt-get install -y --no-install-recommends texlive-fonts-recommended
+  texlive-latex-extra texlive-fonts-extra dvipng texlive-latex-recommended texlive-humanities texlive-xetex 
+script:
+- xelatex -interaction=nonstopmode -halt-on-error main
+# - bibtex main
+# - pdflatex -interaction=nonstopmode -halt-on-error main
+# - pdflatex -interaction=nonstopmode -halt-on-error main
+deploy:
+  provider: releases
+  api_key:
+    secure: U0h3UGMU7ogVCBN9jc9sVHHBfi4Ud0IEP20hlygg/04IzeOvn2KNPplbhUAIkqm9pGFtjYC0LibusO/eFsT600LkFBfz2AhFBjp+jLreOmeETXq0Ankj6cVeZshvgZMv0PO3/XhXlGSB+hhaurkl3GkxATowvK3UEnToYiRcWvnbLrJ7T9lSHH0lpK8Kk3aqXeib42s9pZiklRKaXnVdj6rhXRlSWtc576nhCc6C6oGZ+uFWTJrm/B5F+n3zSRROGgenDf3XXHYS9UnRNA6A2BlEWE5eQwyNIMvACYHhwj3ZOAatq2xKK6Ql7i9LDu1EuLGA8gUHDDiAslylIKq2lT5uujGPKgWbxDnpSJG6E0UkI7WbCzVHPUYcvxOZu6ST3K8kBlXsNrTR8n2dTbmHkzOZYcdPNA+1qVCQZZ/JoJKc1oVsQvPWXfQojbSwHJdJREgjCJGuY3YyFjHxxfp8gC9kxhWecZCN5+MbqFhE6Ym0sVHtVhx2lQfXjbNGB+AQ1cy6Qqd05BMYRgqhrTYs68b1K8UEkwaUg1UUU61wqdYXlQvcF8V2aggSPruXOY80VHc9JNtJ6kDeEm9ZR6mlHA6JLkK1efxT21P7JfjCSLHrFIM3ouYO09m9oZ5boNUTM3NlWvCKHTwnRambk95BXoyquv6qckPknJf3L7WO/Ls=
+  file: main.pdf
+  on:
+    repo: luzai/opt18
+  notifications:
+    email:
+      - 907682447@qq.com
+      # - yingming@zju.edu.cn
