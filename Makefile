@@ -5,7 +5,7 @@ main.pdf: main.tex
 	# biber main
 	xelatex main.tex
 main.tex: main.md 
-	pandoc -s -S -t beamer -F pandoc-fignos -F pandoc-citeproc --template main_template.tex --slide-level=2 main.md -o main.tex 
+	pandoc -s -S -t beamer -F pandoc-fignos -F pandoc-citeproc --template main_template.tex --slide-level=3 main.md -o main.tex 
 
 	# --listings --highlight-style=pygments \ 
 plain:
