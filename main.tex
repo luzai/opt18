@@ -6,7 +6,7 @@
 \documentclass[notes]{beamer}
 % \documentclass[draft]{beamer}	
 \usetheme{Singapore}
-% \usecolortheme{default}
+% \usetheme{Hannover}
 %\usepackage{pgfpages}
 %\setbeameroption{show notes on second screen}
 
@@ -17,8 +17,10 @@
 % \usepackage{hanging}
 \usepackage{listings}
 \usefonttheme[onlymath]{serif}
-% \usepackage{fontspec}
-% \usepackage{xeCJK}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+% \pgfdeclareimage[width=\paperwidth,height=\paperheight]{bg}{background}
+% \setbeamertemplate{background}{\pgfuseimage{bg}}
 
 % \usepackage[backend=biber]{biblatex}
 % \bibliography{./ref.bib}
@@ -95,10 +97,10 @@
 % The title of the presentation:
 %  - first a short version which is visible at the bottom of each slide;
 %  - second the full title shown on the title slide;
-\title[Opt for ML]{Linear Optimization}
+\title[Opt for ML]{Introduction to Optimization}
 
 % Optional: a subtitle to be dispalyed on the title slide
-\subtitle{Optimization for Machine Learning}
+% \subtitle{Optimization for Machine Learning}
 
 % The author(s) of the presentation:
 %  - again first a short version to be displayed at the bottom;
@@ -118,47 +120,6 @@
 
 \begin{document}
 
-\begin{frame}
-	\titlepage
-	Adapted from slides provided by Prof. Jihun Hamm
-
-\end{frame}
-
-\begin{frame}
-	\begin{block}{Course Content and Arrangement (tentative)}
-		\begin{itemize}
-			\item Introduction to Optimization
-			\item Perceptrons
-			\item Regression problem
-			\item Multi-layer perceptrons
-			\item Support vector machines
-			\item Deep neural networks
-		\end{itemize}
-	\end{block}
-	\begin{block}{Examinations Regulations}
-		\begin{itemize}
-			\item 60\% Homework/Project/Class Participation
-			\item 40\% Final Examination
-		\end{itemize}
-	\end{block}
-\end{frame}
-
-\begin{frame}
-	\begin{block}{Instructor: Dr Yingming Li}
-		\begin{itemize}
-			\item Assistant professor in ISEE since May 2016
-			\item Research interest: Machine Learning \& Data Mining
-			\item Related publications: more than 10 papers in top conferences and journals, such as ICML, AAAI, IJCAI, and TKDE.
-		\end{itemize}
-	\end{block}
-	\begin{block}{Teaching Assistant: Xinglu Wang}
-		Email: 3140102282@zju.edu.cn, QQ Group: 680965368
-	\end{block}
-	\begin{block}{Textbook}
-		Yaxiang Yuan, Wenyu Sun, Optimization Theory and Methods, 1st edition, 1997\\
-		Christopher M. Bishop, Pattern Recognition and Machine Learning, April, 2011
-	\end{block}
-\end{frame}
 \AtBeginSection[]
 {
 	\begin{frame}
@@ -175,28 +136,13 @@
 %    \end{frame}
 % }
 
-% \section{Administrative things}
 
 \begin{frame}
-	\begin{block}{Lecturer}
-		Prof. YingMing Li  \\
-		Data Science \& Engineering Research Center, Zhejiang University \\
-		Email: \textrm{yingming@zju.edu.cn}
-	\end{block}
-	\begin{block}{QQ group chat}
-		Number: xxx
-	\end{block}
-\end{frame}
+	\titlepage
+	\begin{center}
+		Adapted from slides provided by Prof. Jihun Hamm.		
+	\end{center}
 
-\begin{frame}{Course Schedule}
-\end{frame}
-
-\begin{frame}
-	{Examination Regulations}
-
-	xx \% Homework/Class Participation \\
-	xx \% Midterm Lab Project \\
-	xx \% Final Examination (written, closed-book)
 \end{frame}
 
 \section{What is optimization?}
@@ -636,7 +582,7 @@
 \begin{frame}
 	{SVM in dual form}
 	The \emph{Lagrangean function} associated to the primal form of the given QP is \[
-		L_P(w,w_0,\alpha)=\frac{1}{2}\|w\|^2 - \sum_{i=1}{m} \alpha_i(y_i(wx_i+w_0)-1)
+		L_P(w,w_0,\alpha)=\frac{1}{2}\|w\|^2 - \sum_{i=1}^{m} \alpha_i(y_i(wx_i+w_0)-1)
 	\]
 	with $\alpha_i\ge 0, i =1,...,m$. Finding the minimum of $L_P$ implies
 	\begin{equation*}
