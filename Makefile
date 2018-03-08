@@ -17,7 +17,7 @@ plain:
 	# pdflatex -interaction=nonstopmode -halt-on-error main
 
 clean:
-	git clean -dfX
+	# git clean -dfX
 	trash main.tex 
 
 watch: main.tex 
