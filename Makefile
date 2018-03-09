@@ -5,9 +5,8 @@ main.pdf: main.tex
 	# biber main
 	xelatex main.tex
 main.tex: main.md 
-	pandoc -s -S -t beamer -F pandoc-fignos -F pandoc-citeproc --template main_template.tex --slide-level=3 main.md -o main.tex 
-
-	# --listings --highlight-style=pygments \ 
+	# pandoc -s -S -t beamer -F pandoc-fignos -F pandoc-citeproc --template main_template.tex --slide-level=3 main.md -o main.tex 
+	pandoc -s -S -t beamer --template main_template.tex --slide-level=3 main.md -o main.tex --listings --highlight-style=pygments 
 plain:
 	# make clean	
 	# pdflatex -interaction=nonstopmode -halt-on-error main
@@ -18,7 +17,7 @@ plain:
 
 clean:
 	# git clean -dfX
-	trash main.tex 
+	trash main.tex main.nav main.toc
 
 watch: main.tex 
 	fswatch -o $^ | xargs -n1 -I{} make
