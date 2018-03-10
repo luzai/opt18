@@ -112,13 +112,13 @@
 % The author(s) of the presentation:
 %  - again first a short version to be displayed at the bottom;
 %  - next the full list of authors, which may include contact information;
-\author[YingmingLi]{Yingming Li \\ yingming@zju.edu.cn}
+% \author[YingmingLi]{Yingming Li \\ yingming@zju.edu.cn}
 % The institute:
 %  - to start the name of the university as displayed on the top of each slide
 %    this can be adjusted such that you can also create a Dutch version
 %  - next the institute information as displayed on the title slide
 
-\institute[DSERC, ZJU]{Data Science \& Engineering Research Center, ZJU}
+% \institute[DSERC, ZJU]{Data Science \& Engineering Research Center, ZJU}
 
 % Add a date and possibly the name of the event to the slides
 %  - again first a short version to be shown at the bottom of each slide
@@ -345,7 +345,8 @@ along the unit vector \(\vu\) is
 \begin{equation*}
     \begin{aligned}
         D_u f_x(x_0,y_0) &= \lim_{h \rightarrow 0} \frac{f(x_0 + ha, y_0+hb)-f(x_0,y_0) }{h} \\  
-        &= \lim_{h \rightarrow 0} \frac{[f(x_0+ha , y_0 +hb)-f(x_0,y_0+hb)]+[f(x_0,y_0+hb)-f(x_0,y_0)]}{h} \\
+        &= \lim_{h \rightarrow 0} [f(x_0+ha , y_0 +hb)-f(x_0,y_0+hb)]/h \\
+         &\qquad \quad +[f(x_0,y_0+hb)-f(x_0,y_0)]/{h} \\
         &= af_x(x_0,y_0)+bf_y(x_0,y_0) \\
         &= \nabla f(x_0,y_0)^T \vu
     \end{aligned}
@@ -748,7 +749,8 @@ where \(w_0= b\) (bias) and \(x_0 = 1\), as done for perceptron learning
 
 \includegraphics[width=1.00000\textwidth]{2018-03-10-10-41-52.png} ~
 
-The role of : weight update is most sensitive when v is near zero
+The role of \(\varphi'\): weight update is most sensitive when v is near
+zero
 
 \end{frame}
 

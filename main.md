@@ -133,7 +133,8 @@ At any given direction, $\vu = \alpha \vu_x + b \vu_y$, with $\sqrt{a^2+b^2}=1$,
 \begin{equation*}
     \begin{aligned}
         D_u f_x(x_0,y_0) &= \lim_{h \rightarrow 0} \frac{f(x_0 + ha, y_0+hb)-f(x_0,y_0) }{h} \\  
-        &= \lim_{h \rightarrow 0} \frac{[f(x_0+ha , y_0 +hb)-f(x_0,y_0+hb)]+[f(x_0,y_0+hb)-f(x_0,y_0)]}{h} \\
+        &= \lim_{h \rightarrow 0} [f(x_0+ha , y_0 +hb)-f(x_0,y_0+hb)]/h \\
+         &\qquad \quad +[f(x_0,y_0+hb)-f(x_0,y_0)]/{h} \\
         &= af_x(x_0,y_0)+bf_y(x_0,y_0) \\
         &= \nabla f(x_0,y_0)^T \vu
     \end{aligned}
