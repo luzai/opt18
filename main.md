@@ -1,446 +1,445 @@
-# 
+#
 
+###      Motivation
 
-### Problem statement 
+Multilayer networks are more powerful than single layer nets, \eg, XOR problem
 
-\centering 
 
-![](2018-03-09-15-26-11.png){width=65%} \ 
+<!--
+### Power of nonlinearity
 
+ For linear neurons, a multilayer net is equivalent to
+    a single-layer net. This is not the case for nonlinear
+    neurons
+      Why?
 
 
-### Linear regression with one variable 
 
-Given a set of $N$ pairs of data $\{x_i,d_i\}$, approximate $d$ by a linear function of $x$ (regressor), \ie, 
-$$d \approx wx +b$$ 
-or 
-\begin{equation*}
-\begin{aligned}
-d_i &= y_i + \epsilon_i  = \varphi (wx_i + b ) + \varepsilon \\ 
- & = wx_i + b+\varepsilon 
-\end{aligned}
-\end{equation*}
-where the activation function $\varphi(x) = x$ is a linear function, corresponding to a linear neuron. $y$ is the output of the neuron, and 
-$$\varepsilon_i = d_i -y_i$$
-is called the (expectational) regression error. 
 
-### Linear regression
 
-- The problem of regression with one variable is how to choose $w$ and $b$ to minimize the regression error. 
-- The least squares method aims to minimize the square error 
+### MLP architecture
 
-$$E=\frac{1}{2}\sum_{i=1}^{N} \varepsilon_i^2 = \frac{1}{2} \sum_{i=1}^{N} (d_i -y_i)^2$$ 
 
-### Linear regression 
 
-To minimize the two-variable square function, set 
 
-$$\left\{\begin{array}{cc}
-\frac{\partial E}{\partial b} & =0 \\ 
-\frac{\partial E}{\partial w} & =0 
-\end{array} \right.$$
 
-$$\Rightarrow \left\{\begin{array}{cc}
--\sum_{i}(d_i -wx_i -n) & =0 \\  
--\sum_{i} (d_i -wx_i -b) x_i & =0 
-\end{array} \right.$$
+### Multi-layer perceptron
 
-### Analytic solution aprroaches 
+ Think of an MLP as a complicated, non-linear
+    function of its input parametrized by :
+                        =  ; 
+   Note that Multi-layer perceptron is a bit of a
+    misnomer because they use a continuous activation
+    function
 
-- Solve one equation for $b$ in terms of $w$ 
-    - Substitute into other equation, solve for $w$ 
-    - Substitute solution for $w$ back into equation for $b$ 
-- Setup system of equations in matrix notation 
-    - Solve matrix equation 
-- Rewrite problem in matrix form 
-    - Compute matrix gradient 
-    - Solve for $w$ 
 
-$$\left\{\begin{array}{cc}
--\sum_{i}(d_i -wx_i -n) & =0 \\  
--\sum_{i} (d_i -wx_i -b) x_i & =0 
-\end{array} \right.$$
 
-$\Rightarrow \quad$ 
-\pause
-$b=\frac{\sum_i x_i^2 \sum_i d_i - \sum_i x_i \sum_i x_i d_i}{N \sum_i (x_i - \bar{x} )^2} , \quad$
-$w=\frac{\sum_i (x_i - \bar{x}) (d_i - \bar{d}) }{\sum_i (x_i - \bar{x} )^2 }$
 
-, where an $\bar{x}$ indicates the mean 
 
-### Linear regression in matrix notation
+###        MLP Training
 
-Let $\mX = [\vx_1 ,\vx_2 ,\vx_3 ,\dots ,\vx_N]^T$, then the model predictions are $\vy=\mX \vw$. 
-And the mean square error can be written as 
-$$E(\vw)=\|\vd - \vy\|^2 = \|\vd -\mX \vw\|^2$$ 
+ Given a set of training data  ,  can we adjust
+     so that the network is optimal?
+   Optimal with respect to what criterion?
+      Must define error criterion btwn  = ( ; ) and 
+      We will use the mean square error for now, but others are
+        possible (and often preferable)
+ Goal find  that minimizes
+                                                               2
+                            1
+        =    =      ; 
+                            2
+                                 
 
-To find the optimal $\vw$, set the gradient of the error \wrt $\vw$ equal to 0 and solve for $\vw$. 
 
-$$\partial E(\vw) / \partial \vw=0$$
 
-<!-- [^1]: ref to The Matrix Cookbook -->
+###    Backpropagation
 
-### Linear regression in matrix notation
+ Because  () is still a complication non-linear
+    function, we will optimize it using gradient descent
+   Because of the structure of MLPs, we can compute
+    the gradient of  () very efficiently using the
+    backpropagation algorithm
+   Backpropagation computes the gradient of each
+    layer recursively based on subsequent layers
+   Because this is  () and not  (), we will be
+    using stochastic gradient descent
 
-\begin{equation*}
-\begin{aligned}
-\frac{\partial}{\partial \vw} E(\vw) & = \frac{\partial}{\partial \vw} \| \vd - \mX \vw \|^2 \\  
-&= \frac{\partial}{\partial \vw} (\vd -\mX \vw)^T(\vd -\mX \vw) \\ 
-&= \frac{\partial}{\partial \vw} \vd^T \vd -2 \vw^T \mX^T \vd + \vw^T \mX^T \mX \vw \\ 
-&= -2 \mX^T \vd -2 \mX^T \mX \vw 
-\end{aligned}
-\end{equation*}
 
-$$\Rightarrow \vw = (\mX ^T \mX)^{-1} \mX^T d$$
+###                            Notation
 
-### Finding optimal parameters via search
+ Notation for one hidden layer (drop p for now)
+                         wji   vj           yj w     vk          yk
+             xi                             kj
+                                                                  E
 
-- Often there is no closed form solution for $\frac{\partial}{\partial \vw} E(\vw)=0$
-- We can still use the gradient in a numerical solution
-- We will still use the same example to permit comparison
-- For simplicity’s sake, set $b = 0$
 
-$$E(w) = 1/2 \sum_{i=1}^{N} (d_i - wx_i)^2$$
 
-, where $E(w)$ is called cost function. 
 
-### Cost function 
+                 Input              Hidden            Output
 
-\centering 
 
-![](2018-03-09-22-15-39.png){width=50%} \
+###                    Notation
 
+ Notation for one hidden layer (drop p for now)
+                  wji   vj          yj w      vk          yk
+             xi                     kj
+                                                           E
 
-Question: how can we update $w$ from $w_0$ to minimize $E$? 
+                   =       
+                                                                    
+                            1                                  2
+                    () =    
+                            2
+                                         
+ Keep in mind during the derivation:
+      How would changing  () affect the derivation?
+      How would changing   affect the derivation?
 
-### Gradient and directional derivatives 
-
-Consider a two-variable function $f(x,y)$. Its gradient at the point $(x_0 ,y_0)^T$ is defined as 
-
-\begin{equation*}
-    \begin{aligned}
-        \nabla f & = \left. (\partial f(x,y) / \partial x , \partial f(x,y) / \partial y)^T \right|_{x=x_0,y=y_0}   \\ 
-        & = f_x(x_0,y_0) \vu_x + f_y(x_0,y_0) \vu_y 
-    \end{aligned}
-\end{equation*}
-
-, where $\vu_x$ and $\vu_y$ are unit vectors in the x and y directions, and $f_x=\partial f / \partial x$ and $f_y = \partial f / \partial y$ 
-
-### Gradient and directional derivatives 
-
-At any given direction, $\vu = \alpha \vu_x + b \vu_y$, with $\sqrt{a^2+b^2}=1$, the directional derivative at $(x_0, y_0 )^T$ along the unit vector $\vu$ is 
-
-\begin{equation*}
-    \begin{aligned}
-        D_u f_x(x_0,y_0) &= \lim_{h \rightarrow 0} \frac{f(x_0 + ha, y_0+hb)-f(x_0,y_0) }{h} \\  
-        &= \lim_{h \rightarrow 0} \frac{[f(x_0+ha , y_0 +hb)-f(x_0,y_0+hb)]+[f(x_0,y_0+hb)-f(x_0,y_0)]}{h} \\
-        &= af_x(x_0,y_0)+bf_y(x_0,y_0) \\
-        &= \nabla f(x_0,y_0)^T \vu
-    \end{aligned}
-\end{equation*}
-
-Which direction has the greatest slope? The gradient! Because of the dot product. 
-
-### Gradient and directional derivatives 
-
-Example: $f(x,y)=5/2 x^2 -3xy + 5/2 y^2 +2x +2y$
-
-\centering 
-
-![](2018-03-09-22-31-32.png){width=70%} \
-
-
-### Gradient and directional derivatives 
-
-Example: $f(x,y)=5/2 x^2 -3xy + 5/2 y^2 +2x +2y$
-
-\centering 
-
-![](2018-03-09-22-34-05.png){width=70%} \
-
-
-
-
-### Gradient and directional derivatives (cont.)
-- The level curves of a function $f(x,y$ are curves such that
-    $f(x,y)=k$
--   Thus, the directional derivative along a level curve is 0
-               $$D_\vd = \nabla f(x_0,y_0) ^T \vu = 0 $$
-- And the gradient vector is perpendicular to the level curve
-
-
-
-
-
-### Gradient and directional derivatives (cont.)
-- The gradient of a cost function is a vector with the
-    dimension of w that points to the direction of maximum $E$
-    increase and with a magnitude equal to the slope of the
-    tangent of the cost function along that direction
-     - Can the slope be negative?
-
-
-
-
-
-### Gradient illustration
-
-\centering 
-
-![](2018-03-10-09-23-28.png){width=80%} \
+###               Backprop
+                                                   wji vj          yj wkj vk          yk
+                                             xi                                         E
+                            1                          2
+                       =    
+                            2
+                                            vk
+                                                                    2
+                  1
+                 =       
+                  2                                       
+                      
+                                              yk
+
+ Then, to adjust the hidden-output weights
+                                     
+                              =
                               
 
 
-###                       Gradient descent
-- Minimize the cost function via gradient (steepest) descent 
-    a case of hill-climbing
-              $$w( n + 1) = w( n ) − \eta \nabla E ( n )$$
-
-    - $n$: iteration number
-    - $\eta$: learning rate
-    - See previous figure
-
-
-
-
-
-###                   Gradient descent (cont.)
-- For the mean-square-error cost function and linear neurons
-\begin{equation*}
-    \begin{aligned}
-        E ( n ) & = \frac{1}{2} e^2 ( n ) = \frac{1}{2} [d ( n ) − y ( n )]^2  \\
-        &= \frac{1}{2} [d ( n ) − w( n ) x ( n )]^2  \\
-        \nabla E(n) &= \frac{\partial E}{\partial w(n)  }  = \frac{\partial e^2 (n)}{2 \partial w(n) } \\
-        &= -e(n)x(n) 
-    \end{aligned}
-\end{equation*}
-       
+###              Backprop
+                                                 wji vj          yj wkj vk          yk
+                                            xi                                        E
+                   
+                          =     = 
+                  
+                       
+                          =         =   
+                   
+                   
+                           = 
+                  w
+So
+                         
+                  =                        =     
+                  
 
 
-###                   Gradient descent (cont.)
-- Hence
-\begin{eqnarray*}
-    w( n + 1) &=& w( n ) +\eta  e( n ) x ( n ) \\ 
-               &     =& w( n ) +\eta  [d ( n )  y ( n )] x ( n )
-\end{eqnarray*}
-          
 
-- This is the least-mean-square (LMS) algorithm, or the Widrow-Hoff
-         rule
+###            Backprop
+                                                wji vj           yj wkj vk          yk
+                                        xi                                            E
+ Hence, to update the hidden-output weights
+                                          E
+            wkj ( n + 1) = wkj ( n )  
+                                         wkj
+
+                           = wkj (n) + ek (vk ) y j
+                                                   
+                            = wkj (n) +  k y j                         ( rule)
 
 
 
 
 
-###                   Stochastic gradient descent
-
-- If the cost function is of the form
+###                      Backprop
+                                                        wji vj          yj wkj vk          yk
+                                             xi                                              E
+ For the input-hidden weights,
                                     
-$$E(w)=\sum_{n=1}^{N}E_n(w) $$
-                            
-- Then one gradient descent step requires computing
-$$\Delta = \frac{\partial}{\partial w} E(w) =\sum_{n=1}^{N} \frac{\partial}{\partial w}E_n(w) $$                            
-- Which means computing $E(w)$ or its gradient for
-    every data point
--   Many steps may be required to reach an optimum
+                              =
+                              
+                                                         vk
+                                                                               2
+               1
+               =               
+           2                                                
+                               
+                                                         yk
+                 =         
+                              
+                                        
+                          =                      = 
+                                       
 
-###                   Stochastic gradient descent
+###               Backprop
+                                                     wji vj          yj wkj vk          yk
+                                              xi                                          E
+ So
+                                     
+                               =
+                               
+             =             
+                                 
 
+                    =        
+                              
+                                   ej
 
-- It is generally much more computationally efficient
-    to use
-    $$\Delta =  \sum_{n=n_i}^{n_i+n_b-1} \frac{\partial}{\partial w}E_n(w) $$   
-- For small values of $n_b$ 
-- This update rule may converge in many fewer
-    passes through the data (epochs)
+                            =     
 
 
+###     Backprop
+                                      wji vj           yj wkj vk          yk
+                                 xi                                         E
+ Hence, to update the input-hidden weights
+                                  E
+     w ji (n + 1) = w ji (n)  
+                                 w ji
+                     = w ji (n) + e j (v j ) xi
+                                         
+                      = w ji (n) +  j xi
+ The above is called the generalized  rule
 
 
-###        Stochastic gradient descent example
+###           Backprop
+                                              wji vj          yj wkj vk          yk
+                                        xi                                         E
+ Illustration of the generalized  rule,
+                                             1
+                          j
+                 xi        j        k        k
 
-\centering 
 
-![](2018-03-10-10-00-53.png){width=80%} \
 
 
+      The generalized  rule gives a solution to the credit
+        (blame) assignment problem
 
-### Stochastic gradient descent error functions
 
-\centering 
 
 
-![](2018-03-10-10-01-05.png){width=80%} \
+### Hyperbolic tangent function
 
 
 
-###       Stochastic gradient descent gradients
 
-\centering 
 
-![](2018-03-10-10-01-13.png){width=80%} \
+###             Backprop
+                                                    wji vj          yj wkj vk          yk
+                                            xi                                           E
+ For the logistic sigmoid activation, we have
+                  ( v ) = a ( v )[1   ( v )]
 
+      hence
+                    k = ek [ayk (1  yk )]
+                        = ayk [1  yk ][d k  yk ]
 
+                    j = ay j [1  y j ] wkj k
+                                           k
 
 
-###      Stochastic gradient descent animation
 
-\centering 
 
-![](2018-03-10-10-01-21.png){width=80%} \
+###            Backprop
+                                               wji vj          yj wkj vk          yk
+                                          xi                                        E
+In summary:
+                    
+                             =     
+                 
+                     
+                             =     
+                  
+ Backprop learning is local, concerning
+    presynaptic and postsynaptic neurons only
+   How would changing () affect the derivation?
+   How would changing   affect the derivation?
 
 
+### Backprop illustration
 
 
-###                   Gradient descent animation
 
-\centering 
 
-![](2018-03-10-10-01-33.png){width=80%} \
 
+###            Backprop
 
+ Extension to more hidden layers is straightforward.
+    In general we have
+                       w ji (n) =  j yi
+      The  rule applies to the output layer and the generalized
+          rule applies to hidden layers, layer by layer from the
+         output end.
+        The entire procedure is called backpropagation (error is
+         back propagated from the outputs to the inputs)
 
-###                    Multi-variable LMS
-- The analysis for the one-variable case extends to the multi-
-    variable case
 
-$$ E ( n ) = 1/2 [d ( n )  \vw^ T ( n )\vx( n )]^2 $$
 
-$$  \nabla  E( w ) = \left(  \frac{\partial E}{\partial w_0}  ,  \frac{\partial E}{\partial w_1}  ,...,   \frac{\partial E}{\partial w_m} \right)^T $$
 
-where $w_0= b$ (bias) and $x_0 = 1$, as done for perceptron learning
+### MLP design parameters
 
+ Several parameters to choose when designing an
+    MLP (best to evaluate empirically)
+   Number of hidden layers
+   Number of units in each hidden layer
+   Activation function
+   Error function
 
 
 
 
-###                   Multi-variable LMS (cont.)
-- The LMS algorithm
 
-\begin{eqnarray*}
-    \vw ( n + 1)& =& \vw ( n )-\eta \nabla  \mE( n ) \\ 
-    &= &\vw ( n ) + \eta e( n )\vx( n )\\
-    &= &\vw ( n ) + \eta [d ( n )  y ( n )]\vx( n ) 
-\end{eqnarray*}
-    
+             Universal approximation theorem
 
+ MLPs can learn to approximate any function, given
+    sufficient layers and neurons (an existence proof)
+   At most two hidden layers are sufficient to
+    approximate any function. One hidden layer is
+    sufficient for any continuous function
 
 
 
 
-###                   LMS algorithm remarks
 
-- The LMS rule is exactly the same equation as the
-    perceptron learning rule
--   Perceptron learning is for nonlinear (M-P) neurons,
-    whereas LMS learning is for linear neurons.
-     - \ie , perceptron learning is for classification and LMS is
-         for function approximation
-- LMS should be less sensitive to noise in the input
-    data than perceptrons
-     - On the other hand, LMS learning converges slowly
--   Newtons method changes weights in the direction
-    of the minimum $E(w)$ and leads to fast convergence.
-     - But it is not online and is computationally expensive
+###      Optimization tricks
 
+ For a given network, local minima of the cost
+    function are possible
+   Many tricks exist to try to find better local minima
+      Momentum: mix in gradient from step   1
+      Weight initialization: small random values
+      Stopping criterion: early stopping
+      Learning rate annealing: start with large , slowly shrink
+      Second order methods: use a separate  for each
+         parameter or pair of parameters based on local curvature
+        Randomization of training example order
+        Regularization, i.e., terms in E(w) that only depend on w
 
-###                   Stability of adaptation
+             Learning rate control: momentum
 
-\begincols{} 
+ To ease oscillating weights due to large , some
+    inertia (momentum) of weight update is added
 
-\column{0.6\textwidth} 
+     w ji (n) =  j yi + w ji (n  1),                        0 < <1
+                                                         
+      In the downhill situation,           w ji (n)       j yi
+                                                        1
+           thus accelerating learning by a factor of 1/(1  )
+      In the oscillating situation, it smooths weight change,
+        thus stabilizing oscillations
 
-![](2018-03-10-10-13-18.png){width=100%} \
 
 
 
-\column{0.4 \textwidth}
+###    Weight initialization
 
-- When $\eta$ is too small,
-learning converges slowly
-- When $\eta$ is too large, learning
+ To prevent saturating neurons and break symmetry
+    that can stall learning, initial weights (including
+    biases) are typically randomized to produce zero
+    mean and activation potentials away from saturation
+    parts of the activation function
+      For the hyperbolic tangent activation function, avoiding
+        saturation can be achieved by initializing weights so that
+        the variance equals the reciprocal of the number of
+        weights of a neuron
 
-\stopcols
 
 
 
-###                   Learning rate annealing
-- Basic idea: start with a large rate but gradually decrease it
-- Stochastic approximation 
-$$\eta(n) = c/n$$
-               
-     $c$ is a positive parameter
 
+###     Stopping criterion
+ One could stop after a predetermined number of epochs or
+    when the MSE decrease is below a given criterion
+   Early stopping with cross validation: keep part of the
+    training set, called validation subset, as a test for
+    generalization performance
 
 
 
 
-###             Learning rate annealing (cont.)
-- Search-then-converge
-$$\eta(n) = \frac{\eta_0}{1+(n/\tau)}$$
-     $\eta_0$ and $\tau$ are positive parameters
 
+ Selecting model parameters: (cross-)validation
 
-     When n is small compared to $\tau$ , learning rate is approximately constant
-     When n is large compared to $\tau$ , learning rule schedule roughly follows
-     stochastic approximation
+ Must have separate training, validation, and test
+    datasets to avoid over-confidence, over-fitting
+   When lots of data is available, have dedicated sets
+   When data is scarce, use cross-validation
+      Divide the entire training sample into an estimation
+         subset and a validation subset (e.g. 80/20 split)
+        Rotate through 80/20 splits so that every point is tested
+         on once
 
 
 
 
 
-###                   Rate annealing illustration
+### Cross validation illustration
 
-\centering  
 
-![](2018-03-10-10-18-17.png){width=70%} \
 
 
 
+###  MLP applications
 
+ Task: Handwritten zipcode recognition (1989)
+ Network description
+    Input: binary pixels for each digit
+    Output: 10 digits
+    Architecture: 4 layers (16x1612x8x812x4x43010)
+ Each feature detector encodes only one feature
+  within a local input region. Different detectors in
+  the same module respond to the same feature at
+  different locations through weight sharing. Such a
+  layout is called a convolutional net
 
-###                       Nonlinear neurons
-- To extend the LMS algorithm to nonlinear neurons, consider
-    differentiable activation function  at iteration n
-    \begin{eqnarray*}
-           E (n) &=& 1/2 [d (n)  y (n)]^2 \\  
-                &=& 1/2 \left[ d (n)  - \varphi  \sum_{j}  w_j x_j (n) \right] ^2  
-    \end{eqnarray*}
 
+### Zipcode recognizer architecture
 
 
-###                    Nonlinear neurons (cont.)
-- By chain rule of differentiation
-\begin{eqnarray*}
-\frac{\partial E}{\partial w_j} &=&
- \frac{\partial E}{\partial y}\frac{\partial y}{\partial v}\frac{\partial v}{\partial w_j} \\ 
-&=& - [d (n) - y (n)]\varphi' (v(n) )x_ j (n) \\ 
-&=& - e(n) \varphi' (v(n) ) x_ j (n)
-\end{eqnarray*}
 
 
 
+### Zipcode recognition (cont.)
 
+ Performance: trained on 7300 digits and tested on
+    2000 new ones
+      Achieved 1% error on the training set and 5% error on
+         the test set
+        If allowing rejection (no decision), 1% error on the test
+         set
+        The task is not easy (see a handwriting example)
+ Remark: constraining network design is a way of
+  incorporating prior knowledge about a specific
+  problem
+    Backprop applies whether or not the network is
+         constrained
 
-###                   Nonlinear neurons (cont.)
-- Gradient descent gives
-       \begin{eqnarray*}
-       w _j (n + 1) &=& w_ j (n) +\eta e(n)\varphi' (v(n)) x _j (n) \\ 
-                         &=& w_ j (n) +\eta \delta (n) x_ j (n) 
-       \end{eqnarray*} 
-     - The above is called the delta ($\delta$) rule
--   If we choose a logistic sigmoid for 
-$$                    \varphi (v) = \frac{1}{  1+ exp( - av )} $$
-     then
+### Letter recognition example
 
-$$                   \varphi '      ( v ) = a \varphi ( v )[1-\varphi   ( v )]   $$
+ The convolutional net has been subsequently
+    applied to a number of pattern recognition tasks
+    with state-of-the-art results
+      Handwritten letter recognition
 
 
-###                   Role of activation function
-                                    
-\centering 
 
-![](2018-03-10-10-41-52.png){width=100%} \ 
 
 
-The role of : weight update is most sensitive when v is near zero
+###        Automatic driving
+ ALVINN (automatic land vehicle in a neural network)
+
+
+
+
+      One hidden layer, one output layer
+      Five hidden nodes, 32 output nodes (steer left  steer right)
+      960 inputs (30 x 32 image intensity array)
+      5000 trainable weights
+   Later success of Stanley (won $2M DARPA Grand
+    Challenge in 2005)
+
+### Other MLP applications
+
+ NETtalk, a speech synthesizer
+ GloveTalk, which converts hand gestures to speech
+-->
