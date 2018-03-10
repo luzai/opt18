@@ -21,7 +21,9 @@
 \usepackage{xeCJK}
 % \pgfdeclareimage[width=\paperwidth,height=\paperheight]{bg}{background}
 % \setbeamertemplate{background}{\pgfuseimage{bg}}
-
+%% columns
+\newcommand{\begincols}[1]{\begin{columns}{#1}}
+\newcommand{\stopcols}{\end{columns}}
 % \usepackage[backend=biber]{biblatex}
 % \bibliography{./ref.bib}
 %\addbibresource{ref.bib}
@@ -145,7 +147,7 @@
 \begin{frame}
 	\titlepage
 	\begin{center}
-		Adapted from slides provided by Prof. Jihun Hamm.		
+		Adapted from slides provided by Prof.  Michael Mandel.		
 	\end{center}
 
 \end{frame}
