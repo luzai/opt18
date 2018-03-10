@@ -443,4 +443,4 @@ $$                   \varphi '      ( v ) = a \varphi ( v )[1-\varphi   ( v )]  
 ![](2018-03-10-10-41-52.png){width=100%} \ 
 
 
-The role of : weight update is most sensitive when v is near zero
+The role of $\varphi'$: weight update is most sensitive when v is near zero
