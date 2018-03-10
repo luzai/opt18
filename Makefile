@@ -1,6 +1,6 @@
 SHELL = /bin/bash
 
-main.pdf: main.tex
+main.pdf: main.tex clean
 	xelatex -interaction=nonstopmode -halt-on-error main
 	xelatex -interaction=nonstopmode -halt-on-error main
 	# biber main
@@ -17,8 +17,8 @@ plain:
 	# pdflatex -interaction=nonstopmode -halt-on-error main
 
 clean:
-	# git clean -dfX
-	rm -rf main.tex main.nav main.toc
+	git clean -dfX
+	# rm -rf main.tex main.nav main.toc
 
 watch: main.tex 
 	fswatch -o $^ | xargs -n1 -I{} make

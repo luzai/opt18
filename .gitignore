@@ -4,8 +4,9 @@ main.pdf
 trash/
 ~$*
 .DS_Store
-out.txt
+out*.md
 main.tex 
+out*.txt
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
