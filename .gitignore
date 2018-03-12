@@ -1,6 +1,6 @@
 ## vs code
 node_modules/
-main.pdf
+main*.pdf
 trash/
 ~$*
 .DS_Store

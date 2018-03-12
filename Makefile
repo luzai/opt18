@@ -1,9 +1,13 @@
 SHELL = /bin/bash
 
-main.pdf: main.tex clean
-	xelatex -interaction=nonstopmode -halt-on-error main
-	xelatex -interaction=nonstopmode -halt-on-error main
-	# biber main
+main: 
+	xelatex -interaction=nonstopmode -halt-on-error main_lec5
+	xelatex -interaction=nonstopmode -halt-on-error main_lec5
+	xelatex -interaction=nonstopmode -halt-on-error main_lec6
+	xelatex -interaction=nonstopmode -halt-on-error main_lec6
+	xelatex -interaction=nonstopmode -halt-on-error main_lec7
+	xelatex -interaction=nonstopmode -halt-on-error main_lec7
+
 main.tex: main.md 
 	# pandoc -s -S -t beamer -F pandoc-fignos -F pandoc-citeproc --template main_template.tex --slide-level=3 main.md -o main.tex 
 	pandoc -s -S -t beamer --template main_template.tex --slide-level=3 main.md -o main.tex --listings --highlight-style=pygments 
@@ -17,8 +21,8 @@ plain:
 	# pdflatex -interaction=nonstopmode -halt-on-error main
 
 clean:
-	git clean -dfX
-	# rm -rf main.tex main.nav main.toc
+	# git clean -dfX
+	rm -rf *.nav *.toc *.aux *.log *.snm *.out
 
 watch: main.tex 
 	fswatch -o $^ | xargs -n1 -I{} make
