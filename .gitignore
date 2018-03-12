@@ -1,6 +1,7 @@
 ## vs code
 node_modules/
 main.pdf
+lec*.pdf
 trash/
 ~$*
 .DS_Store

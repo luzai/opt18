@@ -2,8 +2,8 @@
 
 ###      Motivation
 
-Multilayer networks are more powerful than single layer nets
-- \eg, XOR problem
+- Multilayer networks are more powerful than single layer nets
+    - \eg, XOR problem
 
 \centering 
 
@@ -31,7 +31,7 @@ Multilayer networks are more powerful than single layer nets
 ### Multi-layer perceptron
 
 - Think of an MLP as a complicated, non-linear
-    function of its input parametrized by $w$:
+    function of its input parametrized by $\vw$:
     $$\vy=F(\vx;\vw)$$
 -   Note that "Multi-layer perceptron" is a bit of a
     misnomer because they use a continuous activation
@@ -40,15 +40,19 @@ Multilayer networks are more powerful than single layer nets
 ### MLP Training
 
 - Given a set of training data $\{\vx_p,\vd_p\}$  can we adjust
-    $w$ so that the network is optimal
--   Optimal with respect to what criterion
-    - Must define error criterion btwn $\vy \vp = F(\vx\vp ; \vw)$ and $\vd_p$
+    $\vw$ so that the network is optimal
+-   Optimal \wrt what criterion
+    - Must define error criterion between $\vy _\vp = F(\vx_\vp ; \vw)$ and $\vd_p$
     - We will use the mean square error for now, but others are
         possible (and often preferable)
 - Goal find $\vw$ that minimizes
-$$  \bar{E}(\vw) \sum_p E_p(\vw) = \sum_p \frac{1}{2} \|\vd_p - F(\vx_p ;\vw)\|^2$$
+$$  \bar{E}(\vw) = \sum_p E_p(\vw) = \sum_p \frac{1}{2} \|\vd_p - F(\vx_p ;\vw)\|^2$$
 
+### Backpropagation
 
+Backpropagation will be continued on Thursday, March 18. 
+
+<!-- 
 
 ### Backpropagation
 
@@ -82,13 +86,13 @@ $$  \bar{E}(\vw) \sum_p E_p(\vw) = \sum_p \frac{1}{2} \|\vd_p - F(\vx_p ;\vw)\|^
 ![](2018-03-10-13-49-42.png){width=70%} \
 
 \begin{eqnarray*}
-   y_k &=& \varphi_k(\sum_j w_{kj} \varphi_j (\sum_i w_{ji} x_i)) \\
+   y_k &=& \varphi_k \left(\sum_j w_{kj} \varphi_j \left(\sum_i w_{ji} x_i \right) \right) \\
    E(\vw) &=& 1/2 \sum_k (d_k - y_k)^2  
 \end{eqnarray*}
 
 - Keep in mind during the derivation:
     - How would changing $E_p (\vw)$ affect the derivation
-    - How would changing  $\varphi (v)$ affect the derivation
+    - How would changing  $\varphi (\vv)$ affect the derivation
 
 
 ### Backprop
@@ -99,7 +103,7 @@ $$  \bar{E}(\vw) \sum_p E_p(\vw) = \sum_p \frac{1}{2} \|\vd_p - F(\vx_p ;\vw)\|^
 ![](2018-03-10-13-49-42.png){width=70%} \
 
 
-\begin{align}\label{eq:pqFormel}
+\begin{align} 
 	y & = \frac{1}{2} \sum_k (d_k - y_k)^2 \\ %\nonumber
       & =  \frac{1}{2}\sum_k \left(
         d_k - \underbrace{\varphi_k 
@@ -316,8 +320,8 @@ In summary:
 - Extension to more hidden layers is straightforward.
     In general we have
 $$ \Delta w_ {ji} (n) = \eta \delta _j y_i$$
-    - The  rule aplies to the output layer and the generalized
- rule aplies to hidden layers, layer by layer from the
+    - The  rule applies to the output layer and the generalized
+ rule applies to hidden layers, layer by layer from the
  output end.
     -   The entire procedure is called backpropagation (error is
  back propagated from the outputs to the inputs)
@@ -340,10 +344,10 @@ $$ \Delta w_ {ji} (n) = \eta \delta _j y_i$$
 
 ### Universal aproximation theorem
 
-- MLPs can learn to aproximate any function, given
+- MLPs can learn to approximate any function, given
     sufficient layers and neurons (an existence proof)
 -   At most two hidden layers are sufficient to
-    aproximate any function. One hidden layer is
+    approximate any function. One hidden layer is
     sufficient for any continuous function
 
 
@@ -357,7 +361,7 @@ $$ \Delta w_ {ji} (n) = \eta \delta _j y_i$$
 -   Many tricks exist to try to find better local minima
     - Momentum: mix in gradient from step $n - 1$
     - Weight initialization: small random values
-    - Stoping criterion: early stoping
+    - Stopping criterion: early stopping
     - Learning rate annealing: start with large $\eta$ , slowly shrink
     - Second order methods: use a separate  $\eta$ for each
  parameter or pair of parameters based on local curvature
@@ -368,9 +372,9 @@ $$ \Delta w_ {ji} (n) = \eta \delta _j y_i$$
 
 - To ease oscillating weights due to large , some
     inertia (momentum) of weight update is added
-$$     \Delta   w_ ji (n) = \eta \delta_ j y_i + \alpha w_ {ji} (n - 1),                        0 < \alpha < 1$$
+$$     \Delta   w_{ji} (n) = \eta \delta_ j y_i + \alpha w_ {ji} (n - 1),                        0 < \alpha < 1$$
 
-    - In the downhill situation,           $\Delta w_ ji (n)\approx   \frac{\eta}{1-\alpha} \delta   _ j y_i$
+    - In the downhill situation,           $\Delta w_ {ji} (n)\approx   \frac{\eta}{1-\alpha} \delta   _ j y_i$
         - thus accelerating learning by a factor of $1/(1 - \alpha )$
     - In the oscillating situation, it smooths weight change,
         thus stabilizing oscillations
@@ -394,7 +398,7 @@ $$     \Delta   w_ ji (n) = \eta \delta_ j y_i + \alpha w_ {ji} (n - 1),        
 
 
 
-### Stoping criterion
+### Stopping criterion
 - One could stop after a predetermined number of epochs or
     when the MSE decrease is below a given criterion
 -   Early stoping with cross validation: keep part of the
@@ -429,7 +433,7 @@ $$     \Delta   w_ ji (n) = \eta \delta_ j y_i + \alpha w_ {ji} (n - 1),        
 ![](2018-03-10-16-01-35.png){width=60%} \ 
 
 
-### MLP aplications
+### MLP applications
 
 - Task: Handwritten zipcode recognition (1989)
 - Network description
@@ -458,15 +462,15 @@ $$     \Delta   w_ ji (n) = \eta \delta_ j y_i + \alpha w_ {ji} (n - 1),        
 - Remark: constraining network design is a way of
     incorporating prior knowledge about a specific
     problem
-    - Backprop aplies whether or not the network is constrained
+    - Backprop applies whether or not the network is constrained
 
 ### Letter recognition example
 
 - The convolutional net has been subsequently
-    aplied to a number of pattern recognition tasks
+    applied to a number of pattern recognition tasks
     with state-of-the-art results
     - Handwritten letter recognition
-![](2018-03-10-16-09-17.png){width=100%}
+![](2018-03-10-16-09-17.png){width=80%}
 
 
 
@@ -480,11 +484,11 @@ $$     \Delta   w_ ji (n) = \eta \delta_ j y_i + \alpha w_ {ji} (n - 1),        
 -   Later success of Stanley (won $ 2M DARPA Grand
     Challenge in 2005)
 
-### Other MLP aplications
+### Other MLP applications
 
 - NETtalk, a speech synthesizer
 - GloveTalk, which converts hand gestures to speech
 
-
+-->
 
 
