@@ -48,11 +48,10 @@
 - Goal find $\vw$ that minimizes
 $$  \bar{E}(\vw) = \sum_p E_p(\vw) = \sum_p \frac{1}{2} \|\vd_p - F(\vx_p ;\vw)\|^2$$
 
-### Backpropagation
+<!-- ### Backpropagation
 
-Backpropagation will be continued on Thursday, March 18. 
+Backpropagation will be continued on Thursday, March 18.  -->
 
-<!-- 
 
 ### Backpropagation
 
@@ -370,9 +369,11 @@ $$ \Delta w_ {ji} (n) = \eta \delta _j y_i$$
 
 ### Learning rate control: momentum
 
+
+
 - To ease oscillating weights due to large , some
     inertia (momentum) of weight update is added
-$$     \Delta   w_{ji} (n) = \eta \delta_ j y_i + \alpha w_ {ji} (n - 1),                        0 < \alpha < 1$$
+$$     \Delta   w_{ji} (n) = \eta \delta_ j y_i + \alpha \Delta w_ {ji} (n - 1),                        0 < \alpha < 1$$
 
     - In the downhill situation,           $\Delta w_ {ji} (n)\approx   \frac{\eta}{1-\alpha} \delta   _ j y_i$
         - thus accelerating learning by a factor of $1/(1 - \alpha )$
@@ -488,7 +489,3 @@ $$     \Delta   w_{ji} (n) = \eta \delta_ j y_i + \alpha w_ {ji} (n - 1),       
 
 - NETtalk, a speech synthesizer
 - GloveTalk, which converts hand gestures to speech
-
--->
-
-
