@@ -4,6 +4,9 @@ main.pdf
 trash/
 ~$*
 .DS_Store
+*lec*.pdf
+*main*.pdf 
+
 
 ## Core latex/pdflatex auxiliary files:
 *.aux

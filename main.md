@@ -45,14 +45,14 @@ $$\Rightarrow \left\{\begin{array}{cc}
 -\sum_{i} (d_i -wx_i -b) x_i & =0 
 \end{array} \right.$$
 
-### Analytic solution approaches 
+### Analytic solution approaches
 
 - Solve one equation for $b$ in terms of $w$ 
     - Substitute into other equation, solve for $w$ 
     - Substitute solution for $w$ back into equation for $b$ 
 
 $$\left\{\begin{array}{cc}
--\sum_{i}(d_i -wx_i -n) & =0 \\  
+-\sum_{i}(d_i -wx_i -b) & =0 \\  
 -\sum_{i} (d_i -wx_i -b) x_i & =0 
 \end{array} \right.$$
 
@@ -62,6 +62,11 @@ $b=\frac{\sum_i x_i^2 \sum_i d_i - \sum_i x_i \sum_i x_i d_i}{N \sum_i (x_i - \b
 $w=\frac{\sum_i (x_i - \bar{x}) (d_i - \bar{d}) }{\sum_i (x_i - \bar{x} )^2 }$
 
 , where an $\bar{x}$ indicates the mean 
+
+There may exist other forms, such as \textcolor{red}{
+$w=\frac{\sum_i d_i (x_i-\bar{x})}{\sum_i x_i^2 - \frac{1}{m} (\sum_i x_i)^2 }$, 
+$w=\frac{\sum_i(d_i-\bar{d})x_i}{\sum_i (x_i-\bar{x})x_i}$ 
+}
 
 ### Analytic solution approaches 
 
@@ -92,8 +97,8 @@ $$\partial E(\vw) / \partial \vw=0$$
 \begin{aligned}
 \frac{\partial}{\partial \vw} E(\vw) & = \frac{\partial}{\partial \vw} \| \vd - \mX \vw \|^2 \\  
 &= \frac{\partial}{\partial \vw} (\vd -\mX \vw)^T(\vd -\mX \vw) \\ 
-&= \frac{\partial}{\partial \vw} \vd^T \vd -2 \vw^T \mX^T \vd + \vw^T \mX^T \mX \vw \\ 
-&= -2 \mX^T \vd -2 \mX^T \mX \vw = 0
+&= \frac{\partial}{\partial \vw} \vd^T \vd \textcolor{red}{- \vd^T \mX \vw - \vw^T \mX^T \vd }+ \vw^T \mX^T \mX \vw \\ 
+&=\textcolor{red}{ 2 \mX^T \mX \vw} -2 \mX^T \vd  = 0
 \end{aligned}
 \end{equation*}
 
