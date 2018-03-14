@@ -327,7 +327,7 @@
     \frac{\partial }{\partial w_{kj}} E(\vw) = 
     \textcolor{red}{
         \frac{\partial E}{\partial y_k}} 
-    \textcolor{yellow}{
+    \textcolor{blue}{
         \frac{\partial y_k}{\partial v_k}
     } 
     \textcolor{green}{
@@ -342,7 +342,7 @@
 \begin{align}
     \textcolor{red}{
     \frac{\partial E}{\partial y_k}} & = -(d_k - y_k) = -e_k                                           \\
-    \textcolor{yellow}{
+    \textcolor{blue}{
         \frac{\partial y_k}{\partial v_k}
     }                                & = \frac{\partial }{\partial v_k} \varphi (v_k) = \varphi ' (v_k) \\
     \textcolor{green}{
@@ -356,7 +356,7 @@ So
   \frac{\partial }{\partial w_{kj}} E(\vw) = 
     \textcolor{red}{
         \frac{\partial E}{\partial y_k}} 
-    \textcolor{yellow}{
+    \textcolor{blue}{
         \frac{\partial y_k}{\partial v_k}
     } 
     \textcolor{green}{
@@ -380,8 +380,8 @@ So
 
 \begin{align}
     w_{kj} (n+1 ) & = w_{kj} (n) - \eta \frac{\partial E}{\partial w_{kj}} \\
-    &= w_{kj} (n) + \eta \underbrace{ e_k \varphi ' (v_k)  }_{\sigma_k} y_j  \\ 
-    &= w_{kj}(n) + \eta \delta_k y_j \quad (\sigma \textrm{ rule }) 
+    &= w_{kj} (n) + \eta \underbrace{ e_k \varphi ' (v_k)  }_{\delta_k} y_j  \\ 
+    &= w_{kj}(n) + \eta \delta_k y_j \quad (\delta \textrm{ rule }) 
 \end{align}
 
 \end{frame}
@@ -401,12 +401,12 @@ So
 \begin{equation}
   \frac{\partial }{\partial w_{ji}} E(\vw) = 
     \textcolor{red}{
-        \frac{\partial E}{\partial y_k}} 
-    \textcolor{yellow}{
-        \frac{\partial y_k}{\partial v_k}
+        \frac{\partial E}{\partial y_j}} 
+    \textcolor{blue}{
+        \frac{\partial y_j}{\partial v_j}
     } 
     \textcolor{green}{
-        \frac{\partial v_k}{\partial w_{ji}}
+        \frac{\partial v_j}{\partial w_{ji}}
     }
 \end{equation}
 
@@ -414,7 +414,7 @@ So
     \textcolor{red}{
         \frac{\partial E}{\partial y_k}
     } & = - \sum_{k}(d_k - y_k) \varphi ' (v_k) w_{kj} \\
-    \textcolor{yellow}{
+    \textcolor{blue}{
         \frac{\partial y_k}{\partial v_k}
     } & = \varphi ' (v_j)                               \\
     \textcolor{green}{
@@ -438,12 +438,12 @@ So
   \begin{align}
   \frac{\partial }{\partial w_{ji}} E(\vw) &= 
     \textcolor{red}{
-        \frac{\partial E}{\partial y_k}} 
-    \textcolor{yellow}{
-        \frac{\partial y_k}{\partial v_k}
+        \frac{\partial E}{\partial y_j}} 
+    \textcolor{blue}{
+        \frac{\partial y_j}{\partial v_j}
     } 
     \textcolor{green}{
-        \frac{\partial v_k}{\partial w_{ji}}
+        \frac{\partial v_j}{\partial w_{ji}}
     } \\
     &=  - \sum_{k} \underbrace{(d_k - y_k) \varphi ' (v_k) }_{\delta_k} w_{kj} \varphi ' (v_j) x_i  \\
     & = -(\underbrace{\sum_k \delta_k w_{kj}}_{e_j}) \varphi ' (v_j) x_i \\ 
@@ -467,7 +467,7 @@ So
 
 \begin{align}
     w_{ji} (n+1 ) & = w_{ji} (n) - \eta \frac{\partial E}{\partial w_{ji}} \\
-    &= w_{ji} (n) + \eta \underbrace{ e_j \varphi ' (v_j)  }_{\sigma_j} x_i  \\ 
+    &= w_{ji} (n) + \eta \underbrace{ e_j \varphi ' (v_j)  }_{\delta_j} x_i  \\ 
     &= w_{ji}(n) + \eta \delta_j x_i   
 \end{align}
 
