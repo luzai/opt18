@@ -103,7 +103,7 @@ Backpropagation will be continued on Thursday, March 18.  -->
 
 
 \begin{align} 
-	y & = \frac{1}{2} \sum_k (d_k - y_k)^2 \\ %\nonumber
+	E(\vw) & = \frac{1}{2} \sum_k (d_k - y_k)^2 \\ %\nonumber
       & =  \frac{1}{2}\sum_k \left(
         d_k - \underbrace{\varphi_k 
         \left( \overbrace{\sum_j w_{kj} y_j}^{v_k} \right)
@@ -199,13 +199,13 @@ So
 
 \begin{align}
 	\textcolor{red}{
-		\frac{\partial E}{\partial y_k}
+		\frac{\partial E}{\partial y_j}
 	} & = - \sum_{k}(d_k - y_k) \varphi ' (v_k) w_{kj} \\
 	\textcolor{blue}{
-		\frac{\partial y_k}{\partial v_k}
+		\frac{\partial y_j}{\partial v_j}
 	} & = \varphi ' (v_j)                               \\
 	\textcolor{green}{
-		\frac{\partial v_k}{\partial w_{ji}}
+		\frac{\partial v_j}{\partial w_{ji}}
 	} & = x_i
 \end{align}
 
@@ -341,7 +341,7 @@ $$ \Delta w_ {ji} (n) = \eta \delta _j y_i$$
 
 
 
-### Universal aproximation theorem
+### Universal approximation theorem
 
 - MLPs can learn to approximate any function, given
     sufficient layers and neurons (an existence proof)
@@ -411,6 +411,10 @@ $$     \Delta   w_{ji} (n) = \eta \delta_ j y_i + \alpha \Delta w_ {ji} (n - 1),
 ![](2018-03-10-16-00-59.png){width=50%} \ 
 
 
+<!-- ### Selecting model parameters: cross validation 
+
+- Continue to discuss under-fitting/over-fitting/model selection on Tuesday, March 20. 
+- Homework 1 will be assigned on Weekends.  -->
 
 
 
