@@ -1,7 +1,8 @@
 SHELL = /bin/bash
 
 main: 
-	latexmk --xelatex main 
+	# latexmk --pdf main 
+	pdflatex --interaction=nonstopmode -halt-on-error main
 	cp main.pdf hw1.pdf 	
 
 main.tex: main.md 
@@ -18,7 +19,7 @@ plain:
 
 clean:
 	# git clean -dfX
-	rm -rf *.nav *.toc *.aux *.log *.snm *.out
+	rm -rf *.nav *.toc *.aux *.log *.snm *.out *.fls *.fbd* 
 
 watch: main.tex 
 	fswatch -o $^ | xargs -n1 -I{} make
