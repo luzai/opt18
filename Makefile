@@ -1,12 +1,12 @@
 SHELL = /bin/bash
 
 main: 
-	xelatex -interaction=nonstopmode -halt-on-error main_lec5
-	xelatex -interaction=nonstopmode -halt-on-error main_lec5
+	# xelatex -interaction=nonstopmode -halt-on-error main_lec5
+	# xelatex -interaction=nonstopmode -halt-on-error main_lec5
 	xelatex -interaction=nonstopmode -halt-on-error main_lec6
 	xelatex -interaction=nonstopmode -halt-on-error main_lec6
-	xelatex -interaction=nonstopmode -halt-on-error main_lec7
-	xelatex -interaction=nonstopmode -halt-on-error main_lec7
+	# xelatex -interaction=nonstopmode -halt-on-error main_lec7
+	# xelatex -interaction=nonstopmode -halt-on-error main_lec7
 
 	cp main_lec5.pdf lec5.pdf 
 	cp main_lec6.pdf lec6.pdf 
