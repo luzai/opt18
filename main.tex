@@ -75,11 +75,11 @@ $j \ne i$. Class 4 is recognized when $y_i = -1$ for $1 \le i \le 3$.
 
 
 
-\textbf{Problem 3.} 
+\textbf{Problem 3.} \label{sec:3}
 MLP and BackPropogation:  
 
 \begin{itemize}
-	\item Download ``hw2.zip'', complete code surrounded by ``TODO'' in ``net.py'' and ``opt.py''. The code pass test under Python 2.7.14 and Python 3.6.3. For example, 
+	\item Download ``hw2.zip'', The code pass test under Python 2.7.14 and Python 3.6.3. Complete code surrounded by ``TODO'' in ``net.py'' and ``opt.py''. For example, 
 	\begin{verbatim}
 ###########################################################################
 # TODO: Implement the affine forward pass. Store the result in out. You   #
@@ -92,16 +92,21 @@ MLP and BackPropogation:
 ###########################################################################
 	\end{verbatim}
 	\item Run ``python main.py'' and paste the results to  your report. Make sure your code pass gradient check, \textit{i.e.}, relative error between Numerical gradient and analytic gradient is small, \textit{q.g.} smaller than 1e-7. We use centered formula $df(x)/x = [(]f(x+h)-f(x)]/h$ to compute numerical gradient since it has an error on order of $O(h)$ and use relative error as metric. 
-	\item Do something extra surrounding the topics in this assignment,  using the code you developed. For example, is there some other interesting question we could have asked? Is there any insightful visualization you can plot? Or anything fun to look at? 
+	\item Do something extra surrounding the topics in this assignment,  using the code you developed. For example, is there some other interesting question we could have asked? Is there any insightful visualization you can plot? We did not use large cifar10 data. You can select some samples in cifar10 or use the dataset in Problem~4\ref{sec:4} to do real case analysis. 
 \end{itemize}
 
 
 \vspace{1em} 
 
 
-\textbf{Probelm 4.} 
+\textbf{Probelm 4.} \label{sec:4}
 Predict House Prices: 
-Given 79 explanatory variables describing (almost) every aspect of residential homes, such as the size  and the location of the house, please predict the final price of each home. Train/test dataset and sample code will be cleaned and released. 
+Given 79 explanatory variables describing (almost) every aspect of residential homes, such as the size  and the location of the house, please predict the final price of each home. 
 
+\begin{itemize}
+	\item The dataset is cleaned to become simple train/test format. You can try to modify the process of data clean. 
+	\item Encourage to do model selection. For example, try lasso regression or humble loss. 
+	\item Make sure implement by yourself and do not machine learning related library. You almost implement the algorithm in Problem~3\ref{sec:3}. 
+\end{itemize}
 
 \end{document}
