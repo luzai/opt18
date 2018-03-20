@@ -8,6 +8,7 @@ trash/
 out*.md
 main.tex 
 out*.txt
+*release/
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
