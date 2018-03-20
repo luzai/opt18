@@ -218,7 +218,7 @@
 		      \end{itemize}
 		\item Divide by standard deviation
 		      \begin{itemize}
-			      \item Or whiten by multiplying by the square root of the covariance matrix
+			      \item Or whiten by multiplying by the inverse of square root of the covariance matrix
 
 			      \item Make dimensions commensurate
 
@@ -252,12 +252,9 @@
 	\frametitle{Weight initialization}
 	\begin{itemize}
 		\item Break symmetry by initializing with random values
-		\item If inputs are normalized, they are uncorrelated, with zero-mean, and unit-variance
-
-		\item Would like output to be approximately the same
-
-		\item So inputs to sigmoid nonlinearity must be too
-
+		\item If inputs are normalized, they are uncorrelated, with zero-mean, and unit-variance, and all weights are initialized to 0, 
+		\item Then, every neuron in the network computes the same output, and also computes the same gradients during backpropagation and undergoes the exact same parameter updates. The network never converges. 
+		\item Break symmetry accelerate convergence.
 	\end{itemize}
 \end{frame}
 

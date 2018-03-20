@@ -2,6 +2,7 @@
 % !TeX encoding = utf8
 % !TeX program = xelatex
 % !BIB program = bibtex
+
 % \documentclass[mathserif,compress,12pt]{ctexbeamer}
 \documentclass[12pt,notes,mathserif]{beamer}
 % \documentclass[draft]{beamer}	
@@ -145,7 +146,7 @@
 \begin{frame}[c]
 	\titlepage
 	\begin{center}
-		Adapted from slides provided by Prof.  Michael Mandel.		
+		Adapted from slides provided by Prof.  Michael Mandel.
 	\end{center}
 \end{frame}
 
@@ -201,9 +202,9 @@
 \begin{frame}[c]
 	\frametitle{Linear projection}
 	\begin{itemize}
-		\item Approximate function f (x) by a linear combination of simpler functions
+		\item Approximate function $f(x)$ by a linear combination of simpler functions
 		      \[
-			      F(\mathbf{x})=\sum_jw_j\varphi_j(\mathbf{x})
+			      f(\mathbf{x})=\sum_jw_j\varphi_j(\mathbf{x})
 		      \]
 		\item If $w_j$'s can be chosen so that approximation error is arbitrarily small for any function $f(x)$ over the domain of interest, then $\{\varphi_j\}$ has the property of universal approximation, or $\{\varphi_j\}$ is complete𝑗
 
@@ -213,8 +214,8 @@
 \begin{frame}[c]
 	\frametitle{Example incomplete basis: $\mathrm{sinc}$}
 	\[
-		\sin c(x)=\frac{\sin(\pi x)}{\pi x}\qquad
-		\varphi_j(x)=\sin c(x-\mu_j)
+		\mathrm{sinc}(x)=\frac{\sin(\pi x)}{\pi x}\qquad
+		\varphi_j(x)=\mathrm{sinc}(x-\mu_j)
 	\]\vspace*{-5mm}
 	\begin{itemize}
 		\item Can approximate any smooth function
@@ -236,9 +237,11 @@
 			{\rm Complete~on~the~interval}~[0,1]
 		\end{array}
 	\end{equation*}
-	\begin{center}
+	\begin{figure}
+		\centering
 		\includegraphics[width=0.95\linewidth]{fig/lec78.jpg}
-	\end{center}
+		\caption{Decomposition by sine waves}
+	\end{figure}
 \end{frame}
 
 % 9
@@ -263,8 +266,8 @@
 \begin{frame}[c]
 	\frametitle{Radial basis functions}
 	\begin{itemize}
-		\item 𝑖A radial basis function (RBF) is a basis function of the form $\varphi_j(\mathbf{x})=\varphi(||\mathbf{x}-\mathbf{\mu}_j||)$
-		      𝑤𝑤
+		\item 𝑖A radial basis function (RBF) is a basis function of the form $\varphi_j(\mathbf{x})=\varphi(||\mathbf{x}-\vmu_j||)$
+
 		      \begin{itemize}
 			      \item Where $\varphi(r)$ is positive w/monotonic derivative for $r> 0$
 		      \end{itemize}
@@ -289,7 +292,7 @@
 		      \]
 		\item Gaussians are universal approximators
 		      \begin{itemize}
-			      \item I.e., they form a complete basis
+			      \item \ie, they form a complete basis
 		      \end{itemize}
 	\end{itemize}
 	\begin{center}
@@ -300,16 +303,18 @@
 % 12
 \begin{frame}[c]
 	\frametitle{RBF net illustration}
-	\begin{center}
+	\begin{figure}
+		\centering
 		\includegraphics[width=0.99\linewidth]{fig/lec712.jpg}
-	\end{center}
+		\caption{Approximation by RBFs in one dimension}
+	\end{figure}
 \end{frame}
 
 % 13
 \begin{frame}[c]
 	\frametitle{Remarks (cont.)}
 	\begin{itemize}
-		\item Other RBFs exist, but we won’t be using them
+		\item Other RBFs exist, but we won't be using them
 		\item Multiquadrics
 		      \[
 			      \varphi(x)=\sqrt{x^2+c^2}
@@ -320,7 +325,7 @@
 		      \]
 		\item Micchelli's theorem (1986)
 		      \begin{itemize}
-			      \item Let $\{x_i\}$ be a set of 𝑁𝑁 distinct points, $\varphi(\cdot)$ be an RBF
+			      \item Let $\{x_i\}$ be a set of $N$ distinct points, $\varphi(\cdot)$ be an RBF
 			      \item Then the matrix $\phi_{ij}=\varphi(||\mathbf{x}_i-\mathbf{x}_j||)$ is non-singular
 		      \end{itemize}
 	\end{itemize}
@@ -330,8 +335,10 @@
 \begin{frame}[c]
 	\frametitle{Four questions to answer for RBF nets}
 	\begin{itemize}
+		% \tightlist
 		\item If we want to use Gaussian RBFs to approximate a function specified by training data
 		      \begin{enumerate}
+			    %   \tightlist
 			      \item How do we choose the Gaussian centers?
 			      \item How do we determine the Gaussian widths?
 			      \item How do we determine the weights $w_j$?
@@ -345,6 +352,7 @@
 \begin{frame}[c]
 	\frametitle{1. How do we choose the Gaussian centers?}
 	\begin{itemize}
+		\tightlist
 		\item Easy way: select K data points at random
 		\item Potentially better way: unsupervised clustering, e.g. using the K-means algorithm
 	\end{itemize}
@@ -359,7 +367,7 @@
 		      \[
 			      J=\sum_{j=1}^K\sum_{i\in C_j} ||\mathbf{x}_i-\mathbf{u}_j||^2
 		      \]
-		      where $\mathbf{u}_j=\dfrac{1}{||C_j||}\sum_{i\in C_j}\mathbf{x}_i$ is  the mean (center) of cluster $j$
+		      where $\mathbf{u}_j=\dfrac{1}{||C_j||}\sum_{i\in C_j}\mathbf{x}_i$ is  the mean (center) of cluster~$j$
 	\end{itemize}
 \end{frame}
 
@@ -370,7 +378,7 @@
 		\item Choose a set of $K$ cluster centers randomly from the input patterns
 		\item Assign the $N$ input patterns to the $K$ clusters using the squared Euclidean distance rule:
 
-		      $x$ is assigned to $C_j$ if $||\mathbf{x}-\mathbf{u}_j||^2\le ||\mathbf{x}-\mathbf{u}_j||^2$ for all $i\neq j$
+		      $x$ is assigned to $C_j$ if $||\mathbf{x}-\mathbf{u}_j||^2\le ||\mathbf{x}-\mathbf{u}_i||^2$ for all $i\neq j$
 		\item Update cluster centers
 		      \[
 			      \mathbf{u}_j=\frac{1}{|C_j|}\sum_{i\in C_j}\mathbf{x}_i
