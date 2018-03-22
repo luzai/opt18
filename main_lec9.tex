@@ -1,0 +1,397 @@
+% !TeX spellcheck = en_US
+% !TeX encoding = utf8
+% !TeX program = xelatex
+% !BIB program = bibtex
+% \documentclass[mathserif,compress,12pt]{ctexbeamer}
+\documentclass[12pt,notes,mathserif]{beamer}
+% \documentclass[draft]{beamer}	
+\usetheme{Singapore}
+% \usetheme{Hannover}
+%\usepackage{pgfpages}
+%\setbeameroption{show notes on second screen}
+
+\usepackage[british]{babel}
+\usepackage{graphicx,hyperref,url}
+% \usepackage{ru}
+\usepackage{mmstyles,bm,ulem}
+
+\usepackage{listings}
+\usefonttheme[onlymath]{serif}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+% \pgfdeclareimage[width=\paperwidth,height=\paperheight]{bg}{background}
+% \setbeamertemplate{background}{\pgfuseimage{bg}}
+%% columns
+\newcommand{\begincols}[1]{\begin{columns}{#1}}
+\newcommand{\stopcols}{\end{columns}}
+% \usepackage[backend=biber]{biblatex}
+% \bibliography{./ref.bib}
+%\addbibresource{ref.bib}
+\usepackage{indentfirst}
+\usepackage{longtable}
+\usepackage{float}
+%\usepackage{picins}
+\usepackage{rotating}
+\usepackage{subfigure}
+\usepackage{tabu}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{setspace}
+\usepackage{amsfonts}
+\usepackage{appendix}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{geometry}
+% \setCJKfamilyfont{cjkhwxk}{SimSun}
+% \newcommand*{\cjkhwxk}{\CJKfamily{cjkhwxk}}
+%\newfontfamily{\consolas}{Consolas}
+%\newfontfamily{\monaco}{Monaco}
+%\setmonofont[Mapping={}]{Consolas}	%英文引号之类的正常显示，相当于设置英文字体
+%\setsansfont{Consolas} %设置英文字体 Monaco, Consolas,  Fantasque Sans Mono
+% \setmainfont{Times New Roman}
+% \newfontfamily{\consolas}{Times New Roman}
+% \newfontfamily{\monaco}{Arial}
+% \setCJKmainfont{Times New Roman}
+%\setmainfont{MONACO.TTF}
+%\setsansfont{MONACO.TTF}
+\newcommand{\verylarge}{\fontsize{60pt}{\baselineskip}\selectfont}  
+\newcommand{\chuhao}{\fontsize{44.9pt}{\baselineskip}\selectfont}  
+\newcommand{\xiaochu}{\fontsize{38.5pt}{\baselineskip}\selectfont}  
+\newcommand{\yihao}{\fontsize{27.8pt}{\baselineskip}\selectfont}  
+\newcommand{\xiaoyi}{\fontsize{25.7pt}{\baselineskip}\selectfont}  
+\newcommand{\erhao}{\fontsize{23.5pt}{\baselineskip}\selectfont}  
+\newcommand{\xiaoerhao}{\fontsize{19.3pt}{\baselineskip}\selectfont} 
+\newcommand{\sihao}{\fontsize{14pt}{\baselineskip}\selectfont}      % 字号设置  
+\newcommand{\xiaosihao}{\fontsize{12pt}{\baselineskip}\selectfont}  % 字号设置  
+\newcommand{\wuhao}{\fontsize{10.5pt}{\baselineskip}\selectfont}    % 字号设置  
+\newcommand{\xiaowuhao}{\fontsize{9pt}{\baselineskip}\selectfont}   % 字号设置  
+\newcommand{\liuhao}{\fontsize{7.875pt}{\baselineskip}\selectfont}  % 字号设置  
+\newcommand{\qihao}{\fontsize{5.25pt}{\baselineskip}\selectfont}    % 字号设置 
+
+\graphicspath{{./fig/}}
+
+% \setbeamertemplate{footnote}{%
+%   \hangpara{2em}{1}%
+%   \makebox[2em][l]{\insertfootnotemark}\footnotesize\insertfootnotetext\par%
+% }
+
+\definecolor{cred}{rgb}{0.6,0,0}
+\definecolor{cgreen}{rgb}{0.25,0.5,0.35}
+\definecolor{cpurple}{rgb}{0.5,0,0.35}
+\definecolor{cdocblue}{rgb}{0.25,0.35,0.75}
+\definecolor{cdark}{rgb}{0.95,1.0,1.0}
+\lstset{
+	language=R,
+	numbers=left,
+	numberstyle=\tiny\color{black},
+	keywordstyle=\color{cpurple}\consolas,
+	commentstyle=\color{cgreen}\consolas,
+	stringstyle=\color{cred}\consolas,
+	frame=single,
+	escapeinside=``,
+	xleftmargin=1em,
+	xrightmargin=1em, 
+	backgroundcolor=\color{cdark},
+	aboveskip=1em,
+	breaklines=true,
+	tabsize=3
+} 
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+  
+% The title of the presentation:
+%  - first a short version which is visible at the bottom of each slide;
+%  - second the full title shown on the title slide;
+% \title[]{\LARGE CSE 5526: Introduction to Neural Networks}
+
+% Optional: a subtitle to be dispalyed on the title slide
+\title{Support Vector Machines (SVMs), Part 2}
+
+% The author(s) of the presentation:
+%  - again first a short version to be displayed at the bottom;
+%  - next the full list of authors, which may include contact information;
+\author[YingmingLi]{Yingming Li \\ yingming@zju.edu.cn}
+% The institute:
+%  - to start the name of the university as displayed on the top of each slide
+%    this can be adjusted such that you can also create a Dutch version
+%  - next the institute information as displayed on the title slide
+
+\institute[DSERC, ZJU]{Data Science \& Engineering Research Center, ZJU}
+% Add a date and possibly the name of the event to the slides
+%  - again first a short version to be shown at the bottom of each slide
+%  - second the full date and event name for the title slide
+\date[\today]{\today}
+
+\begin{document}
+
+\AtBeginSection[]
+{
+	\begin{frame}
+		\frametitle{Outline}
+		\tableofcontents[currentsection]
+	\end{frame}
+}
+
+% \AtBeginSubsection[2-]
+% {
+%    \begin{frame}
+%        \frametitle{Outline}
+%        \tableofcontents[currentsection]
+%    \end{frame}
+% }
+\begin{frame}[c]
+	\titlepage
+	% \begin{center}
+		% MLP Tips
+	% \end{center}
+\end{frame}
+
+% 2
+\begin{frame}[c]
+\frametitle{Back to SVMs: Maximum margin solution is a fixed point of the Lagrangian function}
+\begin{itemize}
+\item Recall, the maximum margin hyperplane is argmin$_{\bm{w},b}||\bm{w}||^2$ subject to $d_p(\bm{w}^T\bm{x}_p+b)\geqslant{}1$
+\begin{itemize}
+\item Minimization of a quadratic function subject to multiple linear inequality constraints
+\end{itemize}
+\item Will use Lagrange multipliers, $a_p$, to write Lagrangian function
+
+$L(\bm{w},b,\bm{a})=\dfrac{1}{2}||\bm{w}||^2-\sum\limits_pa_p(d_p(\bm{w}^T\bm{x}_p+b)-1)$
+\item Note that $\bm{x}_p$ and $d_p$ are fixed for the optimization
+\end{itemize}
+
+\end{frame}
+
+
+% 3
+\begin{frame}[c]
+\frametitle{Dual form of Lagrangian eliminates $\bm{w}$ and $b$}
+\begin{itemize}
+\item Set derivatives of $L(\bm{w},b,\bm{a})$ WRT $\bm{w}$ and $b$ to 0
+
+\begin{align*}
+\dfrac{\partial}{\partial \bm{w}}L=0=\bm{w}-\sum_pa_pd_p\bm{x}_p\\
+\Rightarrow \bm{w}=\sum_pa_pd_p\bm{x}_p\\
+\dfrac{\partial}{\partial b}L=0=\sum_pa_pd_p
+\end{align*}
+
+\end{itemize}
+\end{frame}
+
+% 4
+\begin{frame}[c]
+\frametitle{Dual form of Lagrangian eliminates $\bm{w}$ and $b$}
+\begin{itemize}
+\item Note that:
+
+$\bm{w}^T\bm{w}=\sum\limits_pa_pd_p\bm{w}^T\bm{x}_p=\sum\limits_p\sum\limits_qa_pa_qd_pd_q\bm{x}_p^T\bm{x}_q$
+\item ``Primal'' form of Lagragian
+
+$L(\bm{w},b,\bm{a})=\dfrac{1}{2}\bm{w}^T\bm{w}-\sum\limits_pa_p(d_p(\bm{w}^T\bm{x}_p+b)-1)$
+
+$=\dfrac{1}{2}\bm{w}^T\bm{w}-\sum\limits_pa_pd_p\bm{w}^Tx_p-b\sum\limits_pa_pd_p+\sum\limits_pa_p$
+\end{itemize}
+
+\end{frame}
+
+% 5
+\begin{frame}[c]
+\frametitle{Dual form of Lagrangian eliminates $\bm{w}$ and $b$}
+$L(\bm{w},b,\bm{a})$
+
+$=\dfrac{1}{2}\bm{w}^T\bm{w}-\sum\limits_pa_pd_p\bm{w}^T\bm{x}_p-b\sum\limits_pa_pd_p+\sum\limits_pa_p$
+
+$=\left(\dfrac{1}{2}-1\right)\sum\limits_p\sum\limits_aa_pa_qd_pd_q\bm{x}_p^T\bm{x}_q-b\cdot 0+\sum\limits_pa_p$
+\begin{itemize}
+\item So dual form of Lagrangian:
+
+$\tilde{L}(\bm{a})=-\dfrac{1}{2}\sum\limits_p\sum\limits_qa_pa_qd_pd_q\bm{x}_p^T\bm{x}_q+\sum\limits_pa_p$
+\end{itemize}
+
+\end{frame}
+
+% 6
+\begin{frame}[c]
+\frametitle{Dual form of Lagrangian eliminates $\bm{w}$ and $b$}
+\begin{itemize}
+\item Dual form of Lagrangian, maximize:
+𝑝
+$\tilde{L}(\bm{a})=-\dfrac{1}{2}\sum\limits_p\sum\limits_qa_pa_qd_pd_q\bm{x}_p^T\bm{x}_q+\sum\limits_pa_p$
+\item Subject to the constraints
+\[
+a_p\geqslant{}0~~\forall p\qquad \sum_p a_pd_p=0
+\]
+\item Another quadratic programming problem subject to linear inequality and equality constraints
+\end{itemize}
+\end{frame}
+
+
+
+% 7
+\begin{frame}[c]
+\frametitle{Dual form allows use of Kernel function}
+\begin{itemize}
+\item In dual form, $\bm{x}_p$s only interact as inner products:
+𝑝
+$\tilde{L}(\bm{a})=-\dfrac{1}{2}\sum\limits_p\sum\limits_qa_pa_qd_pd_q\bm{x}_p^T\bm{x}_q+\sum\limits_pa_p$
+\item Can replace $\bm{x}_p^T\bm{x}_q$ with kernel function $k(\bm{x}_p,\bm{x}_q)$
+\item Think of kernel function as inner product of feature vector of $\bm{x}_p$s in some high dimensional space
+\[
+k(\bm{x}_p,\bm{x}_q)=\phi^T(\bm{x}_p)\phi(\bm{x}_q)
+\]
+\item But don't actually have to instantiate $\phi(\bm{x}_p)$
+\begin{itemize}
+\item More about kernels shortly
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+% 8
+\begin{frame}[c]
+\frametitle{Dual form is faster to solve when $D>N$}
+\begin{itemize}
+\item Solving a quadratic program in $M$ variables takes takes $O(M^3)$ time in general
+\item Primal form involves $D$ variables $(\bm{w})$
+\begin{itemize}
+\item Dimensionality of the data $\bm{x}_p$,
+\item Or dimensionality of features of the data $\phi(\bm{x}_p)$
+\end{itemize}
+\item Dual form involves $N$ variables $(\bm{a})$
+\begin{itemize}
+\item Number of training points
+\end{itemize}
+\item SVMs are generally most useful with kernels
+\begin{itemize}
+\item So $D>N$ and the dual is faster to solve
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+% 9
+\begin{frame}[c]
+\frametitle{Classify new points using $y(\bm{x})$}
+\begin{itemize}
+\item Actual prediction function is still
+\[
+y(\bm{x})=\bm{w}^T\bm{x}+b
+\]
+\item Get $\bm{w}$ from primal Lagrangian
+\[
+\bm{w}=\sum_pa_pd_p\bm{x}_p
+\]
+\item Will discuss $b$ shortly, so
+\[
+y(\bm{x})=\sum_pa_pd_p\bm{x}_p^T\bm{x}+b
+\]
+\end{itemize}
+\end{frame}
+
+
+
+% 10
+\begin{frame}[c]
+\frametitle{Classify new points using $y(\bm{x})$, with kernel}
+\begin{itemize}
+\item With a kernel, $\bm{w}^T=\sum_pa_pd_p\phi(\bm{x}_p)$
+\item Actual prediction function is
+\[
+y(\bm{x})=\bm{w}^T\phi(\bm{x})+b
+\]
+\[
+=\sum_pa_pd_p\phi^T(\bm{x}_p)\phi(\bm{x})+b
+\]
+\[
+=\sum_pa_pd_pk(\bm{x}_p,\bm{x})+b
+\]
+\item In practice, save all $\bm{x}_p$ with $a_p> 0$
+\begin{itemize}
+\item And compute $k(\bm{x}_p,\bm{x})$ at test time
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+% 11
+\begin{frame}[c]
+\frametitle{KKT Conditions}
+\begin{itemize}
+\item In the case of SVMs, the KKT conditions are
+\[
+a_p\geqslant{}0
+\]
+\[
+d_py(\bm{x}_p)-1\geqslant{}0
+\]
+\[
+a_p(d_py(\bm{x}_p)-1=0
+\]
+\item So either $a_p=0$ or $d_py(\bm{x}_p)-1=0$
+\begin{itemize}
+\item Constraint from each point is either ignored or active
+\end{itemize}
+\item When $a_p=0$, $\bm{w}$ is independent of that point
+\item When $d_py(\bm{x}_p)=1$, that point is on the margin
+\begin{itemize}
+\item It is a support vector
+\item Thus only the support vectors contribute to $\bm{w}$
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+% 12
+\begin{frame}[c]
+\frametitle{Compute $b$ from support vectors}
+\begin{itemize}
+\item Get $b$ from support vectors, which have margin 1
+\item In the linear case, for a support vector $\bm{x}_q^s$
+\[
+y(\bm{x}_q^s)=d_p=\bm{w}^T\bm{x}_q^s+b
+\]
+\[
+b=d_a^s -\sum_pa_pd_p\bm{x}_p^T\bm{x}_a^s
+\]
+\item When using a kernel
+\[
+b=d_a^s-\sum_pa_pd_pk(\bm{x}_p,\bm{x}_q^s)
+\]
+\item For numerical stability, average over all SVs
+\end{itemize}
+\end{frame}
+
+
+% 13
+\begin{frame}[c]
+\frametitle{Summary so far}
+\begin{itemize}
+\item Finding the maximum margin hyperplane has been formulated as a constrained quadratic program
+\begin{itemize}
+\item Convex problem, well studied, easy conceptually to solve
+\end{itemize}
+\item Can be solved in the primal or dual formulation
+\begin{itemize}
+\item Dual formulation permits the use of kernel functions
+\end{itemize}
+\item Only some data points contribute to the solution
+\begin{itemize}
+\item The support vectors
+\end{itemize}
+\item So far, only applies to linearly separable data
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+\begin{center}
+\chuhao Thank you! %\fontspec{LHANDW.TTF}
+\end{center}
+\end{frame}
+\end{document}

@@ -1,16 +1,13 @@
 SHELL = /bin/bash
 
 main: 
-	# xelatex -interaction=nonstopmode -halt-on-error main_lec5
-	# xelatex -interaction=nonstopmode -halt-on-error main_lec5
-	# xelatex -interaction=nonstopmode -halt-on-error main_lec6
-	# xelatex -interaction=nonstopmode -halt-on-error main_lec6
-	xelatex -interaction=nonstopmode -halt-on-error main_lec7
-	xelatex -interaction=nonstopmode -halt-on-error main_lec7
+	xelatex -interaction=nonstopmode -halt-on-error main_lec8
+	xelatex -interaction=nonstopmode -halt-on-error main_lec8
+	# xelatex -interaction=nonstopmode -halt-on-error main_lec9
+	# xelatex -interaction=nonstopmode -halt-on-error main_lec9
 
-	# cp main_lec5.pdf lec5.pdf 
-	# cp main_lec6.pdf lec6.pdf 
-	cp main_lec7.pdf lec7.pdf 	
+	cp main_lec8.pdf lec8.pdf 
+	# cp main_lec9.pdf lec9.pdf 	
 
 main.tex: main.md 
 	# pandoc -s -S -t beamer -F pandoc-fignos -F pandoc-citeproc --template main_template.tex --slide-level=3 main.md -o main.tex 
