@@ -153,14 +153,14 @@
 \begin{frame}[c]
 \frametitle{Back to SVMs: Maximum margin solution is a fixed point of the Lagrangian function}
 \begin{itemize}
-\item Recall, the maximum margin hyperplane is argmin$_{\bm{w},b}||\bm{w}||^2$ subject to $d_p(\bm{w}^T\bm{x}_p+b)\geqslant{}1$
+\item Recall, the maximum margin hyperplane is argmin$_{\mathbf{w},b}||\mathbf{w}||^2$ subject to $d_p(\mathbf{w}^T\mathbf{x}_p+b)\geqslant{}1$
 \begin{itemize}
 \item Minimization of a quadratic function subject to multiple linear inequality constraints
 \end{itemize}
 \item Will use Lagrange multipliers, $a_p$, to write Lagrangian function
 
-$L(\bm{w},b,\bm{a})=\dfrac{1}{2}||\bm{w}||^2-\sum\limits_pa_p(d_p(\bm{w}^T\bm{x}_p+b)-1)$
-\item Note that $\bm{x}_p$ and $d_p$ are fixed for the optimization
+$L(\mathbf{w},b,\mathbf{a})=\dfrac{1}{2}||\mathbf{w}||^2-\sum\limits_pa_p(d_p(\mathbf{w}^T\mathbf{x}_p+b)-1)$
+\item Note that $\mathbf{x}_p$ and $d_p$ are fixed for the optimization
 \end{itemize}
 
 \end{frame}
@@ -168,13 +168,13 @@ $L(\bm{w},b,\bm{a})=\dfrac{1}{2}||\bm{w}||^2-\sum\limits_pa_p(d_p(\bm{w}^T\bm{x}
 
 % 3
 \begin{frame}[c]
-\frametitle{Dual form of Lagrangian eliminates $\bm{w}$ and $b$}
+\frametitle{Dual form of Lagrangian eliminates $\mathbf{w}$ and $b$}
 \begin{itemize}
-\item Set derivatives of $L(\bm{w},b,\bm{a})$ WRT $\bm{w}$ and $b$ to 0
+\item Set derivatives of $L(\mathbf{w},b,\mathbf{a})$ \wrt $\mathbf{w}$ and $b$ to 0
 
 \begin{align*}
-\dfrac{\partial}{\partial \bm{w}}L=0=\bm{w}-\sum_pa_pd_p\bm{x}_p\\
-\Rightarrow \bm{w}=\sum_pa_pd_p\bm{x}_p\\
+\dfrac{\partial}{\partial \mathbf{w}}L=0=\mathbf{w}-\sum_pa_pd_p\mathbf{x}_p\\
+\Rightarrow \mathbf{w}=\sum_pa_pd_p\mathbf{x}_p\\
 \dfrac{\partial}{\partial b}L=0=\sum_pa_pd_p
 \end{align*}
 
@@ -183,46 +183,46 @@ $L(\bm{w},b,\bm{a})=\dfrac{1}{2}||\bm{w}||^2-\sum\limits_pa_p(d_p(\bm{w}^T\bm{x}
 
 % 4
 \begin{frame}[c]
-\frametitle{Dual form of Lagrangian eliminates $\bm{w}$ and $b$}
+\frametitle{Dual form of Lagrangian eliminates $\mathbf{w}$ and $b$}
 \begin{itemize}
 \item Note that:
 
-$\bm{w}^T\bm{w}=\sum\limits_pa_pd_p\bm{w}^T\bm{x}_p=\sum\limits_p\sum\limits_qa_pa_qd_pd_q\bm{x}_p^T\bm{x}_q$
+$\mathbf{w}^T\mathbf{w}=\sum\limits_pa_pd_p\mathbf{w}^T\mathbf{x}_p=\sum\limits_p\sum\limits_qa_pa_qd_pd_q\mathbf{x}_p^T\mathbf{x}_q$
 \item ``Primal'' form of Lagragian
 
-$L(\bm{w},b,\bm{a})=\dfrac{1}{2}\bm{w}^T\bm{w}-\sum\limits_pa_p(d_p(\bm{w}^T\bm{x}_p+b)-1)$
+$L(\mathbf{w},b,\mathbf{a})=\dfrac{1}{2}\mathbf{w}^T\mathbf{w}-\sum\limits_pa_p(d_p(\mathbf{w}^T\mathbf{x}_p+b)-1)$
 
-$=\dfrac{1}{2}\bm{w}^T\bm{w}-\sum\limits_pa_pd_p\bm{w}^Tx_p-b\sum\limits_pa_pd_p+\sum\limits_pa_p$
+$=\dfrac{1}{2}\mathbf{w}^T\mathbf{w}-\sum\limits_pa_pd_p\mathbf{w}^Tx_p-b\sum\limits_pa_pd_p+\sum\limits_pa_p$
 \end{itemize}
 
 \end{frame}
 
 % 5
 \begin{frame}[c]
-\frametitle{Dual form of Lagrangian eliminates $\bm{w}$ and $b$}
-$L(\bm{w},b,\bm{a})$
+\frametitle{Dual form of Lagrangian eliminates $\mathbf{w}$ and $b$}
+$L(\mathbf{w},b,\mathbf{a})$
 
-$=\dfrac{1}{2}\bm{w}^T\bm{w}-\sum\limits_pa_pd_p\bm{w}^T\bm{x}_p-b\sum\limits_pa_pd_p+\sum\limits_pa_p$
+$=\dfrac{1}{2}\mathbf{w}^T\mathbf{w}-\sum\limits_pa_pd_p\mathbf{w}^T\mathbf{x}_p-b\sum\limits_pa_pd_p+\sum\limits_pa_p$
 
-$=\left(\dfrac{1}{2}-1\right)\sum\limits_p\sum\limits_aa_pa_qd_pd_q\bm{x}_p^T\bm{x}_q-b\cdot 0+\sum\limits_pa_p$
+$=\left(\dfrac{1}{2}-1\right)\sum\limits_p\sum\limits_aa_pa_qd_pd_q\mathbf{x}_p^T\mathbf{x}_q-b\cdot 0+\sum\limits_pa_p$
 \begin{itemize}
 \item So dual form of Lagrangian:
 
-$\tilde{L}(\bm{a})=-\dfrac{1}{2}\sum\limits_p\sum\limits_qa_pa_qd_pd_q\bm{x}_p^T\bm{x}_q+\sum\limits_pa_p$
+$\tilde{L}(\mathbf{a})=-\dfrac{1}{2}\sum\limits_p\sum\limits_qa_pa_qd_pd_q\mathbf{x}_p^T\mathbf{x}_q+\sum\limits_pa_p$
 \end{itemize}
 
 \end{frame}
 
 % 6
 \begin{frame}[c]
-\frametitle{Dual form of Lagrangian eliminates $\bm{w}$ and $b$}
+\frametitle{Dual form of Lagrangian eliminates $\mathbf{w}$ and $b$}
 \begin{itemize}
 \item Dual form of Lagrangian, maximize:
 𝑝
-$\tilde{L}(\bm{a})=-\dfrac{1}{2}\sum\limits_p\sum\limits_qa_pa_qd_pd_q\bm{x}_p^T\bm{x}_q+\sum\limits_pa_p$
+$\tilde{L}(\mathbf{a})=-\dfrac{1}{2}\sum\limits_p\sum\limits_qa_pa_qd_pd_q\mathbf{x}_p^T\mathbf{x}_q+\sum\limits_pa_p$
 \item Subject to the constraints
 \[
-a_p\geqslant{}0~~\forall p\qquad \sum_p a_pd_p=0
+a_p\geqslant{}0, \quad \forall p\qquad \sum_p a_pd_p=0
 \]
 \item Another quadratic programming problem subject to linear inequality and equality constraints
 \end{itemize}
@@ -234,15 +234,15 @@ a_p\geqslant{}0~~\forall p\qquad \sum_p a_pd_p=0
 \begin{frame}[c]
 \frametitle{Dual form allows use of Kernel function}
 \begin{itemize}
-\item In dual form, $\bm{x}_p$s only interact as inner products:
+\item In dual form, $\mathbf{x}_p$, $\vx_q$ only interact as inner products:
 𝑝
-$\tilde{L}(\bm{a})=-\dfrac{1}{2}\sum\limits_p\sum\limits_qa_pa_qd_pd_q\bm{x}_p^T\bm{x}_q+\sum\limits_pa_p$
-\item Can replace $\bm{x}_p^T\bm{x}_q$ with kernel function $k(\bm{x}_p,\bm{x}_q)$
-\item Think of kernel function as inner product of feature vector of $\bm{x}_p$s in some high dimensional space
+$\tilde{L}(\mathbf{a})=-\dfrac{1}{2}\sum\limits_p\sum\limits_qa_pa_qd_pd_q\mathbf{x}_p^T\mathbf{x}_q+\sum\limits_pa_p$
+\item Can replace $\mathbf{x}_p^T\mathbf{x}_q$ with kernel function $k(\mathbf{x}_p,\mathbf{x}_q)$
+\item Think of kernel function as inner product of feature vector of $\mathbf{x}_p$s in some high dimensional space
 \[
-k(\bm{x}_p,\bm{x}_q)=\phi^T(\bm{x}_p)\phi(\bm{x}_q)
+k(\mathbf{x}_p,\mathbf{x}_q)=\phi^T(\mathbf{x}_p)\phi(\mathbf{x}_q)
 \]
-\item But don't actually have to instantiate $\phi(\bm{x}_p)$
+\item But don't actually have to instantiate $\phi(\mathbf{x}_p)$
 \begin{itemize}
 \item More about kernels shortly
 \end{itemize}
@@ -256,12 +256,12 @@ k(\bm{x}_p,\bm{x}_q)=\phi^T(\bm{x}_p)\phi(\bm{x}_q)
 \frametitle{Dual form is faster to solve when $D>N$}
 \begin{itemize}
 \item Solving a quadratic program in $M$ variables takes takes $O(M^3)$ time in general
-\item Primal form involves $D$ variables $(\bm{w})$
+\item Primal form involves $D$ variables $(\mathbf{w})$
 \begin{itemize}
-\item Dimensionality of the data $\bm{x}_p$,
-\item Or dimensionality of features of the data $\phi(\bm{x}_p)$
+\item Dimensionality of the data $\mathbf{x}_p$,
+\item Or dimensionality of features of the data $\phi(\mathbf{x}_p)$
 \end{itemize}
-\item Dual form involves $N$ variables $(\bm{a})$
+\item Dual form involves $N$ variables $(\mathbf{a})$
 \begin{itemize}
 \item Number of training points
 \end{itemize}
@@ -275,19 +275,19 @@ k(\bm{x}_p,\bm{x}_q)=\phi^T(\bm{x}_p)\phi(\bm{x}_q)
 
 % 9
 \begin{frame}[c]
-\frametitle{Classify new points using $y(\bm{x})$}
+\frametitle{Classify new points using $y(\mathbf{x})$}
 \begin{itemize}
 \item Actual prediction function is still
 \[
-y(\bm{x})=\bm{w}^T\bm{x}+b
+y(\mathbf{x})=\mathbf{w}^T\mathbf{x}+b
 \]
-\item Get $\bm{w}$ from primal Lagrangian
+\item Get $\mathbf{w}$ from primal Lagrangian
 \[
-\bm{w}=\sum_pa_pd_p\bm{x}_p
+\mathbf{w}=\sum_pa_pd_p\mathbf{x}_p
 \]
 \item Will discuss $b$ shortly, so
 \[
-y(\bm{x})=\sum_pa_pd_p\bm{x}_p^T\bm{x}+b
+y(\mathbf{x})=\sum_pa_pd_p\mathbf{x}_p^T\mathbf{x}+b
 \]
 \end{itemize}
 \end{frame}
@@ -296,22 +296,22 @@ y(\bm{x})=\sum_pa_pd_p\bm{x}_p^T\bm{x}+b
 
 % 10
 \begin{frame}[c]
-\frametitle{Classify new points using $y(\bm{x})$, with kernel}
+\frametitle{Classify new points using $y(\mathbf{x})$, with kernel}
 \begin{itemize}
-\item With a kernel, $\bm{w}^T=\sum_pa_pd_p\phi(\bm{x}_p)$
+\item With a kernel, $\mathbf{w}^T=\sum_pa_pd_p\phi(\mathbf{x}_p)$
 \item Actual prediction function is
 \[
-y(\bm{x})=\bm{w}^T\phi(\bm{x})+b
+y(\mathbf{x})=\mathbf{w}^T\phi(\mathbf{x})+b
 \]
 \[
-=\sum_pa_pd_p\phi^T(\bm{x}_p)\phi(\bm{x})+b
+=\sum_pa_pd_p\phi^T(\mathbf{x}_p)\phi(\mathbf{x})+b
 \]
 \[
-=\sum_pa_pd_pk(\bm{x}_p,\bm{x})+b
+=\sum_pa_pd_pk(\mathbf{x}_p,\mathbf{x})+b
 \]
-\item In practice, save all $\bm{x}_p$ with $a_p> 0$
+\item In practice, save all $\mathbf{x}_p$ with $a_p> 0$
 \begin{itemize}
-\item And compute $k(\bm{x}_p,\bm{x})$ at test time
+\item And compute $k(\mathbf{x}_p,\mathbf{x})$ at test time
 \end{itemize}
 \end{itemize}
 \end{frame}
@@ -327,20 +327,20 @@ y(\bm{x})=\bm{w}^T\phi(\bm{x})+b
 a_p\geqslant{}0
 \]
 \[
-d_py(\bm{x}_p)-1\geqslant{}0
+d_py(\mathbf{x}_p)-1\geqslant{}0
 \]
 \[
-a_p(d_py(\bm{x}_p)-1=0
+a_p(d_py(\mathbf{x}_p)-1)=0
 \]
-\item So either $a_p=0$ or $d_py(\bm{x}_p)-1=0$
+\item So either $a_p=0$ or $d_py(\mathbf{x}_p)-1=0$
 \begin{itemize}
 \item Constraint from each point is either ignored or active
 \end{itemize}
-\item When $a_p=0$, $\bm{w}$ is independent of that point
-\item When $d_py(\bm{x}_p)=1$, that point is on the margin
+\item When $a_p=0$, $\mathbf{w}$ is independent of that point
+\item When $d_py(\mathbf{x}_p)=1$, that point is on the margin
 \begin{itemize}
 \item It is a support vector
-\item Thus only the support vectors contribute to $\bm{w}$
+\item Thus only the support vectors contribute to $\mathbf{w}$
 \end{itemize}
 \end{itemize}
 \end{frame}
@@ -351,16 +351,16 @@ a_p(d_py(\bm{x}_p)-1=0
 \frametitle{Compute $b$ from support vectors}
 \begin{itemize}
 \item Get $b$ from support vectors, which have margin 1
-\item In the linear case, for a support vector $\bm{x}_q^s$
+\item In the linear case, for a support vector $\mathbf{x}_q^s$
 \[
-y(\bm{x}_q^s)=d_p=\bm{w}^T\bm{x}_q^s+b
+y(\mathbf{x}_q^s)=d_p=\mathbf{w}^T\mathbf{x}_q^s+b
 \]
 \[
-b=d_a^s -\sum_pa_pd_p\bm{x}_p^T\bm{x}_a^s
+b=d_a^s -\sum_pa_pd_p\mathbf{x}_p^T\mathbf{x}_a^s
 \]
 \item When using a kernel
 \[
-b=d_a^s-\sum_pa_pd_pk(\bm{x}_p,\bm{x}_q^s)
+b=d_a^s-\sum_pa_pd_pk(\mathbf{x}_p,\mathbf{x}_q^s)
 \]
 \item For numerical stability, average over all SVs
 \end{itemize}
