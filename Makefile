@@ -1,15 +1,16 @@
 SHELL = /bin/bash
 
 main: 
-	# xelatex -interaction=nonstopmode -halt-on-error main_lec8
-	# xelatex -interaction=nonstopmode -halt-on-error main_lec8
-	# cp main_lec8.pdf lec8.pdf 
+	# xelatex -interaction=nonstopmode -halt-on-error main_lec10
+	# xelatex -interaction=nonstopmode -halt-on-error main_lec10
+	# cp main_lec10.pdf lec10.pdf 
 
-	xelatex -interaction=nonstopmode -halt-on-error main_lec9
-	xelatex -interaction=nonstopmode -halt-on-error main_lec9
-	cp main_lec9.pdf lec9.pdf 	
+	xelatex -interaction=nonstopmode -halt-on-error main_lec11
+	xelatex -interaction=nonstopmode -halt-on-error main_lec11
+	cp main_lec11.pdf lec11.pdf 	
 
 main.tex: main.md 
+
 	# pandoc -s -S -t beamer -F pandoc-fignos -F pandoc-citeproc --template main_template.tex --slide-level=3 main.md -o main.tex 
 	pandoc -s -S -t beamer --template main_template.tex --slide-level=3 main.md -o main.tex --listings --highlight-style=pygments 
 plain:
@@ -23,7 +24,7 @@ plain:
 
 clean:
 	# git clean -dfX
-	rm -rf *.nav *.toc *.aux *.log *.snm *.out
+	rm -rf *.nav *.toc *.aux *.log *.snm *.out *.fls *.fdb_latexmk
 
 watch: main.tex 
 	fswatch -o $^ | xargs -n1 -I{} make
