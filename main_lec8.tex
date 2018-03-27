@@ -336,7 +336,7 @@ D=-\dfrac{b}{||\mathbf{w}||}
 \begin{frame}[c]
 \frametitle{The distance from point $\mathbf{x}$𝒙to the hyperplane is 𝑦$y(\mathbf{x})/||\mathbf{w}||$}
 \begin{itemize}
-\item Consider a point $\mathbf{x}$ and its projection onto the hyperplane $\mathbf{x}_{\bot}$ so that $\mathbf{x}=\mathbf{x}_{\bot}+r\dfrac{\mathbf{x}}{||\mathbf{w}||}$
+\item Consider a point $\mathbf{x}$ and its projection onto the hyperplane $\mathbf{x}_{\bot}$ so that $\mathbf{x}=\mathbf{x}_{\bot}+r\dfrac{\mathbf{w}}{||\mathbf{w}||}$
 \item We want to find $r$, the distance to the hyperplane
 \item Multiply both sides by $\mathbf{w}^T$ and add $b$
 \[
@@ -640,7 +640,7 @@ L(\mathbf{x},\lambda)=1-x_1^2-x_2^2+\lambda(x_1+x_2-1)
 
 % 37
 \begin{frame}[c]
-\frametitle{Example: Maximize $f(\mathbf{x})=1-x_1^2-x_2^2$ subject to $g(\mathbf{x})=-x_1-x_2-1\geqslant{}0$}
+\frametitle{Example: Maximize $f(\mathbf{x})=1-x_1^2-x_2^2$ subject to $g(\mathbf{x})=-x_1-x_2+1\geqslant{}0$}
 \begin{center}
 \includegraphics[width=0.65\linewidth]{fig8/lec837.jpg}
 \end{center}
@@ -649,7 +649,7 @@ L(\mathbf{x},\lambda)=1-x_1^2-x_2^2+\lambda(x_1+x_2-1)
 
 % 38
 \begin{frame}[c]
-\frametitle{Example: Maximize $f(\mathbf{x})=1-x_1^2-x_2^2$ subject to $g(\mathbf{x})=-x_1-x_2-1\geqslant{}0$}
+\frametitle{Example: Maximize $f(\mathbf{x})=1-x_1^2-x_2^2$ subject to $g(\mathbf{x})=-x_1-x_2+1\geqslant{}0$}
 \begin{itemize}
 \item So the Lagrangian function is 
 \[
