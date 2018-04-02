@@ -230,7 +230,7 @@ is called the kernel matrix, or the Gram matrix.
 \begin{itemize}
 \item Suppose that for all finite sets of points $\{\mathbf{x}_p\}_{p=1}^N$ and real number $\{\mathbf{a}\}_{p=1}^{\infty}$
 \[
-\sum_{i,j}a_ja_ik(\mathbf{x}_i,\mathbf{x}_j)\leqslant{}0
+\sum_{i,j}a_ja_ik(\mathbf{x}_i,\mathbf{x}_j) \ge 0
 \]
 \item Then $\mathbf{K}$ is called a positive semidefinite kernel
 \item And can be written as
@@ -395,7 +395,7 @@ K=
 \begin{itemize}
 \item Or compute $\phi(x_i)$ and their inner products, e.g.,
 \begin{itemize}
-\item Remember, $\phi(\mathbf{x})=[x_1^2,x_2^2,\sqrt2x_1x_2,\sqrt2x_1,\sqrt2x_2,1]$ For $b$
+\item $\phi(\mathbf{x})=[x_1^2,x_2^2,\sqrt2x_1x_2,\sqrt2x_1,\sqrt2x_2,1]$, where $1$ is added for $b$. 
 \item Since $\phi (\mathbf{x})$ includes 1, no need for separate $b$ later
 
 \[
@@ -523,7 +523,7 @@ K_{12}=\phi^T(\mathbf{x}_1)\phi(\mathbf{x}_1)=1+1-2+2-2+1=1
 0\\
 0\\
 0\\
-\end{bmatrix}b
+\end{bmatrix}
 \end{gather*}
 \end{frame}
 

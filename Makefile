@@ -1,9 +1,9 @@
 SHELL = /bin/bash
 
 main: 
-	# xelatex -interaction=nonstopmode -halt-on-error main_lec10
-	# xelatex -interaction=nonstopmode -halt-on-error main_lec10
-	# cp main_lec10.pdf lec10.pdf 
+	xelatex -interaction=nonstopmode -halt-on-error main_lec10
+	xelatex -interaction=nonstopmode -halt-on-error main_lec10
+	cp main_lec10.pdf lec10.pdf 
 
 	xelatex -interaction=nonstopmode -halt-on-error main_lec11
 	xelatex -interaction=nonstopmode -halt-on-error main_lec11
