@@ -12,6 +12,7 @@
 	\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 	\usepackage{todonotes} % Required for the boxes that questions appear in
 	\usepackage{mmstyles}
+	
 	\newcommand{\mybox}[1]
 	{
 	\par\noindent
@@ -49,6 +50,9 @@
 
 	\newcommand{\abs}[1]{\left| #1 \right| }
 	\newcommand{\norm}[1]{\left\| {#1} \right\|}
+	% \let\oldsection\section
+	% \renewcommand\section{\newpage\oldsection}
+
 	\usepackage{titlesec,titletoc} 
 	\renewcommand*{\thesection}{\color{NavyBlue}Problem \arabic{section}:} 
 	\titleformat{\section}[hang]{\bfseries}{\thesection}{1em}{}{}
@@ -99,10 +103,9 @@ $x,y,z \in \{-1,1\}$ and whose output is  $z$ if $x = -1$ and $y = 1$, and is $-
 
 \subsection{MP Neuron}
 
-{
-	\centering
+\begin{center}
 	\includegraphics[width=.5\textwidth]{fig/2018-04-02-14-19-18.png}
-}
+\end{center}
 
 All separating hyperplanes are correct, \eg, $-x+y+z-2=0$, $f(x,y,z)=\mathrm{sgn}(-x+y+z-2)$.
 
@@ -117,6 +120,8 @@ All separating hyperplanes are correct, \eg, $-x+y+z-2=0$, $f(x,y,z)=\mathrm{sgn
 % 	\includegraphics[width=0.7\textwidth]{fig/2018-03-17-14-09-07.png}
 % \end{figure}
 
+% ----------------------------------------------------------------------------------------
+\newpage 
 \section{Gradient Descent}
 SGD has trouble navigating ravines, i.e. areas where the surface curves much more steeply in one dimension than in another, which are common around local optima. Momentum is a method that helps accelerate SGD in the relevant direction and dampens oscillations as can be seen in fig~\ref{fig:momentum}.
 
@@ -153,6 +158,8 @@ Strictly follow formula \ref{eq:1} and \ref{eq:2}.
 
 Momentum aims primarily to solve two problems: poor conditioning of the Hessian matrix and variance in the stochastic gradient. In fig \ref{fig:momentum}, we illustrate how momentum overcomes the first of these two problems. The contour lines depict a quadratic loss function with a poorly conditioned Hessian matrix.  At each step along the way, we draw an arrow indicating the step that gradient descent would take at that point. We can see that a poorly conditioned quadratic objective looks like a long, narrow valley or canyon with steep sides. Momentum correctly traverses the canyon lengthwise, while gradient steps waste time moving back and forth across the narrow axis of the canyon.
 
+% ----------------------------------------------------------------------------------------
+\newpage 
 \section{Forward-Backward-Pass}
 Examine the multi-layer perceptron given in fig~\ref{fig:mlp}.
 
@@ -182,6 +189,8 @@ Examine the multi-layer perceptron given in fig~\ref{fig:mlp}.
 	\includegraphics[width=.9\textwidth]{fig/2018-04-02-14-49-31.png}
 }
 
+% ----------------------------------------------------------------------------------------
+\newpage 
 \section{Multi-Layer Perceptron Architecture}
 
 \begin{figure}[!htbp]
@@ -201,11 +210,12 @@ fig~\ref{fig:mlp2}. Each circle denotes a neuron, the arrows denote connections 
 
 \subsection{Multi-Layer Perceptron Architecture}
 
-{
-	\centering
+\begin{center}
 	\includegraphics[width=.9\textwidth]{fig/2018-04-02-14-57-10.png}
-}
+\end{center}
 
+% ----------------------------------------------------------------------------------------
+\newpage
 \section{Multi-Layer Perceptrons}
 
 Which of the functions given by the plots in fig~\ref{fig:mlp3} can be implemented by multi-layer
@@ -229,7 +239,8 @@ perceptrons? The MLP should only contain neurons with logistic activation functi
 	\item  BR: yes
 \end{itemize}
 
-
+% ----------------------------------------------------------------------------------------
+\newpage 
 \section{MLP and BackPropogation} \label{sec:3}
 
 \begin{itemize}
@@ -290,6 +301,8 @@ loss = 'mse'
 	\includegraphics[width=.49\textwidth]{fig/2018-04-02-15-15-07.png} 
 \end{center}
 
+% ----------------------------------------------------------------------------------------
+\newpage 
 \section{Predict House Prices} \label{sec:4}
 Given 79 explanatory variables describing (almost) every aspect of residential homes, such as the size  and the location of the house, please predict the final price of each home.
 
