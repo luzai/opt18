@@ -26,13 +26,13 @@
 	\pagestyle{fancy}
 	\lhead{Linear Optimization Assignment \#1}
 	\chead{}
-	\rhead{Due: Sunday, April 15, 23:59:59}
+	\rhead{}
 	\renewcommand{\headrulewidth}{0.3pt}
 
-	% \usepackage[framed,numbered,autolinebreaks,useliterate,final]{mcode}
 	\usepackage{listings}
-	\title{\textbf{Linear Optimization Assignment \#2}}
-	\author{Due: Sunday, April 15, 23:59:59}
+
+	\title{\textbf{Linear Optimization Assignment \#1}}
+	\author{}
 	\date{}
 
 	\makeatletter
@@ -43,7 +43,8 @@
 	\makeatother
 
 	\usepackage{multirow}
-
+	\usepackage{fontspec}
+	\usepackage[slantfont,boldfont]{xeCJK}
 	\usepackage{sectsty}
 	% \sectionfont{\color{NavyBlue}\selectfont}
 	% \subsectionfont{\color{SkyBlue}\itshape\selectfont}
@@ -109,6 +110,8 @@ $x,y,z \in \{-1,1\}$ and whose output is  $z$ if $x = -1$ and $y = 1$, and is $-
 
 All separating hyperplanes are correct, \eg, $-x+y+z-2=0$, $f(x,y,z)=\mathrm{sgn}(-x+y+z-2)$.
 
+共2分：过程1分，答案1分
+
 % \section{Problem 2.}
 % The following figure shows the decision regions of four classes. Design a
 % classifier for these linearly inseparable classes, using a network consists of M-P neurons with
@@ -121,7 +124,7 @@ All separating hyperplanes are correct, \eg, $-x+y+z-2=0$, $f(x,y,z)=\mathrm{sgn
 % \end{figure}
 
 % ----------------------------------------------------------------------------------------
-\newpage 
+\newpage
 \section{Gradient Descent}
 SGD has trouble navigating ravines, i.e. areas where the surface curves much more steeply in one dimension than in another, which are common around local optima. Momentum is a method that helps accelerate SGD in the relevant direction and dampens oscillations as can be seen in fig~\ref{fig:momentum}.
 
@@ -146,7 +149,9 @@ SGD has trouble navigating ravines, i.e. areas where the surface curves much mor
 
 \subsection{Gradient Descent}
 
-Strictly follow formula \ref{eq:1} and \ref{eq:2}.
+Strictly follow formula \ref{eq:1} and \ref{eq:2}. 公式中上面是+下面是-，尽管下面-上面+也是带动量的SGD，但是希望能按照题目的公式。
+
+With momentum:
 
 \begin{itemize}
 	\tightlist
@@ -156,10 +161,30 @@ Strictly follow formula \ref{eq:1} and \ref{eq:2}.
 	\item $u_4=1.14,v_4=-0.099$
 \end{itemize}
 
+最终 $f(x) \approx -76.48, u_t \approx 1.24$.  (1 pnt)
+
+Vanilla gradient descent:
+
+\begin{itemize}
+	\tightlist
+	\item $u_1=20, v_1=23$
+	\item $u_2=-3, v_1=-3.91$
+	\item $u_3=0.91, v_3\approx -0.08$
+	\item $u_4=0.99,v_4=-0.0015$
+\end{itemize}
+
+Finally, $f(x) \approx -79.67, u_t \approx 0.9902$. (1 pnt)
+
+图\ref{fig:momentum}中显示的病态Hessian矩阵下，动量的理论好处：
+
 Momentum aims primarily to solve two problems: poor conditioning of the Hessian matrix and variance in the stochastic gradient. In fig \ref{fig:momentum}, we illustrate how momentum overcomes the first of these two problems. The contour lines depict a quadratic loss function with a poorly conditioned Hessian matrix.  At each step along the way, we draw an arrow indicating the step that gradient descent would take at that point. We can see that a poorly conditioned quadratic objective looks like a long, narrow valley or canyon with steep sides. Momentum correctly traverses the canyon lengthwise, while gradient steps waste time moving back and forth across the narrow axis of the canyon.
 
+（1分）
+
+在本题目中 $f(u)$ 是具有极小值的三次函数，梯度不会有震荡，所以反而是普通梯度下降好 （1分）
+
 % ----------------------------------------------------------------------------------------
-\newpage 
+\newpage
 \section{Forward-Backward-Pass}
 Examine the multi-layer perceptron given in fig~\ref{fig:mlp}.
 
@@ -183,14 +208,17 @@ Examine the multi-layer perceptron given in fig~\ref{fig:mlp}.
 
 \subsection{Forward-Backward-Pass}
 
-{
-	\centering
-	\includegraphics[width=.9\textwidth]{fig/2018-04-02-14-48-39.png} \\
-	\includegraphics[width=.9\textwidth]{fig/2018-04-02-14-49-31.png}
-}
+\includegraphics[width=.4\textwidth]{fig/mod.png}
+
+Assume activation of H1 is $h_1=f(w_1x+b_1)$, activation of H2 is $h2=f(w_2x+w_3 h_1+b_2)$
+
+output of H1 = 1; activation of H1 = 0.73; output of H2 = -1.27; activation of H2 = 0.22; 	error=0.0393 （共1分，部分对0.5）
+
+$\partial e/\partial w_3 = -0.035, \partial e/\partial w_2 = 0, \partial e/\partial w_1 = 0, \partial e / \partial b_2 = -0.048, \partial e / \partial b_1 =   -0.0094$
+（1分）
 
 % ----------------------------------------------------------------------------------------
-\newpage 
+\newpage
 \section{Multi-Layer Perceptron Architecture}
 
 \begin{figure}[!htbp]
@@ -214,6 +242,8 @@ fig~\ref{fig:mlp2}. Each circle denotes a neuron, the arrows denote connections 
 	\includegraphics[width=.9\textwidth]{fig/2018-04-02-14-57-10.png}
 \end{center}
 
+input and output neuron (1 pnt), the number of layers (1 pnt), optional order (1 pnt)
+
 % ----------------------------------------------------------------------------------------
 \newpage
 \section{Multi-Layer Perceptrons}
@@ -224,7 +254,6 @@ perceptrons? The MLP should only contain neurons with logistic activation functi
 
 \begin{figure}
 	\centering
-
 	\includegraphics[width=.75\textwidth]{fig/2018-03-19-13-57-32.png}
 	\caption{Functions to be realized by MLPs} \label{fig:mlp3}
 \end{figure}
@@ -233,14 +262,14 @@ perceptrons? The MLP should only contain neurons with logistic activation functi
 
 \begin{itemize}
 	\tightlist
-	\item TL: no (since logistic function yields values between 0 and 1)
-	\item TR: yes
-	\item  BL: no (function must be differentiable)
-	\item  BR: yes
+	\item  TL: no (since logistic function yields values between 0 and 1) (.5 pnt)
+	\item TR: yes (.5 pnt)
+	\item  BL: no (function must be differentiable) (.5 pnt)
+	\item  BR: yes (.5 pnt)
 \end{itemize}
 
 % ----------------------------------------------------------------------------------------
-\newpage 
+\newpage
 \section{MLP and BackPropogation} \label{sec:3}
 
 \begin{itemize}
@@ -259,16 +288,16 @@ perceptrons? The MLP should only contain neurons with logistic activation functi
 	\end{verbatim}
 	\item Run \textit{python main\_check.py} and paste the settings (\eg random seed, loss function name) and the results to  your report.  Make sure your code pass gradient check, \eg, relative error between Numerical gradient and analytic gradient is small (\textit{e.g.} smaller than 1e-7). We use centered formula $\displaystyle \frac{\mathrm{d}f(x)}{\mathrm{d}x} \approx \frac{f(x+h)-f(x)}{h}$ to compute numerical gradient since it has an error on order of $O(h)$ and use relative error as metric.
 	\item Run \textit{python main\_train.py} to train a model on generated fake data.
-	\item {{Bonus(answer one of them is enough)}}: Do something extra surrounding the topics in this assignment, using the code you developed. For example, is there some other interesting question we could have asked? Is there any insightful visualization you can plot? For example, you can compare the convergence speed and performance of  linear regression and/or logistic regression and/or two-class softmax classification. You can select \textbf{some} samples (\textit{e.g.} 50 or 500) in cifar10 or use the dataset in {Problem~\ref{sec:4}} to do real case analysis and will MLP overfit on small subset on cifar10? If the generated fake data is imbalanced, what would happend and how to deal with it?  \textit{et. al.}
+	\item {{Bonus(answer one of them is enough)}}: Do something extra surrounding the topics in this assignment, using the code you developed. For example, is there some other interesting question we could have asked? Is there any insightful visualization you can plot? For example, you can compare the convergence speed and performance of  linear regression and/or logistic regression and/or two-class softmax classification. You can select \textbf{some} samples (\textit{e.g.} 50 or 500) in cifar10 or use the dataset in {\ref{sec:4}} to do real case analysis. Will MLP overfit on small subset on cifar10? If the generated fake data is imbalanced, what would happen and how to deal with it?  \textit{et. al.}
 	\item You do not necessarily strictly use the framework provided by teacher assistant. You can use any language and framework and write from scratch.
 	      Even tensorflow/pytorch with autograd is permitted, if you have time.
 	      Just make sure implement MLP by yourself and then do similar experiments, \textit{i.e.}, do not use any function like MLP or LinearRegression.
 	\item Finally, upload to ftp(10.13.72.84) before the deadline(Sunday, April 1, 23:59:59).
 \end{itemize}
 
-\subsection{MLP and BackPropogation} 
+\subsection{MLP and BackPropogation}
 
-After filling the code and running the \textit{main\_check.py}, I get the results as following. There are other parameters settings and results, so we just need to make sure relative errors smaller than 1e-7. 
+After filling the code and running the \textit{main\_check.py}, I get the results as following. There are other parameters settings and results, so we just need to make sure relative errors smaller than 1e-7.
 
 \begin{verbatim}
 	loss use softmax
@@ -285,6 +314,9 @@ After filling the code and running the \textit{main\_check.py}, I get the result
 	b1 relative error: 5.55e-12
 	b2 relative error: 1.19e-11	
 \end{verbatim}
+
+相对误差小于1e-7,说明net.py中前向后向的5个代码空缺都正确（2.5分）
+
 I set the hyper-parameters as
 \begin{verbatim}
 Left fig: 
@@ -298,21 +330,45 @@ loss = 'mse'
 
 \begin{center}
 	\includegraphics[width=.49\textwidth]{fig/2018-04-02-15-16-43.png}
-	\includegraphics[width=.49\textwidth]{fig/2018-04-02-15-15-07.png} 
+	\includegraphics[width=.49\textwidth]{fig/2018-04-02-15-15-07.png}
 \end{center}
 
+learning curve收敛，说明net.py和opt.py中3个代码空缺正确（1.5分）
+
+Bonus：
+\begin{itemize}
+	\item If the generated fake data is imbalanced, what would happen and how to deal with it?
+
+	      If the generated fake data is imbalanced, the classification accuracy is not that
+	      reliable.  For example, if there are two classes and the label of
+	      95 percents of input is 1 and else are -1, then a rather simple strategy is to
+	      predict 1 no matter what  the input is.  Upsample or Downsample to make sure that within a batch the positive and negative is balanced.   (1 pnt)
+	\item
+	      Compare the convergence speed and performance of  linear regression and/or logistic regression and/or two-class softmax classification.
+
+	      Linear/logistic regression maybe more stable than two-layer neural network. (1 pnt) 
+
+	\item
+	      You can select \textbf{some} samples (\textit{e.g.} 50 or 500) in cifar10 or use the dataset in {\ref{sec:4}} to do real case analysis. Will MLP overfit on small subset on cifar10?
+
+		MLP will overfit.  (1 pnt)
+	\item
+	      Other reasonable point. (1 pnt)
+\end{itemize}
+
+
 % ----------------------------------------------------------------------------------------
-\newpage 
+\newpage
 \section{Predict House Prices} \label{sec:4}
-Given 79 explanatory variables describing (almost) every aspect of residential homes, such as the size  and the location of the house, please predict the final price of each home.
+Given 79 explanatory variables describing (almost) every aspect of residential homes, such as the size  and the location of the house, please write down the r2 score of your model in the report.
 
 \begin{itemize}
 	\item  Download \textit{hw2.zip} from ftp(10.13.71.168). The dataset is cleaned to become simple train/val format. You can try to modify the process of data clean.
-	\item Make sure implement the {linear} regression model by yourself and do not use {{`LinearRegression' in `sklearn'}}.  Linear regression optimized by sgd is similar to MLP, which have been implemented in {Problem~\ref{sec:3}}. You can also use closed form solution for linear regression with/without $l_2$ regularization. 
+	\item Make sure implement the {linear} regression model by yourself and do not use {{`LinearRegression' in `sklearn'}}.  Linear regression optimized by sgd is similar to MLP, which have been implemented in {Problem~\ref{sec:3}}. You can also use closed form solution for linear regression with/without $l_2$ regularization.
 
-	\textit{hint:} $l_2$ regularization is equivalent to pertubation, makes sure the inverse of matrix exits.
+	      \textit{hint:} $l_2$ regularization is equivalent to pertubation, makes sure the inverse of matrix exits.
 
-	\item {{Bonus(answer one of them is enough)}}: Do something extra surrounding the topics in this assignment, using the code you developed. For example, try lasso regression and/or huber loss and/or learning rate decay and/or select best model by cross validation. What would happen if the x and y do not subtract mean? If you implement linear  regression by  closed-form formulation and sgd, you can compare them on speed and performance. \textit{et. al.} 
+	\item {{Bonus(answer one of them is enough)}}: Do something extra surrounding the topics in this assignment, using the code you developed. For example, try lasso regression and/or huber loss and/or learning rate decay and/or select best model by cross validation. What would happen if the x and y do not subtract mean? If you implement linear  regression by  closed-form formulation and sgd, you can compare them on speed and performance. \textit{et. al.}
 
 	\item You do not necessarily strictly use the framework provided by teacher assistant. You can use any language and write from scratch. Just make sure implement regression model by yourself and then do similar experiments.
 	\item Finally, upload to ftp(10.13.72.84) before the deadline(Sunday, April 1, 24:00:00).
@@ -320,7 +376,24 @@ Given 79 explanatory variables describing (almost) every aspect of residential h
 
 \subsection{Predict House Prices}
 
-r2\_socre: 0.86\~0.88
+Learning curve for linear regression  should be similar, r2\_socre: 0.86\~0.88 (1 pnt)
+
+\includegraphics[width=.5\textwidth]{fig/2018-04-03-17-03-44.png}
+
+Bonus:
+\begin{itemize}
+	\item
+		  lasso regression and/or huber loss and/or learning rate decay and/or select best model by cross validation. 
+		  (1 pnt)
+	\item
+		  If you implement linear  regression by  closed-form formulation and sgd, you can compare them on speed and performance. (1 pnt) 
+
+		  Pay attention to tuning lr for different model and make sure it converge.  On this small dataset, there is slight difference between different method 
+	\item  What would happen if the x and y do not subtract mean? 
+		May not converge. (1 pnt)
+		\item Other reasonable point. (1 pnt)
+\end{itemize}
+
 
 \end{document}
 

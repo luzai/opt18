@@ -2,8 +2,9 @@ SHELL = /bin/bash
 
 main: 
 	# latexmk --pdf main 
-	pdflatex --interaction=nonstopmode -halt-on-error main
-	cp main.pdf hw1.pdf 	
+	xelatex --interaction=nonstopmode -halt-on-error main
+	cp main.pdf hw1.sol.pdf 	
+	cp hw1.sol.pdf opt-release/
 
 main.tex: main.md 
 	# pandoc -s -S -t beamer -F pandoc-fignos -F pandoc-citeproc --template main_template.tex --slide-level=3 main.md -o main.tex 
