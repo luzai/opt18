@@ -7,7 +7,7 @@ trash/
 out*.md
 main.tex 
 out*.txt
-opt-release
+opt-release*
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
