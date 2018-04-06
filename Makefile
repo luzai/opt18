@@ -1,9 +1,9 @@
 SHELL = /bin/bash
 
 main: 
-	xelatex -interaction=nonstopmode -halt-on-error main_lec10
-	xelatex -interaction=nonstopmode -halt-on-error main_lec10
-	cp main_lec10.pdf lec10.pdf 
+	# xelatex -interaction=nonstopmode -halt-on-error main_lec10
+	# xelatex -interaction=nonstopmode -halt-on-error main_lec10
+	# cp main_lec10.pdf lec10.pdf 
 
 	xelatex -interaction=nonstopmode -halt-on-error main_lec11
 	xelatex -interaction=nonstopmode -halt-on-error main_lec11
@@ -24,7 +24,7 @@ plain:
 
 clean:
 	# git clean -dfX
-	rm -rf *.nav *.toc *.aux *.log *.snm *.out *.fls *.fdb_latexmk
+	rm -rf *.nav *.toc *.aux *.log *.snm *.out *.fls *.fdb_latexmk *.pdf *.bbl *.blg *.synctex.gz
 
 watch: main.tex 
 	fswatch -o $^ | xargs -n1 -I{} make

@@ -2,8 +2,8 @@
 % !TeX encoding = utf8
 % !TeX program = xelatex
 % !BIB program = bibtex
-% \documentclass[mathserif,compress,12pt]{ctexbeamer}
 \documentclass[12pt,notes,mathserif]{beamer}
+% \documentclass[mathserif,compress,12pt]{ctexbeamer}
 % \documentclass[draft]{beamer}	
 \usetheme{Singapore}
 % \usetheme{Hannover}
@@ -208,7 +208,7 @@ $$\text{\textit{s.t.} }  d_py(\mathbf{x}_p)\geqslant{}1-\xi_p$$
 \item Primal Lagrangian (still QP with linear constraints):
 \begin{eqnarray*}
 L(\mathbf{w},b,\mathbf{a},\mathbf{\mu}) &=\dfrac{1}{2}||\mathbf{w}||^2+C\sum_p\xi_p-\sum_p\mu_p\xi_p\\
-\quad & +\sum_pa_p(d_p(\mathbf{w}^t\mathbf{x}_p+b)-1+\xi_p)
+\quad & {\color{red}{-}} \sum_pa_p(d_p(\mathbf{w}^t\mathbf{x}_p+b)-1+\xi_p)
 \end{eqnarray*}
 \item KKT conditions:
 \[\begin{matrix}
