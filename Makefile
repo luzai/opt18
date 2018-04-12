@@ -1,10 +1,13 @@
 SHELL = /bin/bash
 main: 
-	xelatex -interaction=nonstopmode -halt-on-error main_lec12
-	xelatex -interaction=nonstopmode -halt-on-error main_lec12
-	cp main_lec12.pdf lec12.pdf 
-	cp lec12.pdf opt-release
+	xelatex -interaction=nonstopmode -halt-on-error main
+	biber main 
+	xelatex -interaction=nonstopmode -halt-on-error main
+	xelatex -interaction=nonstopmode -halt-on-error main
 
+	# cp main_lec12.pdf lec12.pdf 
+	# cp lec12.pdf opt-release
+	
 main.tex: main.md 
 
 	# pandoc -s -S -t beamer -F pandoc-fignos -F pandoc-citeproc --template main_template.tex --slide-level=3 main.md -o main.tex 
