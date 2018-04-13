@@ -30,7 +30,9 @@
 	\chead{}
 	\rhead{Due: May 4, 23:59:59}
 	\renewcommand{\headrulewidth}{0.3pt}
-    \bibliography{ref.bib}
+	\usepackage[backend=biber]{biblatex} 
+	\bibliography{ref.bib}
+	\addbibresource{ref.bib}
 	\usepackage{listings}
 	\title{\textbf{Linear Optimization Prj \#1}}
 	\author{Due: May 4, 23:59:59}
@@ -99,9 +101,9 @@ successfully operate in adversarial settings. In this project, we will reproduce
     \begin{figure}
         \centering 
         \includegraphics[width=.45\textwidth]{./fig/linear/ori.png} 
-        \includegraphics[width=.45\textwidth]{./fig/linear/ori.png} \\
-        \includegraphics[width=.45\textwidth]{./fig/linear/ori.png} 
-        \includegraphics[width=.45\textwidth]{./fig/linear/ori.png} 
+        \includegraphics[width=.45\textwidth]{./fig/linear/ln.png} \\
+        \includegraphics[width=.45\textwidth]{./fig/linear/ln.robust.mu.0.1.png} 
+        \includegraphics[width=.45\textwidth]{./fig/linear/ln.robust.mu.0.5.png} 
         \caption{ Results with linear kernel. \textbf{TopLeft}: Train on untainted data. \textbf{TR}: Train on tainted data.
         \textbf{BL}: Train LN-robust SVM on tainted data with $\mu  = 0.1$. \textbf{BR}: with $\mu = 0.5$.}
         \label{fig:linear}
@@ -146,8 +148,6 @@ successfully operate in adversarial settings. In this project, we will reproduce
     \item Understanding adversarial label flip attack algorithm: What is the range of $(\alpha,b)$ and $(\alpha^{rnd},b^{rnd})$, \ie, min and max value. Explain $v_i \leftarrow \alpha_i /C -\beta_1 s_i -\beta_2 q_i $. Discuss the idea of label flip attack algorithm. 
     \item Any novel ideas and open questions. 
 \end{itemize}
-
-% \printbibliography
-
+\printbibliography
 \end{document}
 
