@@ -1,12 +1,7 @@
 ## vs code
 node_modules/
-*.pdf
-trash/
 ~$*
 .DS_Store
-out*.md
-main.tex 
-out*.txt
 opt-release*
 
 ## Core latex/pdflatex auxiliary files:

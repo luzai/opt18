@@ -1,12 +1,12 @@
 SHELL = /bin/bash
 main: 
 	xelatex -interaction=nonstopmode -halt-on-error main
-	biber main 
-	xelatex -interaction=nonstopmode -halt-on-error main
-	xelatex -interaction=nonstopmode -halt-on-error main
+	# biber main 
+	# xelatex -interaction=nonstopmode -halt-on-error main
+	# xelatex -interaction=nonstopmode -halt-on-error main
 
-	# cp main_lec12.pdf lec12.pdf 
-	# cp lec12.pdf opt-release
+	cp main.pdf prj1.pdf 
+	cp prj1.pdf opt-release
 	
 main.tex: main.md 
 
