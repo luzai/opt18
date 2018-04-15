@@ -146,12 +146,16 @@
   \(\sigma\): Sigmoid function \(\sigma(x)=\frac{1}{1+e^{-x}}\)
 \item
   The connection to logistic regression:
-\item
-  Assume binomial distribution with parameter \(\hat{p}\)
-\item
-  Assume the logit transform is linear:
-  \[\log\frac{\hat{p}}{1-\hat{p}}=w^{{T}}x+b\]
-  \[\Rightarrow\ \hat{p}=\sigma(f(x))\]
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Assume binomial distribution with parameter \(\hat{p}\)
+  \item
+    Assume the logit transform is linear:
+    \[\log\frac{\hat{p}}{1-\hat{p}}=w^{{T}}x+b\]
+    \[\Rightarrow\ \hat{p}=\sigma(f(x))\]
+  \end{itemize}
 \end{itemize}
 
 \end{frame}
@@ -213,19 +217,17 @@ where \({y}_{i}^{*}\in \{0,1\} =\frac{1+y_{i}}{2}\)
 \begin{frame}{With 1 hidden layer}
 
 \begin{columns}
-            
     \begincols{.5\textwidth}
-        
-    - A hidden layer makes a nonlinear classifier
-    $$
-    f(x)=w^{{T}}g(W^{{T}}x+c)+b
-    $$
-    - ${g}$ needs to be nonlinear
-    - Sigmoid: $\sigma(x)=1/(1+e^{-x})$
-    - RELU: $g({x})=\max(0,{x})$
-        
+        \begin{itemize}
+            \item A hidden layer makes a nonlinear classifier
+            $$
+            f(x)=w^{{T}}g(W^{{T}}x+c)+b
+            $$
+            \item  ${g}$ needs to be nonlinear
+            \item Sigmoid: $\sigma(x)=1/(1+e^{-x})$
+            \item RELU: $g({x})=\max(0,{x})$
+        \end{itemize}
     \stopcols
-        
     \begincols{.5\textwidth}
     \begin{center}
         \includegraphics[width=\textwidth]{2018-04-15-13-08-28.png}
@@ -281,27 +283,34 @@ f(x)=w^{T}g(W^{T}x+c)+b
 \item
   Save the gradients and the gradient products that have already been
   computed to avoid computing multiple times
+\item
+  In a multiple layer network(Ignore constant terms)\\
+
+  \begin{center}
+  \includegraphics[width=\textwidth]{2018-04-15-13-09-15.png}
+  \end{center}
 \end{itemize}
 
-\begin{columns}
-    \begincols{.6\textwidth}
-    
-    - In a multiple layer network(Ignore constant terms)    
-    $$f(x)=w_{n}^{T}g (W_{n-1}^{T}g(W_{n-2}^{T}g\ (W_{1}^{T}g(x)))))$$
-    $$
-    \frac{\partial E}{\partial W_{k}}=\frac{\partial E}{\partial f_{k}}g(f_{k-1}(x))
-    $$
-    $$
-    =\frac{\partial E}{\partial f_{k+1}}\frac{\partial f_{k+1}}{\partial f_{k}}g(f_{k-1}(x))
-    $$
-    - Define: $f_{k}(x)=w_{k}^{T}g(f_{k-1}(x)),  f_{0}(x)=x$
-    \stopcols
-    \begincols{.4\textwidth}
-    \begin{center}
-        \includegraphics[width=\textwidth]{2018-04-15-13-09-15.png}
-    \end{center}
-    \stopcols
-\end{columns}
+\textbackslash{}end\{columns\}
+
+\end{frame}
+
+\begin{frame}{Backpropagation}
+
+\begin{itemize}
+\tightlist
+\item
+  Save the gradients and the gradient products that have already been
+  computed to avoid computing multiple times
+\item
+  In a multiple layer network(Ignore constant terms)\\
+  \[f(x)=w_{n}^{T}g (W_{n-1}^{T}g(W_{n-2}^{T}g\ (W_{1}^{T}g(x)))))\] \[
+      \frac{\partial E}{\partial W_{k}}=\frac{\partial E}{\partial f_{k}}g(f_{k-1}(x))
+      =\frac{\partial E}{\partial f_{k+1}}\frac{\partial f_{k+1}}{\partial f_{k}}g(f_{k-1}(x))
+      \]
+\item
+  Define: \(f_{k}(x)=w_{k}^{T}g(f_{k-1}(x)), f_{0}(x)=x\)
+\end{itemize}
 
 \end{frame}
 
@@ -313,36 +322,38 @@ f(x)=w^{T}g(W^{T}x+c)+b
   Each layer can be seen as a module
 \item
   Given input, return
-\end{itemize}
 
-\begin{columns}
-    \begincols{.7\textwidth}
-    - Output $f_{a}(x)$
-    
-    - Network gradient $\frac{\partial f_{a}}{\partial x}$
-    
-    - Gradient of module parameters $\frac{\partial f_{a}}{\partial w_a}$
-    \stopcols
-    \begincols{.3\textwidth}
-    \begin{center}
-        \includegraphics[width=\textwidth]{2018-04-15-13-09-43.png}
-    \end{center}
-    \stopcols
-\end{columns}
-
-\begin{itemize}
-\tightlist
+  \begin{columns}
+  \begincols{.6\textwidth}
+  \begin{itemize}
+      \item \begin{itemize}
+          \item  Output $f_{a}(x)$
+          \item   Network gradient $\frac{\partial f_{a}}{\partial x}$
+          \item  Gradient of module parameters $\frac{\partial f_{a}}{\partial w_a}$
+      \end{itemize}
+  \end{itemize}
+  \stopcols
+  \begincols{.4\textwidth}
+  \begin{center}
+      \includegraphics[width=\textwidth]{2018-04-15-13-09-43.png}
+  \end{center}
+  \stopcols
+  \end{columns}
 \item
   During backprop, propagate/update
-\item
-  Backpropagated gradient \(\frac{\partial E}{\partial f_{a}}\)
-  \[\frac{\partial E}{\partial W_{k}}=\frac{\partial E}{\partial f_{k}} g(f_{k-1}( x))=\frac{\partial E}{\partial f_{k + 1} }\pp{f_{k+1}}{f_k}g(f_{k-1}(x))\]
-\item
-  Three term above are respectively Backprop signal; Network Gradient;
-  gradient of parameters
-\item
-  Note:
-  \(\frac{\partial E}{\partial f_{k}}=\pp{E}{f_{k+1}} \pp{f_{k+1}}{{f_k}}\)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Backpropagated gradient \(\frac{\partial E}{\partial f_{a}}\)
+    \[\frac{\partial E}{\partial W_{k}}=\frac{\partial E}{\partial f_{k}} g(f_{k-1}( x))=\frac{\partial E}{\partial f_{k + 1} }\pp{f_{k+1}}{f_k}g(f_{k-1}(x))\]
+  \item
+    Three term above are respectively Backprop signal; Network Gradient;
+    gradient of parameters
+  \item
+    Note:
+    \(\frac{\partial E}{\partial f_{k}}=\pp{E}{f_{k+1}} \pp{f_{k+1}}{{f_k}}\)
+  \end{itemize}
 \end{itemize}
 
 \end{frame}
@@ -380,29 +391,58 @@ f(x)=w^{T}g(W^{T}x+c)+b
 \tightlist
 \item
   Regression:
-\item
-  Least squares \(L(f)=(f(x)-y)^{2}\)
-\item
-  L1 loss \(L(f)=|f(x)-y|\)
-\item
-  Huber loss
-  \[L({f})=\begin{cases} \frac{1}{2} (f(x)-y)^2 & , |f(x)-y| \le \delta \\ \delta (|f(x)-y| -\frac{1}{2} \delta ) & \textrm{, otherwise} \end{cases}\]
-\item
-  Binary Classification
-\item
-  Hinge loss \(L(f)=\max(1-yf(x), 0)\)
-\item
-  Binomial log-likelihood \(L(f)=\ln(1+\exp(-2yf(x))\)
-\item
-  Cross-entropy \(L(f)=-y^{*}\ln \sigma(f)-(1-y^{*})\ln(1- \sigma(f))\)
-  ,
-\item
-  \(y^{*}=(y+1)/2\)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Least squares \(L(f)=(f(x)-y)^{2}\)
+  \item
+    L1 loss \(L(f)=|f(x)-y|\)
+  \item
+    Huber loss
+    \[L({f})=\begin{cases} \frac{1}{2} (f(x)-y)^2 & , |f(x)-y| \le \delta \\ \delta (|f(x)-y| -\frac{1}{2} \delta ) & \textrm{, otherwise} \end{cases}\]
+  \end{itemize}
 \end{itemize}
 
 \begin{center}
-    \includegraphics[width=.2\textwidth]{2018-04-15-13-10-18.png}
+    \includegraphics[width=.37\textwidth]{2018-04-15-13-10-18.png}
 \end{center}
+
+\end{frame}
+
+\begin{frame}{Loss functions}
+
+\begin{itemize}
+\tightlist
+\item
+  Regression:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Least squares \(L(f)=(f(x)-y)^{2}\)
+  \item
+    L1 loss \(L(f)=|f(x)-y|\)
+  \item
+    Huber loss
+    \[L({f})=\begin{cases} \frac{1}{2} (f(x)-y)^2 & , |f(x)-y| \le \delta \\ \delta (|f(x)-y| -\frac{1}{2} \delta ) & \textrm{, otherwise} \end{cases}\]
+  \end{itemize}
+\item
+  Binary Classification
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Hinge loss \(L(f)=\max(1-yf(x), 0)\)
+  \item
+    Binomial log-likelihood \(L(f)=\ln(1+\exp(-2yf(x))\)
+  \item
+    Cross-entropy
+    \(L(f)=-y^{*}\ln \sigma(f)-(1-y^{*})\ln(1- \sigma(f))\) ,
+  \item
+    \(y^{*}=(y+1)/2\)
+  \end{itemize}
+\end{itemize}
 
 \end{frame}
 
@@ -436,12 +476,16 @@ f(x)=w^{T}g(W^{T}x+c)+b
   What if the function is non-differentiable?
 \item
   Subgradients:
-\item
-  For convex \(f(x)\) at \(x_{0}\):\\
-\item
-  If for any \(y\) \[f(y)\geq f(x)+g^T(y-x)\]
-\item
-  \(g\) is called a subgradient
+
+  \begin{itemize}
+  \tightlist
+  \item
+    For convex \(f(x)\) at \(x_{0}\):\\
+  \item
+    If for any \(y\) \[f(y)\geq f(x)+g^T(y-x)\]
+  \item
+    \(g\) is called a subgradient
+  \end{itemize}
 \item
   Subdifferential: \(\partial f\): set of all subgradients
 \item
@@ -483,14 +527,18 @@ f(x)=w^{T}g(W^{T}x+c)+b
   Similar to gradient descent \[x^{(k+1)}=x^{(k)}-\alpha_k g^{(k)}\]
 \item
   Step size rules:
-\item
-  Constant step size: \(\alpha_k = \alpha\)
-\item
-  Square summable:
-  \(\alpha_k\ge 0, \sum_{k=1}^{\infty} \alpha_k^2 < \infty, \sum_{k=1}^{\infty}\alpha_k =\infty\)
-\item
-  Usually, a large constant that drops slowly after a long while . e.g.
-  \(\frac{100}{100+k}\)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Constant step size: \(\alpha_k = \alpha\)
+  \item
+    Square summable:
+    \(\alpha_k\ge 0, \sum_{k=1}^{\infty} \alpha_k^2 < \infty, \sum_{k=1}^{\infty}\alpha_k =\infty\)
+  \item
+    Usually, a large constant that drops slowly after a long while .
+    e.g. \(\frac{100}{100+k}\)
+  \end{itemize}
 \end{itemize}
 
 \end{frame}

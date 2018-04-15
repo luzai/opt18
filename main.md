@@ -8,8 +8,8 @@
 - $\sigma$: Sigmoid function $\sigma(x)=\frac{1}{1+e^{-x}}$
 
 - The connection to logistic regression:
-- Assume binomial distribution with parameter $\hat{p}$
-- Assume the logit transform is linear:
+	- Assume binomial distribution with parameter $\hat{p}$
+	- Assume the logit transform is linear:
 $$\log\frac{\hat{p}}{1-\hat{p}}=w^{{T}}x+b$$
 $$\Rightarrow\ \hat{p}=\sigma(f(x))$$
 	 
@@ -56,19 +56,17 @@ $$\nabla b=\sum_{i}\frac{-{y}_{i}e^{-y_{i}(w^{{T}}x_{i}+b)}}{1+e^{-\mathcal{y}i(
 ### With 1 hidden layer
 
 \begin{columns}
-		    
 	\begincols{.5\textwidth}
-		
-	- A hidden layer makes a nonlinear classifier
-	$$
-	f(x)=w^{{T}}g(W^{{T}}x+c)+b
-	$$
-	- ${g}$ needs to be nonlinear
-	- Sigmoid: $\sigma(x)=1/(1+e^{-x})$
-	- RELU: $g({x})=\max(0,{x})$
-		
+		\begin{itemize}
+			\item A hidden layer makes a nonlinear classifier
+			$$
+			f(x)=w^{{T}}g(W^{{T}}x+c)+b
+			$$
+			\item  ${g}$ needs to be nonlinear
+			\item Sigmoid: $\sigma(x)=1/(1+e^{-x})$
+			\item RELU: $g({x})=\max(0,{x})$
+		\end{itemize}
 	\stopcols
-		
 	\begincols{.5\textwidth}
 	\begin{center}
 		\includegraphics[width=\textwidth]{2018-04-15-13-08-28.png}
@@ -103,57 +101,55 @@ $$h=\sigma(z)$$
 $$y=v^T h$$
 - Where $\sigma(v)$ denote the logistic sigma function applied elementwise to a vector $v$. Let $W$ be a matrix where the $(i,j)$ entry is the weight from visible unit $j$ to hidden unit $i$. 
 
+
 ### Backpropagation
 
 - Save the gradients and the gradient products that have already been computed to avoid computing multiple times
+- In a multiple layer network(Ignore constant terms)    
+\begin{center}
+	\includegraphics[width=\textwidth]{2018-04-15-13-09-15.png}
+\end{center}
 
-\begin{columns}
-	\begincols{.6\textwidth}
-	
-	- In a multiple layer network(Ignore constant terms)    
-	$$f(x)=w_{n}^{T}g (W_{n-1}^{T}g(W_{n-2}^{T}g\ (W_{1}^{T}g(x)))))$$
-	$$
-	\frac{\partial E}{\partial W_{k}}=\frac{\partial E}{\partial f_{k}}g(f_{k-1}(x))
-	$$
-	$$
-	=\frac{\partial E}{\partial f_{k+1}}\frac{\partial f_{k+1}}{\partial f_{k}}g(f_{k-1}(x))
-	$$
-	- Define: $f_{k}(x)=w_{k}^{T}g(f_{k-1}(x)),  f_{0}(x)=x$
-	\stopcols
-	\begincols{.4\textwidth}
-	\begin{center}
-		\includegraphics[width=\textwidth]{2018-04-15-13-09-15.png}
-	\end{center}
-	\stopcols
 \end{columns}
+
+### Backpropagation
+
+- Save the gradients and the gradient products that have already been computed to avoid computing multiple times
+- In a multiple layer network(Ignore constant terms)    
+		$$f(x)=w_{n}^{T}g (W_{n-1}^{T}g(W_{n-2}^{T}g\ (W_{1}^{T}g(x)))))$$
+		$$
+		\frac{\partial E}{\partial W_{k}}=\frac{\partial E}{\partial f_{k}}g(f_{k-1}(x))
+		=\frac{\partial E}{\partial f_{k+1}}\frac{\partial f_{k+1}}{\partial f_{k}}g(f_{k-1}(x))
+		$$
+- Define: $f_{k}(x)=w_{k}^{T}g(f_{k-1}(x)),  f_{0}(x)=x$
 
 
 ### Modules
 
 - Each layer can be seen as a module
 - Given input, return
-
 \begin{columns}
-	\begincols{.7\textwidth}
-	- Output $f_{a}(x)$
-	
-	- Network gradient $\frac{\partial f_{a}}{\partial x}$
-	
-	- Gradient of module parameters $\frac{\partial f_{a}}{\partial w_a}$
+	\begincols{.6\textwidth}
+	\begin{itemize}
+		\item \begin{itemize}
+			\item  Output $f_{a}(x)$
+			\item   Network gradient $\frac{\partial f_{a}}{\partial x}$
+			\item  Gradient of module parameters $\frac{\partial f_{a}}{\partial w_a}$
+		\end{itemize}
+	\end{itemize}
 	\stopcols
-	\begincols{.3\textwidth}
+	\begincols{.4\textwidth}
 	\begin{center}
 		\includegraphics[width=\textwidth]{2018-04-15-13-09-43.png}
 	\end{center}
 	\stopcols
 \end{columns}
 
-   
 - During backprop, propagate/update
-- Backpropagated gradient $\frac{\partial E}{\partial f_{a}}$
+	- Backpropagated gradient $\frac{\partial E}{\partial f_{a}}$
 $$\frac{\partial E}{\partial W_{k}}=\frac{\partial E}{\partial f_{k}} g(f_{k-1}( x))=\frac{\partial E}{\partial f_{k + 1} }\pp{f_{k+1}}{f_k}g(f_{k-1}(x))$$ 
-- Three term above are respectively Backprop signal; Network Gradient;  gradient of  parameters
-- Note: $\frac{\partial E}{\partial f_{k}}=\pp{E}{f_{k+1}} \pp{f_{k+1}}{{f_k}}$
+	- Three term above are respectively Backprop signal; Network Gradient;  gradient of  parameters
+	- Note: $\frac{\partial E}{\partial f_{k}}=\pp{E}{f_{k+1}} \pp{f_{k+1}}{{f_k}}$
 
 
 ### Multiple Inputs and Multiple Outputs
@@ -176,18 +172,27 @@ $$\frac{\partial E}{\partial f_{k-1}}=\pp{E}{f_{k+1}}\pp{f_{k+1}}{f_{k_1}}\pp{f_
 ### Loss functions
 
 - Regression:
-- Least squares $L(f)=(f(x)-y)^{2}$
-- L1 loss $L(f)=|f(x)-y|$
-- Huber loss $$L({f})=\begin{cases} \frac{1}{2} (f(x)-y)^2 & , |f(x)-y| \le \delta \\ \delta (|f(x)-y| -\frac{1}{2} \delta ) & \textrm{, otherwise} \end{cases}$$
-- Binary Classification
-- Hinge loss $L(f)=\max(1-yf(x),  0)$
-- Binomial log-likelihood $L(f)=\ln(1+\exp(-2yf(x))$
-- Cross-entropy $L(f)=-y^{*}\ln \sigma(f)-(1-y^{*})\ln(1- \sigma(f))$ ,
-- $y^{*}=(y+1)/2$
+	- Least squares $L(f)=(f(x)-y)^{2}$
+	- L1 loss $L(f)=|f(x)-y|$
+	- Huber loss $$L({f})=\begin{cases} \frac{1}{2} (f(x)-y)^2 & , |f(x)-y| \le \delta \\ \delta (|f(x)-y| -\frac{1}{2} \delta ) & \textrm{, otherwise} \end{cases}$$
 
 \begin{center}
-	\includegraphics[width=.2\textwidth]{2018-04-15-13-10-18.png}
+	\includegraphics[width=.42\textwidth]{2018-04-15-13-10-18.png}
 \end{center}
+
+
+### Loss functions
+
+- Regression:
+	- Least squares $L(f)=(f(x)-y)^{2}$
+	- L1 loss $L(f)=|f(x)-y|$
+	- Huber loss $$L({f})=\begin{cases} \frac{1}{2} (f(x)-y)^2 & , |f(x)-y| \le \delta \\ \delta (|f(x)-y| -\frac{1}{2} \delta ) & \textrm{, otherwise} \end{cases}$$
+- Binary Classification
+	- Hinge loss $L(f)=\max(1-yf(x),  0)$
+	- Binomial log-likelihood $L(f)=\ln(1+\exp(-2yf(x))$
+	- Cross-entropy $L(f)=-y^{*}\ln \sigma(f)-(1-y^{*})\ln(1- \sigma(f))$ ,
+	- $y^{*}=(y+1)/2$
+
 
 ### Multi-class: Softmax layer
 
@@ -205,10 +210,10 @@ $$
 
 - What if the function is non-differentiable?
 - Subgradients:
-- For convex $f(x)$ at $x_{0}$:  
-- If for any $y$
-$$f(y)\geq f(x)+g^T(y-x)$$
-- $g$ is called a subgradient
+	- For convex $f(x)$ at $x_{0}$:  
+	- If for any $y$
+	$$f(y)\geq f(x)+g^T(y-x)$$
+	- $g$ is called a subgradient
 - Subdifferential: $\partial f$: set of all subgradients
 - Optimality condition: $0\in\partial f$
   
@@ -233,9 +238,9 @@ $$f(y)\geq f(x)+g^T(y-x)$$
 - Similar to gradient descent
 $$x^{(k+1)}=x^{(k)}-\alpha_k g^{(k)}$$
 - Step size rules:
-- Constant step size: $\alpha_k = \alpha$
-- Square summable: $\alpha_k\ge 0, \sum_{k=1}^{\infty} \alpha_k^2 < \infty, \sum_{k=1}^{\infty}\alpha_k =\infty$ 
-- Usually, a large constant that drops slowly after a long while . e.g. $\frac{100}{100+k}$
+	- Constant step size: $\alpha_k = \alpha$
+	- Square summable: $\alpha_k\ge 0, \sum_{k=1}^{\infty} \alpha_k^2 < \infty, \sum_{k=1}^{\infty}\alpha_k =\infty$ 
+	- Usually, a large constant that drops slowly after a long while . e.g. $\frac{100}{100+k}$
 
 ### Universal Approximation Theorems
 - Many universal approximation theorems proved in the $90s$
