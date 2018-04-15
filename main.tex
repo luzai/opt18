@@ -103,7 +103,8 @@
 	\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 	
-\title{Basic Feedforward Network}
+\title{Support Vector Machines
+vs Logistic Regression}
 
 \author[YingmingLi]{Yingming Li \\ yingming@zju.edu.cn}
 
@@ -130,450 +131,343 @@
 % }
 \begin{frame}[c]
 	\titlepage
-	Adapted from Prof. Fuxin Li's slides. 
+	\begin{center}
+		Adapted from Prof. Kevin Swersky's slides. 
+		
+	\end{center}
 \end{frame}
 
 \section{}\label{section}
 
-\begin{frame}{Linear Classifier and the Perceptron Algorithm}
+\begin{frame}{Logistic regression}
+
+\begin{center}
+\includegraphics[width=.9\textwidth]{2018-04-15-19-48-36.png}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Logistic regression}
 
 \begin{itemize}
 \item
-  \(f(x)=\sigma(w^T{x}+b)\)
+  Assign probability to each outcome \[P(y=1|x)=\sigma(w^{T}x+b)\]
 \item
-  Note: vector or matrix can be judged by context, e.g., here \(w\) and
-  \(x\) is vector.
+  Train to maximize likelihood
+  \[l(w)=-\Sigma_{n=1}^{N}\sigma(w^{T}x_{n}+b)^{y_{n}}(1-\sigma(w^{T}x_{n}+b))^{(1-y_{n})}\]
 \item
-  \(\sigma\): Sigmoid function \(\sigma(x)=\frac{1}{1+e^{-x}}\)
-\item
-  The connection to logistic regression:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    Assume binomial distribution with parameter \(\hat{p}\)
-  \item
-    Assume the logit transform is linear:
-    \[\log\frac{\hat{p}}{1-\hat{p}}=w^{{T}}x+b\]
-    \[\Rightarrow\ \hat{p}=\sigma(f(x))\]
-  \end{itemize}
+  Linear decision boundary (with \(y\) being \(0\) or 1)
+  \[y=I[w^{T}x+b\geq 0]\]
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Maximum Log-Likelihood}
+\begin{frame}{Support vector machines}
+
+\begin{center}
+\includegraphics[width=.7\textwidth]{2018-04-15-19-55-03.png}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Support vector machines}
 
 \begin{itemize}
 \tightlist
 \item
-  MLE of the binomial likelihood:
-\end{itemize}
-
-\[\sum_{i=1} ^{n} y_i^* \log \hat{p} + (1-{y}_{i}^{*})\log(1-\hat{p})\]
-
-where \({y}_{i}^{*}\in \{0,1\} =\frac{1+y_{i}}{2}\)
-
-\[\log\hat{p}=-\log(1+e^{-f(x)})\] \[\log(1-\hat{p})=-\log(1+e^{f(x)})\]
-\[{y}_{{i}}^{*}\log\hat{p}+(1-{y}_{i}^{*})\log(1-\hat{p})=-\log(1+e^{-yf(x)})\]
-
-\end{frame}
-
-\begin{frame}{Gradient descent optimization}
-
-\begin{itemize}
-\tightlist
-\item
-  Optimize \(w, b\) with gradient descent
-\end{itemize}
-
-\[\min_{w,b}\sum_{i}\log(1+e^{-y_{i}(w^{{T}}x_{i}+b)})\]
-
-\[\nabla w=\sum_{i}\frac{-{y}_{i}e^{-y_{i}(w^{{T}}x_{i}+b)}}{1+e^{-y_{i}(w^{{T}}x_{i}+b)}}x_{i}=\sum_{i}-{y}_{i}^{*}(1-\hat{p}(x_{i}))-(1-{y}_{i}^{*})\hat{p}(x_{i})x_{i}\]
-
-\[\nabla b=\sum_{i}\frac{-{y}_{i}e^{-y_{i}(w^{{T}}x_{i}+b)}}{1+e^{-y_{i}(w^{{T}}x_{i}+b)}}\]
-
-\end{frame}
-
-\begin{frame}{XOR problem and linear classifier}
-
-\begin{itemize}
-\item
-  4 points: \({X}=[(-1,-1),\ (-1,1),\ (1,-1),\ (1,1)]\)
-\item
-  \(Y=[-1, 1, 1, -1]\)
-\item
-  Try using binomial \(\log\)-likelihood loss: \[
-  \min_{w}\sum_{i}\log(1+e^{-y_{i}(w^{{T}}x_{i}+ b)})
+  Enforce a margin of separation \((\)here, \(y\in\{0,1\})\) \[
+  (2y_{n}-1)w^{T}x_{n}\geq 1,\ \forall n=1\ldots N
   \]
 \item
-  Gradient:
-  \[\nabla w=\sum_{i}\frac{-{y}_{i}e^{-y_{i}(w^{{T}}x_{i}+b)}}{1+e^{-{y}i(w^{{T}}x_{i}+b)}}x_{i}\]
-  \[\nabla b=\sum_{i}\frac{-{y}_{i}e^{-y_{i}(w^{{T}}x_{i}+b)}}{1+e^{-\mathcal{y}i(w^{{T}}x_{i}+b)}}\]
+  Train to find the maximum margin \[
+  \min\quad \frac{1}{2}||w||^{2}
+  \] \[
+  \textrm{s.t.}\quad (2y_{n}-1)(w^{T}x_{n}+b)\geq 1,\ \forall n=1\ldots N
+  \]
 \item
-  Try \(w=0, b=0\), what do you see?
+  Linear decision boundary \[
+  \hat{y}=I[w^{T}x+b\geq 0]
+  \]
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{With 1 hidden layer}
+\begin{frame}{Recap}
 
-\begin{columns}
-    \begincols{.5\textwidth}
-        \begin{itemize}
-            \item A hidden layer makes a nonlinear classifier
-            $$
-            f(x)=w^{{T}}g(W^{{T}}x+c)+b
-            $$
-            \item  ${g}$ needs to be nonlinear
-            \item Sigmoid: $\sigma(x)=1/(1+e^{-x})$
-            \item RELU: $g({x})=\max(0,{x})$
-        \end{itemize}
-    \stopcols
-    \begincols{.5\textwidth}
-    \begin{center}
-        \includegraphics[width=\textwidth]{2018-04-15-13-08-28.png}
-    \end{center}
-    \stopcols
-        
-\end{columns}
+\begin{itemize}
+\item
+  Logistic regression focuses on maximizing the probability of the data.
+  The farther the data lies from the separating hyperplane (on the
+  correct side), the happier LR is.
+\item
+  An SVM tries to find the separating hyperplane that maximizes the
+  distance of the closest points to the margin (the support vectors). If
+  a point is not a support vector, it doesn't really matter.
+\end{itemize}
 
 \end{frame}
 
-\begin{frame}{Taking gradient}
+\begin{frame}{A different take}
 
-\[
-\min_{W,w}E(f)=\sum_{i}L(f(x_{i}),y_{i})
+\begin{itemize}
+\item
+  Remember, in this example \(y\in\{0,1\}\)
+\item
+  Another take on the LR decision function uses the probabilities
+  instead:
+\end{itemize}
+
+\[\hat{y}=\left\{\begin{array}{ll}
+1 & \text{if}\ P(y=1|x)\geq P(y=0|x)\\
+0 & \text{otherwise}
+\end{array}\right.\] \[
+P(y=1|x)\propto\exp(w^{T}x+b)
 \] \[
-f(x)=w^{T}g(W^{T}x+c)+b
+P(y=0|x)\propto 1
 \]
 
+\end{frame}
+
+\begin{frame}{A different take}
+
 \begin{itemize}
 \item
-  What is \(\frac{\partial E}{\partial W}\) ?
+  What if we don't care about getting the right probability, we just
+  want to make the right decision?
 \item
-  Consider chain rule: \(\frac{dz}{dx}=\frac{dz}{dy}\frac{dy}{dx}\)
+  We can express this as a constraint on the likelihood ratio, \[
+  \frac{P(y=1|x)}{P(y=0|x)}\underline{>}C
+  \]
+\item
+  For some arbitrary constant \(c>1.\)
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Note: Vectorized Computations}
+\begin{frame}{A different take}
 
 \begin{itemize}
 \tightlist
 \item
-  The computations performed by a network. \[z_i = \sum_{i} W_{ij} x_j\]
-  \[h_i=\sigma(z_i)\] \[y=\sum_i v_i h_i\]
+  Taking the \(\log\) of both sides, \[
+  \log(P(y=1|x))-\log(P(y=0|x))\geq\log(c)
+  \]
 \item
-  Write them in terms of matrix and vector operations.
+  and plugging in the definition of \(P,\) \[
+  w^{T}x+b-0\underline{>}\log(c)
+  \] \[
+  \Rightarrow(w^{T}x+b)\underline{>}\log(c)
+  \]
 \item
-  Note: judge vector or matrix by context \[z=Wx\] \[h=\sigma(z)\]
-  \[y=v^T h\]
-\item
-  Where \(\sigma(v)\) denote the logistic sigma function applied
-  elementwise to a vector \(v\). Let \(W\) be a matrix where the
-  \((i,j)\) entry is the weight from visible unit \(j\) to hidden unit
-  \(i\).
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Backpropagation}
-
-\begin{itemize}
-\tightlist
-\item
-  Save the gradients and the gradient products that have already been
-  computed to avoid computing multiple times
-\item
-  In a multiple layer network(Ignore constant terms)\\
-
-  \begin{center}
-  \includegraphics[width=\textwidth]{2018-04-15-13-09-15.png}
-  \end{center}
-\end{itemize}
-
-\textbackslash{}end\{columns\}
-
-\end{frame}
-
-\begin{frame}{Backpropagation}
-
-\begin{itemize}
-\tightlist
-\item
-  Save the gradients and the gradient products that have already been
-  computed to avoid computing multiple times
-\item
-  In a multiple layer network(Ignore constant terms)\\
-  \[f(x)=w_{n}^{T}g (W_{n-1}^{T}g(W_{n-2}^{T}g\ (W_{1}^{T}g(x)))))\] \[
-      \frac{\partial E}{\partial W_{k}}=\frac{\partial E}{\partial f_{k}}g(f_{k-1}(x))
-      =\frac{\partial E}{\partial f_{k+1}}\frac{\partial f_{k+1}}{\partial f_{k}}g(f_{k-1}(x))
-      \]
-\item
-  Define: \(f_{k}(x)=w_{k}^{T}g(f_{k-1}(x)), f_{0}(x)=x\)
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Modules}
-
-\begin{itemize}
-\tightlist
-\item
-  Each layer can be seen as a module
-\item
-  Given input, return
-
-  \begin{columns}
-  \begincols{.6\textwidth}
-  \begin{itemize}
-      \item \begin{itemize}
-          \item  Output $f_{a}(x)$
-          \item   Network gradient $\frac{\partial f_{a}}{\partial x}$
-          \item  Gradient of module parameters $\frac{\partial f_{a}}{\partial w_a}$
-      \end{itemize}
-  \end{itemize}
-  \stopcols
-  \begincols{.4\textwidth}
-  \begin{center}
-      \includegraphics[width=\textwidth]{2018-04-15-13-09-43.png}
-  \end{center}
-  \stopcols
-  \end{columns}
-\item
-  During backprop, propagate/update
-
-  \begin{itemize}
-  \tightlist
-  \item
-    Backpropagated gradient \(\frac{\partial E}{\partial f_{a}}\)
-    \[\frac{\partial E}{\partial W_{k}}=\frac{\partial E}{\partial f_{k}} g(f_{k-1}( x))=\frac{\partial E}{\partial f_{k + 1} }\pp{f_{k+1}}{f_k}g(f_{k-1}(x))\]
-  \item
-    Three term above are respectively Backprop signal; Network Gradient;
-    gradient of parameters
-  \item
-    Note:
-    \(\frac{\partial E}{\partial f_{k}}=\pp{E}{f_{k+1}} \pp{f_{k+1}}{{f_k}}\)
-  \end{itemize}
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Multiple Inputs and Multiple Outputs}
-
-\[\frac{\partial E}{\partial f_{k-1}}=\pp{E}{f_{k+1}}\pp{f_{k+1}}{f_{k_1}}\pp{f_{k_1}}{f_{k-1}}+\pp{E}{f_{k+1}} \pp{f_{k+1}}{f_{k_2}}\pp{f_{k_2}}{f_{k-1}}\]
-
-\begin{center}
-    \includegraphics[width=.4\textwidth]{2018-04-15-13-10-08.png}
-\end{center}
-
-\end{frame}
-
-\begin{frame}{Different DAG structures}
-
-\begin{itemize}
-\tightlist
-\item
-  The backpropation algorithm would work for any DAGs
-\item
-  So one can imagine different architectures than the plain layerwise
-  one
-\end{itemize}
-
-\begin{center}
-    \includegraphics[width=.9\textwidth]{2018-04-14-00-19-13.png}
-\end{center}
-
-\end{frame}
-
-\begin{frame}{Loss functions}
-
-\begin{itemize}
-\tightlist
-\item
-  Regression:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    Least squares \(L(f)=(f(x)-y)^{2}\)
-  \item
-    L1 loss \(L(f)=|f(x)-y|\)
-  \item
-    Huber loss
-    \[L({f})=\begin{cases} \frac{1}{2} (f(x)-y)^2 & , |f(x)-y| \le \delta \\ \delta (|f(x)-y| -\frac{1}{2} \delta ) & \textrm{, otherwise} \end{cases}\]
-  \end{itemize}
-\end{itemize}
-
-\begin{center}
-    \includegraphics[width=.42\textwidth]{2018-04-15-13-10-18.png}
-\end{center}
-
-\end{frame}
-
-\begin{frame}{Loss functions}
-
-\begin{itemize}
-\tightlist
-\item
-  Regression:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    Least squares \(L(f)=(f(x)-y)^{2}\)
-  \item
-    L1 loss \(L(f)=|f(x)-y|\)
-  \item
-    Huber loss
-    \[L({f})=\begin{cases} \frac{1}{2} (f(x)-y)^2 & , |f(x)-y| \le \delta \\ \delta (|f(x)-y| -\frac{1}{2} \delta ) & \textrm{, otherwise} \end{cases}\]
-  \end{itemize}
-\item
-  Binary Classification
-
-  \begin{itemize}
-  \tightlist
-  \item
-    Hinge loss \(L(f)=\max(1-yf(x), 0)\)
-  \item
-    Binomial log-likelihood \(L(f)=\ln(1+\exp(-2yf(x))\)
-  \item
-    Cross-entropy
-    \(L(f)=-y^{*}\ln \sigma(f)-(1-y^{*})\ln(1- \sigma(f))\) ,
-  \item
-    \(y^{*}=(y+1)/2\)
-  \end{itemize}
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Multi-class: Softmax layer}
-
-\begin{itemize}
-\tightlist
-\item
-  Multi-class logistic loss function
-\end{itemize}
-
-\[P(y=j|x)=\frac{e^{x^Tw_j}}{\sum_{k=1}{K}e^{x^Tw_k}}\]
-
-\begin{itemize}
-\tightlist
-\item
-  \{\rm Log\}-likelihood:
-\item
-  Loss function is minus \(\log\)-likelihood \[
-  -\log P(y=j|x)=-x^{T}w_{\dot{j}}+\log\sum_{k}e^{x^{T}w_{k}}
+  \(c\) is arbitrary, so we pick it to satisfy \(\log(c)=1\) \[
+  w^{T}x+b\geq 1
   \]
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Subgradients}
+\begin{frame}{A different take}
 
 \begin{itemize}
-\tightlist
 \item
-  What if the function is non-differentiable?
+  This gives a feasibility problem (specifically the perceptron problem)
+  which may not have a unique solution.
 \item
-  Subgradients:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    For convex \(f(x)\) at \(x_{0}\):\\
-  \item
-    If for any \(y\) \[f(y)\geq f(x)+g^T(y-x)\]
-  \item
-    \(g\) is called a subgradient
-  \end{itemize}
-\item
-  Subdifferential: \(\partial f\): set of all subgradients
-\item
-  Optimality condition: \(0\in\partial f\)
-\end{itemize}
-
-\begin{center}
-    \includegraphics[width=.375\textwidth]{2018-04-15-13-10-32.png}
-\end{center}
-
-\end{frame}
-
-\begin{frame}{The RELU unit}
-
-\begin{itemize}
-\tightlist
-\item
-  \(f(x)=\max(x,0)\)
-\item
-  Convex
-\item
-  Non-differentiable
-\item
-  Subgradient:
-  \(\frac{\partial f}{\partial x}=\begin{cases} 1 &,x>0 \\ [0,1]&,x=0 \\ 0&,x<0 \end{cases}\)
-\end{itemize}
-
-\begin{center}
-    \includegraphics[width=.5\textwidth]{2018-04-15-13-10-48.png}
-\end{center}
-
-\end{frame}
-
-\begin{frame}{Subgradient descent}
-
-\begin{itemize}
-\tightlist
-\item
-  Similar to gradient descent \[x^{(k+1)}=x^{(k)}-\alpha_k g^{(k)}\]
-\item
-  Step size rules:
-
-  \begin{itemize}
-  \tightlist
-  \item
-    Constant step size: \(\alpha_k = \alpha\)
-  \item
-    Square summable:
-    \(\alpha_k\ge 0, \sum_{k=1}^{\infty} \alpha_k^2 < \infty, \sum_{k=1}^{\infty}\alpha_k =\infty\)
-  \item
-    Usually, a large constant that drops slowly after a long while .
-    e.g. \(\frac{100}{100+k}\)
-  \end{itemize}
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Universal Approximation Theorems}
-
-\begin{itemize}
-\tightlist
-\item
-  Many universal approximation theorems proved in the \(90s\)
-\item
-  Simple statement: for every continuous function, there exist a
-  function that can be approximated by a 1-hidden layer neural network
-  with arbitrarily high precision
-\end{itemize}
-
-\begin{center}
-    \includegraphics[width=\textwidth]{2018-04-15-13-11-16.png}
-\end{center}
-
-\end{frame}
-
-\begin{frame}{Universal Approximation Theorems}
-
-\begin{itemize}
-\tightlist
-\item
-  The approximation does not need many units if the function is kinda
-  nice. Let \[C_{f}=\int_{R_{d}}||\omega|||\tilde{f}(\omega)|d\omega\]
-\item
-  Then for a 1-hidden layer neural network with \(n\) hidden nodes, we
-  have for a finite ball with radius \(r\), \[
-  \int_{B_{r}}(f(x)-f_{n}(x))^{2}d \mu(x)\leq\frac{4r^{2}C_{f}^{2}}{n}
+  Instead, put a quadratic penalty on the weights to make the solution
+  unique: \[
+  \min\ \frac{1}{2}||w||^{2}
   \]
+  \[\textrm{s.t. }\ (2y_{n}-1)(w^{T}x_{n}+b)\geq 1, \forall n=1\ldots N\]
+\item
+  This gives us an SVM!
+\item
+  We derived an SVM by asking LR to make the right \emph{decisions}.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{The likelihood ratio}
+
+\begin{itemize}
+\tightlist
+\item
+  The key to this derivation is the likelihood ratio, \[
+  r=\frac{P(y=N|x)}{P(y=0|x)}
+  \] \[
+  \qquad=\frac{\exp(w^{T}x+b)}{1}
+  \] \[
+  \qquad=\exp(w^{T}x+b)
+  \]
+\item
+  We can think of a classifier as assigning some cost to \(r.\)
+\item
+  Different costs \(=\) different classifiers.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{LR cost}
+
+\begin{itemize}
+\tightlist
+\item
+  Pick\\
+
+  \begin{align*}
+  \textrm{cost}(r)&=\displaystyle \log(1+\frac{1}{r}) \\ 
+  &=\log(1+\exp(-(w^{T}x+b)))
+  \end{align*}
+\item
+  This is the LR objective (for a positive example)!
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{SVM with slack variables}
+
+If the data is not linearly separable, we can change the program to: \[
+\min\ \frac{1}{2}||w||^{2}+\sum_{n=1}^{N}\xi_{n}
+\]
+\[\textrm{s.t. }\ (2y_{n}-1)(w^{T}x_{n}+b)\geq 1-\xi_{n}, \forall n=1\ldots N\]
+\[
+\xi_{n}\geq 0,\ \forall n=1\ldots N
+\] Now if a point \(n\) is misclassified, we incur a cost of
+\(\xi_{n}\), it's distance to the margin.
+
+\end{frame}
+
+\begin{frame}{SVM with slack variables cost}
+
+\begin{itemize}
+\tightlist
+\item
+  Pick cost
+
+  \begin{align*}
+  \textrm{cost}(r) & = \max(0,1-\log(r))\\
+  &=\max(0,1-(w^{T}x+b))
+  \end{align*}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{LR cost vs SVM cost}
+
+Plotted in terms of \(r,\)
+
+\begin{center}
+\includegraphics[width=.9\textwidth]{2018-04-15-20-10-15.png}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{LR cost vs SVM cost}
+
+Plotted in terms of \(w^{T}x+b,\)
+
+\begin{center}
+\includegraphics[width=.9\textwidth]{2018-04-15-20-10-37.png}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Exploiting this connection}
+
+\begin{itemize}
+\item
+  We can now use this connection to derive extensions to each method.
+\item
+  These might seem obvious (maybe not) and that's usually a good thing.
+\item
+  The important point though is that they are \emph{principled}, rather
+  than just hacks. We can trust that they aren't doing anything crazy.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Kernel trick for LR}
+
+\begin{itemize}
+\item
+  Recall that in it's dual form, we can represent an SVM decision
+  boundary as: \[
+  w^{T}\phi(x)+b=\sum_{n=1}\alpha_{n}K(x,\ x_{n})=0
+  \] where \(\phi(x)\) is an \(\infty\)-dimensional basis expansion of
+  \(x.\)
+\item
+  Plugging this into the LR cost: \[
+  \log(1+\exp(-\sum_{n=1}^{N}\alpha_{n}K(x,\ x_{n})))
+  \]
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Multi-class SVMs}
+
+Recall for multi-class LR we have: \[
+P(y=i|x)=\frac{\exp(w_{i}^{T}x+b_{i})}{\sum_{k}\exp(w_{k}^{T}x+b_{k})}
+\]
+
+\end{frame}
+
+\begin{frame}{Multi-class SVMs}
+
+Suppose instead we just want the decision rule to satisfy: \[
+\frac{P(y=\dot{b}|x)}{P(y=k|x)}\geq c \quad \forall k\neq i
+\] Taking logs as before, this gives: \[
+w_{i}^{T}x-w_{k}^{T}x\geq 1 \quad \forall k\neq i
+\]
+
+\end{frame}
+
+\begin{frame}{Multi-class SVMs}
+
+\begin{itemize}
+\tightlist
+\item
+  This produces the following quadratic program:
+\end{itemize}
+
+\(\displaystyle \min \displaystyle \frac{1}{2}||w||^{2}\)
+\(\textrm{s.t. }\ (w_{y_{n}}^{T}x_{n}+b_{y_{n}})-(w_{k}^{T}x_{n}+b_{k})\geq 1, \forall n=1\ldots N, \forall k\neq y_{n}\)
+
+\end{frame}
+
+\begin{frame}{Take-home message}
+
+\begin{itemize}
+\item
+  Logistic regression and support vector machines are closely linked.
+\item
+  Both can be viewed as taking a probabilistic model and minimizing some
+  cost associated with misclassification based on the likelihood ratio.
+\item
+  This lets us analyze these classifiers in a decision theoretic
+  framework.
+\item
+  It also allows us to extend them in principled ways.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Which one to use?}
+
+\begin{itemize}
+\item
+  As always, depends on your problem.
+\item
+  LR gives calibrated probabilities that can be interpreted as
+  confidence in a decision.
+\item
+  LR gives us an unconstrained, smooth objective.
+\item
+  LR can be (straightforwardly) used within Bayesian models.
+\item
+  SVMs don't penalize examples for which the correct decision is made
+  with sufficient confidence. This may be good for generalization.
+\item
+  SVMs have a nice dual form, giving sparse solutions when using the
+  kernel trick (better scalability).
 \end{itemize}
 
 \end{frame}

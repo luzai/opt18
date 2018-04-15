@@ -1,265 +1,254 @@
 # 
 
-
-### Linear Classifier and the Perceptron Algorithm
-	
-- $f(x)=\sigma(w^T{x}+b)$ 
-- Note: vector or matrix can be judged by context, e.g., here $w$ and $x$ is vector.
-- $\sigma$: Sigmoid function $\sigma(x)=\frac{1}{1+e^{-x}}$
-
-- The connection to logistic regression:
-	- Assume binomial distribution with parameter $\hat{p}$
-	- Assume the logit transform is linear:
-$$\log\frac{\hat{p}}{1-\hat{p}}=w^{{T}}x+b$$
-$$\Rightarrow\ \hat{p}=\sigma(f(x))$$
-	 
-###  Maximum Log-Likelihood
-
-- MLE of the binomial likelihood:
-
-$$\sum_{i=1} ^{n} y_i^* \log \hat{p} + (1-{y}_{i}^{*})\log(1-\hat{p})$$
-
-where ${y}_{i}^{*}\in  \{0,1\} =\frac{1+y_{i}}{2}$
-
-$$\log\hat{p}=-\log(1+e^{-f(x)})$$
-$$\log(1-\hat{p})=-\log(1+e^{f(x)})$$
-$${y}_{{i}}^{*}\log\hat{p}+(1-{y}_{i}^{*})\log(1-\hat{p})=-\log(1+e^{-yf(x)})$$
-
-### Gradient descent optimization
-
-- Optimize $w, b$ with gradient descent
-
-$$\min_{w,b}\sum_{i}\log(1+e^{-y_{i}(w^{{T}}x_{i}+b)})$$
-
-$$\nabla w=\sum_{i}\frac{-{y}_{i}e^{-y_{i}(w^{{T}}x_{i}+b)}}{1+e^{-y_{i}(w^{{T}}x_{i}+b)}}x_{i}=\sum_{i}-{y}_{i}^{*}(1-\hat{p}(x_{i}))-(1-{y}_{i}^{*})\hat{p}(x_{i})x_{i}$$
-
-$$\nabla b=\sum_{i}\frac{-{y}_{i}e^{-y_{i}(w^{{T}}x_{i}+b)}}{1+e^{-y_{i}(w^{{T}}x_{i}+b)}}$$
+### Logistic regression
+\begin{center}
+\includegraphics[width=.9\textwidth]{2018-04-15-19-48-36.png}
+\end{center}
 
 
+### Logistic regression
 
-### XOR problem and linear classifier
+-  Assign probability to each outcome
+$$P(y=1|x)=\sigma(w^{T}x+b)$$
+-  Train to maximize likelihood
+$$l(w)=-\Sigma_{n=1}^{N}\sigma(w^{T}x_{n}+b)^{y_{n}}(1-\sigma(w^{T}x_{n}+b))^{(1-y_{n})}$$
 
-- 4 points: ${X}=[(-1,-1),\ (-1,1),\ (1,-1),\ (1,1)]$
+-  Linear decision boundary (with $y$ being $0$ or 1)
+$$y=I[w^{T}x+b\geq 0]$$
 
-- $Y=[-1, 1, 1, -1]$
+### Support vector machines
+\begin{center}
+\includegraphics[width=.7\textwidth]{2018-04-15-19-55-03.png}
+\end{center}
 
-- Try using binomial $\log$-likelihood loss:
-$$
-\min_{w}\sum_{i}\log(1+e^{-y_{i}(w^{{T}}x_{i}+ b)})
-$$
-- Gradient:
-$$\nabla w=\sum_{i}\frac{-{y}_{i}e^{-y_{i}(w^{{T}}x_{i}+b)}}{1+e^{-{y}i(w^{{T}}x_{i}+b)}}x_{i}$$
-$$\nabla b=\sum_{i}\frac{-{y}_{i}e^{-y_{i}(w^{{T}}x_{i}+b)}}{1+e^{-\mathcal{y}i(w^{{T}}x_{i}+b)}}$$
-
-- Try $w=0, b=0$,  what do you see?
-
-### With 1 hidden layer
-
-\begin{columns}
-	\begincols{.5\textwidth}
-		\begin{itemize}
-			\item A hidden layer makes a nonlinear classifier
-			$$
-			f(x)=w^{{T}}g(W^{{T}}x+c)+b
-			$$
-			\item  ${g}$ needs to be nonlinear
-			\item Sigmoid: $\sigma(x)=1/(1+e^{-x})$
-			\item RELU: $g({x})=\max(0,{x})$
-		\end{itemize}
-	\stopcols
-	\begincols{.5\textwidth}
-	\begin{center}
-		\includegraphics[width=\textwidth]{2018-04-15-13-08-28.png}
-	\end{center}
-	\stopcols
-		
-\end{columns}
-
-
-### Taking gradient
-$$
-\min_{W,w}E(f)=\sum_{i}L(f(x_{i}),y_{i})
-$$
-$$
-f(x)=w^{T}g(W^{T}x+c)+b
-$$
-
-- What is $\frac{\partial E}{\partial W}$ ?
-
-- Consider chain rule: $\frac{dz}{dx}=\frac{dz}{dy}\frac{dy}{dx}$
-
-### Note: Vectorized Computations
  
-- The computations performed by a network. 
-$$z_i = \sum_{i} W_{ij} x_j$$
-$$h_i=\sigma(z_i)$$
-$$y=\sum_i v_i h_i$$
-- Write them in terms of matrix and vector operations. 
-- Note: judge vector or matrix by context 
-$$z=Wx$$
-$$h=\sigma(z)$$
-$$y=v^T h$$
-- Where $\sigma(v)$ denote the logistic sigma function applied elementwise to a vector $v$. Let $W$ be a matrix where the $(i,j)$ entry is the weight from visible unit $j$ to hidden unit $i$. 
 
 
-### Backpropagation
 
-- Save the gradients and the gradient products that have already been computed to avoid computing multiple times
-- In a multiple layer network(Ignore constant terms)    
-\begin{center}
-	\includegraphics[width=\textwidth]{2018-04-15-13-09-15.png}
-\end{center}
+### Support vector machines
 
-\end{columns}
-
-### Backpropagation
-
-- Save the gradients and the gradient products that have already been computed to avoid computing multiple times
-- In a multiple layer network(Ignore constant terms)    
-		$$f(x)=w_{n}^{T}g (W_{n-1}^{T}g(W_{n-2}^{T}g\ (W_{1}^{T}g(x)))))$$
-		$$
-		\frac{\partial E}{\partial W_{k}}=\frac{\partial E}{\partial f_{k}}g(f_{k-1}(x))
-		=\frac{\partial E}{\partial f_{k+1}}\frac{\partial f_{k+1}}{\partial f_{k}}g(f_{k-1}(x))
-		$$
-- Define: $f_{k}(x)=w_{k}^{T}g(f_{k-1}(x)),  f_{0}(x)=x$
-
-
-### Modules
-
-- Each layer can be seen as a module
-- Given input, return
-\begin{columns}
-	\begincols{.6\textwidth}
-	\begin{itemize}
-		\item \begin{itemize}
-			\item  Output $f_{a}(x)$
-			\item   Network gradient $\frac{\partial f_{a}}{\partial x}$
-			\item  Gradient of module parameters $\frac{\partial f_{a}}{\partial w_a}$
-		\end{itemize}
-	\end{itemize}
-	\stopcols
-	\begincols{.4\textwidth}
-	\begin{center}
-		\includegraphics[width=\textwidth]{2018-04-15-13-09-43.png}
-	\end{center}
-	\stopcols
-\end{columns}
-
-- During backprop, propagate/update
-	- Backpropagated gradient $\frac{\partial E}{\partial f_{a}}$
-$$\frac{\partial E}{\partial W_{k}}=\frac{\partial E}{\partial f_{k}} g(f_{k-1}( x))=\frac{\partial E}{\partial f_{k + 1} }\pp{f_{k+1}}{f_k}g(f_{k-1}(x))$$ 
-	- Three term above are respectively Backprop signal; Network Gradient;  gradient of  parameters
-	- Note: $\frac{\partial E}{\partial f_{k}}=\pp{E}{f_{k+1}} \pp{f_{k+1}}{{f_k}}$
-
-
-### Multiple Inputs and Multiple Outputs
-
-$$\frac{\partial E}{\partial f_{k-1}}=\pp{E}{f_{k+1}}\pp{f_{k+1}}{f_{k_1}}\pp{f_{k_1}}{f_{k-1}}+\pp{E}{f_{k+1}} \pp{f_{k+1}}{f_{k_2}}\pp{f_{k_2}}{f_{k-1}}$$
-
-\begin{center}
-	\includegraphics[width=.4\textwidth]{2018-04-15-13-10-08.png}
-\end{center}
-
-###  Different DAG structures
-
-- The backpropation algorithm would work for any DAGs
-- So one can imagine different architectures than the plain layerwise one
-
-\begin{center}
-	\includegraphics[width=.9\textwidth]{2018-04-14-00-19-13.png}
-\end{center}
-
-### Loss functions
-
-- Regression:
-	- Least squares $L(f)=(f(x)-y)^{2}$
-	- L1 loss $L(f)=|f(x)-y|$
-	- Huber loss $$L({f})=\begin{cases} \frac{1}{2} (f(x)-y)^2 & , |f(x)-y| \le \delta \\ \delta (|f(x)-y| -\frac{1}{2} \delta ) & \textrm{, otherwise} \end{cases}$$
-
-\begin{center}
-	\includegraphics[width=.42\textwidth]{2018-04-15-13-10-18.png}
-\end{center}
-
-
-### Loss functions
-
-- Regression:
-	- Least squares $L(f)=(f(x)-y)^{2}$
-	- L1 loss $L(f)=|f(x)-y|$
-	- Huber loss $$L({f})=\begin{cases} \frac{1}{2} (f(x)-y)^2 & , |f(x)-y| \le \delta \\ \delta (|f(x)-y| -\frac{1}{2} \delta ) & \textrm{, otherwise} \end{cases}$$
-- Binary Classification
-	- Hinge loss $L(f)=\max(1-yf(x),  0)$
-	- Binomial log-likelihood $L(f)=\ln(1+\exp(-2yf(x))$
-	- Cross-entropy $L(f)=-y^{*}\ln \sigma(f)-(1-y^{*})\ln(1- \sigma(f))$ ,
-	- $y^{*}=(y+1)/2$
-
-
-### Multi-class: Softmax layer
-
-- Multi-class logistic loss function
-
-$$P(y=j|x)=\frac{e^{x^Tw_j}}{\sum_{k=1}{K}e^{x^Tw_k}}$$
-
-- {\rm Log}-likelihood:
-- Loss function is minus $\log$-likelihood
+-  Enforce a margin of separation $($here, $y\in\{0,1\})$
 $$
--\log P(y=j|x)=-x^{T}w_{\dot{j}}+\log\sum_{k}e^{x^{T}w_{k}}
+(2y_{n}-1)w^{T}x_{n}\geq 1,\ \forall n=1\ldots N
 $$
-
-### Subgradients
-
-- What if the function is non-differentiable?
-- Subgradients:
-	- For convex $f(x)$ at $x_{0}$:  
-	- If for any $y$
-	$$f(y)\geq f(x)+g^T(y-x)$$
-	- $g$ is called a subgradient
-- Subdifferential: $\partial f$: set of all subgradients
-- Optimality condition: $0\in\partial f$
-  
-\begin{center}
-	\includegraphics[width=.375\textwidth]{2018-04-15-13-10-32.png}
-\end{center}
-
-### The RELU unit
-
-- $f(x)=\max(x,0)$
-- Convex
-- Non-differentiable
-- Subgradient: $\frac{\partial f}{\partial x}=\begin{cases} 1 &,x>0 \\ [0,1]&,x=0 \\ 0&,x<0  \end{cases}$
-
-
-\begin{center}
-	\includegraphics[width=.5\textwidth]{2018-04-15-13-10-48.png}
-\end{center}
-
-### Subgradient descent
-
-- Similar to gradient descent
-$$x^{(k+1)}=x^{(k)}-\alpha_k g^{(k)}$$
-- Step size rules:
-	- Constant step size: $\alpha_k = \alpha$
-	- Square summable: $\alpha_k\ge 0, \sum_{k=1}^{\infty} \alpha_k^2 < \infty, \sum_{k=1}^{\infty}\alpha_k =\infty$ 
-	- Usually, a large constant that drops slowly after a long while . e.g. $\frac{100}{100+k}$
-
-### Universal Approximation Theorems
-- Many universal approximation theorems proved in the $90s$
-- Simple statement: for every continuous function, there exist a function that can be approximated by a 1-hidden layer neural network with arbitrarily high precision
-
-\begin{center}
-	\includegraphics[width=\textwidth]{2018-04-15-13-11-16.png}
-\end{center}
-
-### Universal Approximation Theorems
-
-- The approximation does not need many units if the function is kinda nice. Let
-$$C_{f}=\int_{R_{d}}||\omega|||\tilde{f}(\omega)|d\omega$$
-- Then for a 1-hidden layer neural network with $n$ hidden nodes, we have for a finite ball with radius $r$, 
+-  Train to find the maximum margin
 $$
-\int_{B_{r}}(f(x)-f_{n}(x))^{2}d \mu(x)\leq\frac{4r^{2}C_{f}^{2}}{n}
+\min\quad \frac{1}{2}||w||^{2}
+$$
+$$
+\textrm{s.t.}\quad (2y_{n}-1)(w^{T}x_{n}+b)\geq 1,\ \forall n=1\ldots N
+$$
+- Linear decision boundary
+$$
+\hat{y}=I[w^{T}x+b\geq 0]
 $$
 
 
+### Recap
+
+- Logistic regression focuses on maximizing the
+probability of the data. The farther the data lies from the separating hyperplane (on the correct side), the happier LR is.
+
+- An SVM tries to find the separating hyperplane that maximizes the distance of the closest points to the margin (the support vectors). If a point is not a
+support vector, it doesn't really matter.
+
+### A different take
+
+-  Remember, in this example $y\in\{0,1\}$
+
+- Another take on the LR decision function uses the
+probabilities instead:
+
+$$\hat{y}=\left\{\begin{array}{ll}
+1 & \text{if}\ P(y=1|x)\geq P(y=0|x)\\
+0 & \text{otherwise}
+\end{array}\right.$$
+$$
+P(y=1|x)\propto\exp(w^{T}x+b)
+$$
+$$
+P(y=0|x)\propto 1
+$$
 
 
+### A different take
+
+- What if we don't care about getting the right
+probability, we just want to make the right decision?
+
+- We can express this as a constraint on the likelihood ratio,
+$$
+\frac{P(y=1|x)}{P(y=0|x)}\underline{>}C
+$$
+- For some arbitrary constant $c>1.$
+
+
+
+### A different take
+
+- Taking the $\log$ of both sides,
+$$
+\log(P(y=1|x))-\log(P(y=0|x))\geq\log(c)
+$$
+-  and plugging in the definition of $P,$
+$$
+w^{T}x+b-0\underline{>}\log(c)
+$$
+$$
+\Rightarrow(w^{T}x+b)\underline{>}\log(c)
+$$
+- $c$ is arbitrary, so we pick it to satisfy $\log(c)=1$
+$$
+w^{T}x+b\geq 1
+$$
+
+
+### A different take
+
+- This gives a feasibility problem (specifically the perceptron problem) which may not have a unique solution.
+
+- Instead, put a quadratic penalty on the weights to make the solution unique:
+$$
+\min\ \frac{1}{2}||w||^{2}
+$$
+$$\textrm{s.t. }\ (2y_{n}-1)(w^{T}x_{n}+b)\geq 1, \forall n=1\ldots N$$
+
+- This gives us an SVM!
+
+- We derived an SVM by asking LR to make the right _decisions_.
+
+###  The likelihood ratio
+
+- The key to this derivation is the likelihood ratio,
+$$
+r=\frac{P(y=N|x)}{P(y=0|x)}
+$$
+$$
+\qquad=\frac{\exp(w^{T}x+b)}{1}
+$$
+$$
+\qquad=\exp(w^{T}x+b)
+$$
+- We can think of a classifier as assigning some cost to $r.$
+- Different costs $=$ different classifiers.
+
+###  LR cost
+
+-  Pick  
+\begin{align*}
+	\textrm{cost}(r)&=\displaystyle \log(1+\frac{1}{r}) \\ 
+	&=\log(1+\exp(-(w^{T}x+b)))
+\end{align*}
+
+- This is the LR objective (for a positive example)!
+
+### SVM with slack variables
+
+If the data is not linearly separable, we can change the program to:
+$$
+\min\ \frac{1}{2}||w||^{2}+\sum_{n=1}^{N}\xi_{n}
+$$
+$$\textrm{s.t. }\ (2y_{n}-1)(w^{T}x_{n}+b)\geq 1-\xi_{n}, \forall n=1\ldots N$$
+$$
+\xi_{n}\geq 0,\ \forall n=1\ldots N
+$$
+Now if a point $n$ is misclassified, we incur a cost of $\xi_{n}$, it's distance to the margin.
+
+
+
+### SVM with slack variables cost
+
+-  Pick cost 
+\begin{align*}
+	\textrm{cost}(r) & = \max(0,1-\log(r))\\
+	&=\max(0,1-(w^{T}x+b))
+\end{align*} 
+
+### LR cost vs SVM cost
+
+Plotted in terms of $r,$
+\begin{center}
+\includegraphics[width=.9\textwidth]{2018-04-15-20-10-15.png}
+\end{center}
+### LR cost vs SVM cost
+
+Plotted in terms of $w^{T}x+b,$
+\begin{center}
+\includegraphics[width=.9\textwidth]{2018-04-15-20-10-37.png}
+\end{center}
+### Exploiting this connection
+
+- We can now use this connection to derive extensions to each method.
+
+- These might seem obvious (maybe not) and that's usually a good thing.
+
+- The important point though is that they are
+_principled_, rather than just hacks. We can trust that they aren't doing anything crazy.
+
+### Kernel trick for LR
+
+- Recall that in it's dual form, we can represent an SVM decision boundary as:
+$$
+w^{T}\phi(x)+b=\sum_{n=1}\alpha_{n}K(x,\ x_{n})=0
+$$
+where $\phi(x)$ is an $\infty$-dimensional basis expansion of $x.$
+
+- Plugging this into the LR cost:
+$$
+\log(1+\exp(-\sum_{n=1}^{N}\alpha_{n}K(x,\ x_{n})))
+$$
+
+
+### Multi-class SVMs
+
+Recall for multi-class LR we have:
+$$
+P(y=i|x)=\frac{\exp(w_{i}^{T}x+b_{i})}{\sum_{k}\exp(w_{k}^{T}x+b_{k})}
+$$
+
+### Multi-class SVMs
+
+Suppose instead we just want the decision rule to satisfy:
+$$
+\frac{P(y=\dot{b}|x)}{P(y=k|x)}\geq c \quad \forall k\neq i
+$$
+Taking logs as before, this gives:
+$$
+w_{i}^{T}x-w_{k}^{T}x\geq 1 \quad \forall k\neq i
+$$
+
+### Multi-class SVMs
+
+- This produces the following quadratic program:
+
+$\displaystyle \min \displaystyle \frac{1}{2}||w||^{2}$
+$\textrm{s.t. }\ (w_{y_{n}}^{T}x_{n}+b_{y_{n}})-(w_{k}^{T}x_{n}+b_{k})\geq 1, \forall n=1\ldots N, \forall k\neq y_{n}$
+
+### Take-home message
+
+- Logistic regression and support vector machines are closely linked.
+
+- Both can be viewed as taking a probabilistic model and minimizing some cost associated with
+misclassification based on the likelihood ratio.
+
+- This lets us analyze these classifiers in a decision theoretic framework.
+
+- It also allows us to extend them in principled ways.
+
+
+
+### Which one to use?
+
+- As always, depends on your problem.
+
+- LR gives calibrated probabilities that can be interpreted as confidence in a decision.
+
+- LR gives us an unconstrained, smooth objective.
+
+- LR can be (straightforwardly) used within Bayesian models.
+
+- SVMs don't penalize examples for which the correct decision is made with sufficient confidence. This may be good for
+generalization.
+
+- SVMs have a nice dual form, giving sparse solutions when using the kernel trick (better scalability).
 
