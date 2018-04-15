@@ -1,8 +1,7 @@
 ## vs code
 node_modules/
 ~$*
-.DS_Store
-opt-release*
+.DS_Store   
 
 ## Core latex/pdflatex auxiliary files:
 *.aux

@@ -2,152 +2,536 @@
 % !TeX encoding = utf8
 % !TeX program = xelatex
 % !BIB program = bibtex
-% !TeX spellcheck = en_US
-% !TeX encoding = utf8
-% !TeX program = xelatex
-% !BIB program = bibtex
 
-\documentclass[12pt]{article}
-	\usepackage{amsmath,amssymb,amsfonts}
-	\usepackage{latexsym}
-	\usepackage{graphicx}
-	\usepackage{verbatim}
-	\usepackage{booktabs}
-	\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
-	\usepackage{todonotes} % Required for the boxes that questions appear in
-	\usepackage{mmstyles}
-	% \newcommand{\mybox}[1]
-	% {
-	% \par\noindent
-	% \todo[inline, backgroundcolor=SkyBlue!40,bordercolor=SkyBlue,size=\large]{\textbf{#1}}
-	% }
+\documentclass[12pt,notes,mathserif]{beamer}
+% \documentclass[draft]{beamer}	
+\usetheme{Singapore}
+% \usetheme{Hannover}
+%\usepackage{pgfpages}
+%\setbeameroption{show notes on second screen}
 
-	\usepackage[top=25mm, bottom=25mm, left=18mm, right=18mm]{geometry}
+\usepackage[british]{babel}
+\usepackage{graphicx,hyperref,url}
+\usepackage{mmstyles,bm,ulem}
 
-	\usepackage{fancyhdr}
-	\pagestyle{fancy}
-	\lhead{Linear Optimization Prj \#1}
-	\chead{}
-	\rhead{Due: May 4, 23:59:59}
-	\renewcommand{\headrulewidth}{0.3pt}
-	\usepackage[backend=biber]{biblatex} 
-	\bibliography{ref.bib}
-	\addbibresource{ref.bib}
-	\usepackage{listings}
-	\title{\textbf{Linear Optimization Prj \#1}}
-	\author{Due: May 4, 23:59:59}
-	\date{}
+\usepackage{listings}
+\usefonttheme[onlymath]{serif}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+% \setCJKfamilyfont{hei}{SimHei}
+% \setCJKmainfont[BoldFont=Arial, ItalicFont=Arial]{Arial}
+% \pgfdeclareimage[width=\paperwidth,height=\paperheight]{bg}{background}
+% \setbeamertemplate{background}{\pgfuseimage{bg}}
+%% columns
+\newcommand{\begincols}[1]{\begin{column}{#1}}
+\newcommand{\stopcols}{\end{column}}
+\newcommand{\pp}[2]{\frac{\partial #1}{\partial #2}}
+% \usepackage[backend=biber]{biblatex}
+% \bibliography{./ref.bib}
+%\addbibresource{ref.bib}
+\usepackage{indentfirst}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{rotating}
+\usepackage{subfigure}
+\usepackage{tabu}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{setspace}
+\usepackage{amsfonts}
+\usepackage{appendix}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{geometry}
+% \setCJKfamilyfont{cjkhwxk}{SimSun}
+% \newcommand*{\cjkhwxk}{\CJKfamily{cjkhwxk}}
+%\newfontfamily{\consolas}{Consolas}
+%\newfontfamily{\monaco}{Monaco}
+%\setmonofont[Mapping={}]{Consolas}	%英文引号之类的正常显示，相当于设置英文字体
+%\setsansfont{Consolas} %设置英文字体 Monaco, Consolas,  Fantasque Sans Mono
+% \setmainfont{Times New Roman}
+% \newfontfamily{\consolas}{Times New Roman}
+% \newfontfamily{\monaco}{Arial}
+% \setCJKmainfont{Times New Roman}
+%\setmainfont{MONACO.TTF}
+%\setsansfont{MONACO.TTF}
+\newcommand{\verylarge}{\fontsize{60pt}{\baselineskip}\selectfont}  
+\newcommand{\chuhao}{\fontsize{44.9pt}{\baselineskip}\selectfont}  
+\newcommand{\xiaochu}{\fontsize{38.5pt}{\baselineskip}\selectfont}  
+\newcommand{\yihao}{\fontsize{27.8pt}{\baselineskip}\selectfont}  
+\newcommand{\xiaoyi}{\fontsize{25.7pt}{\baselineskip}\selectfont}  
+\newcommand{\erhao}{\fontsize{23.5pt}{\baselineskip}\selectfont}  
+\newcommand{\xiaoerhao}{\fontsize{19.3pt}{\baselineskip}\selectfont} 
+\newcommand{\sihao}{\fontsize{14pt}{\baselineskip}\selectfont}      % 字号设置  
+\newcommand{\xiaosihao}{\fontsize{12pt}{\baselineskip}\selectfont}  % 字号设置  
+\newcommand{\wuhao}{\fontsize{10.5pt}{\baselineskip}\selectfont}    % 字号设置  
+\newcommand{\xiaowuhao}{\fontsize{9pt}{\baselineskip}\selectfont}   % 字号设置  
+\newcommand{\liuhao}{\fontsize{7.875pt}{\baselineskip}\selectfont}  % 字号设置  
+\newcommand{\qihao}{\fontsize{5.25pt}{\baselineskip}\selectfont}    % 字号设置 
 
-	\usepackage{multirow}
+\graphicspath{{./fig/}}
 
-	\newcommand{\abs}[1]{\left| #1 \right| }
-	\newcommand{\norm}[1]{\left\| {#1} \right\|}
-	\newcommand{\red}[1]{{\color{red}{#1}}}
-	\usepackage{titlesec,titletoc} 
-	\renewcommand*{\thesection}{\color{NavyBlue} \arabic{section} } 
-	\renewcommand*{\thesubsection}{\color{SkyBlue} \arabic{section} }
-	\titleformat{\section}[hang]{\bfseries}{\thesection}{1em}{}{}
-	\titleformat{\subsection}[hang]{\itshape}{\thesubsection}{1em}{}{}
-	
-	% \setlength{\parsep}{0em}
-	% \setlength{\itemsep}{0pt}
-	\setlength{\parskip}{.33em}
-	\setlength{\parindent}{0em}	
+% \setbeamertemplate{footnote}{%
+%   \hangpara{2em}{1}%
+%   \makebox[2em][l]{\insertfootnotemark}\footnotesize\insertfootnotetext\par%
+% }
 
-	\providecommand{\tightlist}{%
+\definecolor{cred}{rgb}{0.6,0,0}
+\definecolor{cgreen}{rgb}{0.25,0.5,0.35}
+\definecolor{cpurple}{rgb}{0.5,0,0.35}
+\definecolor{cdocblue}{rgb}{0.25,0.35,0.75}
+\definecolor{cdark}{rgb}{0.95,1.0,1.0}
+\lstset{
+	language=R,
+	numbers=left,
+	numberstyle=\tiny\color{black},
+	keywordstyle=\color{cpurple}\consolas,
+	commentstyle=\color{cgreen}\consolas,
+	stringstyle=\color{cred}\consolas,
+	frame=single,
+	escapeinside=``,
+	xleftmargin=1em,
+	xrightmargin=1em, 
+	backgroundcolor=\color{cdark},
+	aboveskip=1em,
+	breaklines=true,
+	tabsize=3
+} 
+
+\providecommand{\tightlist}{%
 	\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-  
+
+	
+\title{Basic Feedforward Network}
+
+\author[YingmingLi]{Yingming Li \\ yingming@zju.edu.cn}
+
+\institute[DSERC, ZJU]{Data Science \& Engineering Research Center, ZJU}
+
+\date[\today]{\today}
+
 \begin{document}
-% \vspace{-1em}
-\maketitle
 
-\textbf{\color{NavyBlue}Instruction:} Write a report and complete code. Download the code from ftp (10.13.71.168). Upload
-report and code to ftp (10.13.72.84) or send email to 907682447@qq.com.
+\AtBeginSection[]
+{
+	\begin{frame}
+		\frametitle{Outline}
+		\tableofcontents[currentsection]
+	\end{frame}
+}
+
+% \AtBeginSubsection[2-]
+% {
+%    \begin{frame}
+%        \frametitle{Outline}
+%        \tableofcontents[currentsection]
+%    \end{frame}
+% }
+\begin{frame}[c]
+	\titlepage
+\end{frame}
+
+\section{}\label{section}
+
+\begin{frame}{Linear Classifier and the Perceptron Algorithm}
+
 \begin{itemize}
-	\tightlist
-	\item The same naming rule as homework2, i.e., prj1\_31xxx.pdf, prj1\_31xxx.zip or rar.
-    \item May 5 is the day for exam, please upload project before exam
-	\item Upload:
-	      \begin{itemize}
-		      \tightlist
-		      \item    Address: 10.13.72.84
-		      \item Username: opt; Passwd:  opt18; Port: 21
-	      \end{itemize}
-	\item Download:
-	      \begin{itemize}
-		      \tightlist
-		      \item Address: 10.13.71.168
-		      \item  Username: opt; Passwd:  opt18; Port: 21
-	      \end{itemize}
+\item
+  \(f(x)=\sigma(w^T{x}+b)\)
+\item
+  Note: vector or matrix can be judged by context, e.g., here \(w\) and
+  \(x\) is vector.
+\item
+  \(\sigma\): Sigmoid function \(\sigma(x)=\frac{1}{1+e^{-x}}\)
+\item
+  The connection to logistic regression:
+\item
+  Assume binomial distribution with parameter \(\hat{p}\)
+\item
+  Assume the logit transform is linear:
+  \[\log\frac{\hat{p}}{1-\hat{p}}=w^{{T}}x+b\]
+  \[\Rightarrow\ \hat{p}=\sigma(f(x))\]
 \end{itemize}
 
-\section{Abstract} 
-Machine learning algorithms are increasingly being applied in security-related tasks such as spam and
-malware detection, although their security properties against deliberate attacks have not yet been
-widely understood. Intelligent and adaptive attackers may indeed exploit specific vulnerabilities
-exposed by machine learning techniques to violate system security. Being robust to adversarial
-data manipulation is thus an important, additional requirement for machine learning algorithms to
-successfully operate in adversarial settings. In this project, we will reproduce paper \cite{biggio2011support}. 
+\end{frame}
 
-\section{Basic}
+\begin{frame}{Maximum Log-Likelihood}
+
 \begin{itemize}
-    \item Read paper \cite{biggio2011support}. For adversarial label flips, we can further ref. to \cite{xiao2015support}. Read code, ‘main.py’,
-    ‘data.py’ and ‘svm.py’. The code is developed under python3.6 and partially tested under
-    python2.7, i.e.,the code are supposed to be compatible with both environments.
-    \item Install ’cvxopt’ via conda or pip. Run ‘main.py’ with exp=’toy’ and kernel=’linear’. We may
-    see something like fig \ref{fig:linear}. 
-    % Run ‘main.py’ with exp=’toy’ and kernel=’rbf’, the potential results are shown in fig \ref{fig:rbf}.
+\tightlist
+\item
+  MLE of the binomial likelihood:
+\end{itemize}
 
-    \begin{figure}
-        \centering 
-        \includegraphics[width=.45\textwidth]{./fig/linear/ori.png} 
-        \includegraphics[width=.45\textwidth]{./fig/linear/ln.png} \\
-        \includegraphics[width=.45\textwidth]{./fig/linear/ln.robust.mu.0.1.png} 
-        \includegraphics[width=.45\textwidth]{./fig/linear/ln.robust.mu.0.5.png} 
-        \caption{ Results with linear kernel. \textbf{TopLeft}: Train on untainted data. \textbf{TR}: Train on tainted data.
-        \textbf{BL}: Train LN-robust SVM on tainted data with $\mu  = 0.1$. \textbf{BR}: with $\mu = 0.5$.}
-        \label{fig:linear}
-    \end{figure}
+\[\sum_{i=1} ^{n} y_i^* \log \hat{p} + (1-{y}_{i}^{*})\log(1-\hat{p})\]
 
-    When seed=16, the toy data are exactly the same. However, the adversarial label flips process
-    can be different. We observe different separating hyperplane in each running, but there exists
-    some pattern and conclusion in the results. Show them. We may ref. to section 5 in paper \cite{biggio2011support}.
-    \item  Run ‘main.py’ with exp=’sonar’ and plot something like fig \ref{fig:sec6}, which corresponding to section 6 in paper \cite{biggio2011support} 
+where \({y}_{i}^{*}\in \{0,1\} =\frac{1+y_{i}}{2}\)
 
-    \begin{figure}
-        \includegraphics[width=.9\textwidth]{fig/sec6.png} 
-        \caption{Test accuracy w.r.t. flipped ratio, C, and different model} 
-        \label{fig:sec6}
-    \end{figure}
-    \item Run ‘main.py’ with exp=’proc’ and improve the algorithm and run again. There are many
-    algorithms to choose, e.g., following the paper, try other machine learning method like logistic
-    regression and use the method mentioned on the class, i.e., train a model, observe the statistic
-    of dataset and clean outlier, and training and observe ...
+\[\log\hat{p}=-\log(1+e^{-f(x)})\] \[\log(1-\hat{p})=-\log(1+e^{f(x)})\]
+\[{y}_{{i}}^{*}\log\hat{p}+(1-{y}_{i}^{*})\log(1-\hat{p})=-\log(1+e^{-yf(x)})\]
 
-    Remember to include the results ‘y-pred’ in zip. We will evaluate our results with the metric
-    of accuracy and become part of our grading. We are allowed to upload less and equal than
-    5 results naming by ‘y-pred.*’, e.g., ‘y-predblabla’, ‘y-pred.315xx’, ‘y-pred.assume.adversarial’
-    and so on. We take the maximum accuracy. And the format of ‘y-pred.*’ file are supposed
-    to be the same as what generated by ‘main.py’ with exp=’proc’, i.e., do not modify read and
-    write code in ‘main.py’.
+\end{frame}
 
-    About the information of the dataset, we can say: (1). training data is polluted by label flip
-    noise and no other noise. (2). label flip is either random flip or adversarial (to svm model) flip.
-    (3). Flip ratio is around 20\%. (4). Testing data is not polluted by any noise.
+\begin{frame}{Gradient descent optimization}
+
+\begin{itemize}
+\tightlist
+\item
+  Optimize \(w, b\) with gradient descent
+\end{itemize}
+
+\[\min_{w,b}\sum_{i}\log(1+e^{-y_{i}(w^{{T}}x_{i}+b)})\]
+
+\[\nabla w=\sum_{i}\frac{-{y}_{i}e^{-y_{i}(w^{{T}}x_{i}+b)}}{1+e^{-y_{i}(w^{{T}}x_{i}+b)}}x_{i}=\sum_{i}-{y}_{i}^{*}(1-\hat{p}(x_{i}))-(1-{y}_{i}^{*})\hat{p}(x_{i})x_{i}\]
+
+\[\nabla b=\sum_{i}\frac{-{y}_{i}e^{-y_{i}(w^{{T}}x_{i}+b)}}{1+e^{-y_{i}(w^{{T}}x_{i}+b)}}\]
+
+\end{frame}
+
+\begin{frame}{XOR problem and linear classifier}
+
+\begin{itemize}
+\item
+  4 points: \({X}=[(-1,-1),\ (-1,1),\ (1,-1),\ (1,1)]\)
+\item
+  \(Y=[-1, 1, 1, -1]\)
+\item
+  Try using binomial \(\log\)-likelihood loss: \[
+  \min_{w}\sum_{i}\log(1+e^{-y_{i}(w^{{T}}x_{i}+ b)})
+  \]
+\item
+  Gradient:
+  \[\nabla w=\sum_{i}\frac{-{y}_{i}e^{-y_{i}(w^{{T}}x_{i}+b)}}{1+e^{-{y}i(w^{{T}}x_{i}+b)}}x_{i}\]
+  \[\nabla b=\sum_{i}\frac{-{y}_{i}e^{-y_{i}(w^{{T}}x_{i}+b)}}{1+e^{-\mathcal{y}i(w^{{T}}x_{i}+b)}}\]
+\item
+  Try \(w=0, b=0\), what do you see?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{With 1 hidden layer}
+
+\begin{columns}
+            
+    \begincols{.5\textwidth}
+        
+    - A hidden layer makes a nonlinear classifier
+    $$
+    f(x)=w^{{T}}g(W^{{T}}x+c)+b
+    $$
+    - ${g}$ needs to be nonlinear
+    - Sigmoid: $\sigma(x)=1/(1+e^{-x})$
+    - RELU: $g({x})=\max(0,{x})$
+        
+    \stopcols
+        
+    \begincols{.5\textwidth}
+    \begin{center}
+        \includegraphics[width=\textwidth]{2018-04-15-13-08-28.png}
+    \end{center}
+    \stopcols
+        
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Taking gradient}
+
+\[
+\min_{W,w}E(f)=\sum_{i}L(f(x_{i}),y_{i})
+\] \[
+f(x)=w^{T}g(W^{T}x+c)+b
+\]
+
+\begin{itemize}
+\item
+  What is \(\frac{\partial E}{\partial W}\) ?
+\item
+  Consider chain rule: \(\frac{dz}{dx}=\frac{dz}{dy}\frac{dy}{dx}\)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Note: Vectorized Computations}
+
+\begin{itemize}
+\tightlist
+\item
+  The computations performed by a network. \[z_i = \sum_{i} W_{ij} x_j\]
+  \[h_i=\sigma(z_i)\] \[y=\sum_i v_i h_i\]
+\item
+  Write them in terms of matrix and vector operations.
+\item
+  Note: judge vector or matrix by context \[z=Wx\] \[h=\sigma(z)\]
+  \[y=v^T h\]
+\item
+  Where \(\sigma(v)\) denote the logistic sigma function applied
+  elementwise to a vector \(v\). Let \(W\) be a matrix where the
+  \((i,j)\) entry is the weight from visible unit \(j\) to hidden unit
+  \(i\).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Backpropagation}
+
+\begin{itemize}
+\tightlist
+\item
+  Save the gradients and the gradient products that have already been
+  computed to avoid computing multiple times
+\end{itemize}
+
+\begin{columns}
+    \begincols{.6\textwidth}
     
-    We are allowed to use other packages or frameworks, not strictly limited to the framework provided by TA. 
-    \item Last but not the least, we'd better cover these points in a \textbf{fluent} report. 
+    - In a multiple layer network(Ignore constant terms)    
+    $$f(x)=w_{n}^{T}g (W_{n-1}^{T}g(W_{n-2}^{T}g\ (W_{1}^{T}g(x)))))$$
+    $$
+    \frac{\partial E}{\partial W_{k}}=\frac{\partial E}{\partial f_{k}}g(f_{k-1}(x))
+    $$
+    $$
+    =\frac{\partial E}{\partial f_{k+1}}\frac{\partial f_{k+1}}{\partial f_{k}}g(f_{k-1}(x))
+    $$
+    - Define: $f_{k}(x)=w_{k}^{T}g(f_{k-1}(x)),  f_{0}(x)=x$
+    \stopcols
+    \begincols{.4\textwidth}
+    \begin{center}
+        \includegraphics[width=\textwidth]{2018-04-15-13-09-15.png}
+    \end{center}
+    \stopcols
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Modules}
+
+\begin{itemize}
+\tightlist
+\item
+  Each layer can be seen as a module
+\item
+  Given input, return
 \end{itemize}
 
-\section{Bonus}
+\begin{columns}
+    \begincols{.7\textwidth}
+    - Output $f_{a}(x)$
+    
+    - Network gradient $\frac{\partial f_{a}}{\partial x}$
+    
+    - Gradient of module parameters $\frac{\partial f_{a}}{\partial w_a}$
+    \stopcols
+    \begincols{.3\textwidth}
+    \begin{center}
+        \includegraphics[width=\textwidth]{2018-04-15-13-09-43.png}
+    \end{center}
+    \stopcols
+\end{columns}
 
-\begin{itemize}    
-    \item Try other hyperparameter in former experiments. Analyze and illustrate the results with figures and tables. 
-    \item Translate one or more parts in paper \cite{biggio2011support}, \eg, section of introduction, related work, ,algorithms and experiments. 
-    \item Read, comment the code, and explain the procedure of training SVM and adding label flip noise in the report. 
-    \item Understanding adversarial label flip attack algorithm: What is the range of $(\alpha,b)$ and $(\alpha^{rnd},b^{rnd})$, \ie, min and max value. Explain $v_i \leftarrow \alpha_i /C -\beta_1 s_i -\beta_2 q_i $. Discuss the idea of label flip attack algorithm. 
-    \item Any novel ideas and open questions. 
+\begin{itemize}
+\tightlist
+\item
+  During backprop, propagate/update
+\item
+  Backpropagated gradient \(\frac{\partial E}{\partial f_{a}}\)
+  \[\frac{\partial E}{\partial W_{k}}=\frac{\partial E}{\partial f_{k}} g(f_{k-1}( x))=\frac{\partial E}{\partial f_{k + 1} }\pp{f_{k+1}}{f_k}g(f_{k-1}(x))\]
+\item
+  Three term above are respectively Backprop signal; Network Gradient;
+  gradient of parameters
+\item
+  Note:
+  \(\frac{\partial E}{\partial f_{k}}=\pp{E}{f_{k+1}} \pp{f_{k+1}}{{f_k}}\)
 \end{itemize}
-\printbibliography
+
+\end{frame}
+
+\begin{frame}{Multiple Inputs and Multiple Outputs}
+
+\[\frac{\partial E}{\partial f_{k-1}}=\pp{E}{f_{k+1}}\pp{f_{k+1}}{f_{k_1}}\pp{f_{k_1}}{f_{k-1}}+\pp{E}{f_{k+1}} \pp{f_{k+1}}{f_{k_2}}\pp{f_{k_2}}{f_{k-1}}\]
+
+\begin{center}
+    \includegraphics[width=.4\textwidth]{2018-04-15-13-10-08.png}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Different DAG structures}
+
+\begin{itemize}
+\tightlist
+\item
+  The backpropation algorithm would work for any DAGs
+\item
+  So one can imagine different architectures than the plain layerwise
+  one
+\end{itemize}
+
+\begin{center}
+    \includegraphics[width=.9\textwidth]{2018-04-14-00-19-13.png}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Loss functions}
+
+\begin{itemize}
+\tightlist
+\item
+  Regression:
+\item
+  Least squares \(L(f)=(f(x)-y)^{2}\)
+\item
+  L1 loss \(L(f)=|f(x)-y|\)
+\item
+  Huber loss
+  \[L({f})=\begin{cases} \frac{1}{2} (f(x)-y)^2 & , |f(x)-y| \le \delta \\ \delta (|f(x)-y| -\frac{1}{2} \delta ) & \textrm{, otherwise} \end{cases}\]
+\item
+  Binary Classification
+\item
+  Hinge loss \(L(f)=\max(1-yf(x), 0)\)
+\item
+  Binomial log-likelihood \(L(f)=\ln(1+\exp(-2yf(x))\)
+\item
+  Cross-entropy \(L(f)=-y^{*}\ln \sigma(f)-(1-y^{*})\ln(1- \sigma(f))\)
+  ,
+\item
+  \(y^{*}=(y+1)/2\)
+\end{itemize}
+
+\begin{center}
+    \includegraphics[width=.2\textwidth]{2018-04-15-13-10-18.png}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Multi-class: Softmax layer}
+
+\begin{itemize}
+\tightlist
+\item
+  Multi-class logistic loss function
+\end{itemize}
+
+\[P(y=j|x)=\frac{e^{x^Tw_j}}{\sum_{k=1}{K}e^{x^Tw_k}}\]
+
+\begin{itemize}
+\tightlist
+\item
+  \{\rm Log\}-likelihood:
+\item
+  Loss function is minus \(\log\)-likelihood \[
+  -\log P(y=j|x)=-x^{T}w_{\dot{j}}+\log\sum_{k}e^{x^{T}w_{k}}
+  \]
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Subgradients}
+
+\begin{itemize}
+\tightlist
+\item
+  What if the function is non-differentiable?
+\item
+  Subgradients:
+\item
+  For convex \(f(x)\) at \(x_{0}\):\\
+\item
+  If for any \(y\) \[f(y)\geq f(x)+g^T(y-x)\]
+\item
+  \(g\) is called a subgradient
+\item
+  Subdifferential: \(\partial f\): set of all subgradients
+\item
+  Optimality condition: \(0\in\partial f\)
+\end{itemize}
+
+\begin{center}
+    \includegraphics[width=.375\textwidth]{2018-04-15-13-10-32.png}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{The RELU unit}
+
+\begin{itemize}
+\tightlist
+\item
+  \(f(x)=\max(x,0)\)
+\item
+  Convex
+\item
+  Non-differentiable
+\item
+  Subgradient:
+  \(\frac{\partial f}{\partial x}=\begin{cases} 1 &,x>0 \\ [0,1]&,x=0 \\ 0&,x<0 \end{cases}\)
+\end{itemize}
+
+\begin{center}
+    \includegraphics[width=.5\textwidth]{2018-04-15-13-10-48.png}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Subgradient descent}
+
+\begin{itemize}
+\tightlist
+\item
+  Similar to gradient descent \[x^{(k+1)}=x^{(k)}-\alpha_k g^{(k)}\]
+\item
+  Step size rules:
+\item
+  Constant step size: \(\alpha_k = \alpha\)
+\item
+  Square summable:
+  \(\alpha_k\ge 0, \sum_{k=1}^{\infty} \alpha_k^2 < \infty, \sum_{k=1}^{\infty}\alpha_k =\infty\)
+\item
+  Usually, a large constant that drops slowly after a long while . e.g.
+  \(\frac{100}{100+k}\)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Universal Approximation Theorems}
+
+\begin{itemize}
+\tightlist
+\item
+  Many universal approximation theorems proved in the \(90s\)
+\item
+  Simple statement: for every continuous function, there exist a
+  function that can be approximated by a 1-hidden layer neural network
+  with arbitrarily high precision
+\end{itemize}
+
+\begin{center}
+    \includegraphics[width=\textwidth]{2018-04-15-13-11-16.png}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Universal Approximation Theorems}
+
+\begin{itemize}
+\tightlist
+\item
+  The approximation does not need many units if the function is kinda
+  nice. Let \[C_{f}=\int_{R_{d}}||\omega|||\tilde{f}(\omega)|d\omega\]
+\item
+  Then for a 1-hidden layer neural network with \(n\) hidden nodes, we
+  have for a finite ball with radius \(r\), \[
+  \int_{B_{r}}(f(x)-f_{n}(x))^{2}d \mu(x)\leq\frac{4r^{2}C_{f}^{2}}{n}
+  \]
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+	\begin{center}
+		\chuhao Thank you!  
+	\end{center}
+\end{frame}
 \end{document}
-
