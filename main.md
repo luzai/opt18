@@ -14,7 +14,7 @@ $$P(y=1|x)=\sigma(w^{T}x+b)$$
 $$l(w)=-\Sigma_{n=1}^{N}\sigma(w^{T}x_{n}+b)^{y_{n}}(1-\sigma(w^{T}x_{n}+b))^{(1-y_{n})}$$
 
 -  Linear decision boundary (with $y$ being $0$ or 1)
-$$y=I[w^{T}x+b\geq 0]$$
+$$y=\vone [w^{T}x+b\geq 0]$$
 
 ### Support vector machines
 \begin{center}
@@ -40,7 +40,7 @@ $$
 $$
 - Linear decision boundary
 $$
-\hat{y}=I[w^{T}x+b\geq 0]
+\hat{y}=\vone[w^{T}x+b\geq 0]   
 $$
 
 
@@ -78,7 +78,7 @@ probability, we just want to make the right decision?
 
 - We can express this as a constraint on the likelihood ratio,
 $$
-\frac{P(y=1|x)}{P(y=0|x)}\underline{>}C
+\frac{P(y=1|x)}{P(y=0|x)}\underline{>}c
 $$
 - For some arbitrary constant $c>1.$
 
@@ -210,7 +210,7 @@ $$
 
 Suppose instead we just want the decision rule to satisfy:
 $$
-\frac{P(y=\dot{b}|x)}{P(y=k|x)}\geq c \quad \forall k\neq i
+\frac{P(y=i|x)}{P(y=k|x)}\geq c \quad \forall k\neq i
 $$
 Taking logs as before, this gives:
 $$

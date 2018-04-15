@@ -157,7 +157,7 @@ vs Logistic Regression}
   \[l(w)=-\Sigma_{n=1}^{N}\sigma(w^{T}x_{n}+b)^{y_{n}}(1-\sigma(w^{T}x_{n}+b))^{(1-y_{n})}\]
 \item
   Linear decision boundary (with \(y\) being \(0\) or 1)
-  \[y=I[w^{T}x+b\geq 0]\]
+  \[y=\vone [w^{T}x+b\geq 0]\]
 \end{itemize}
 
 \end{frame}
@@ -186,7 +186,7 @@ vs Logistic Regression}
   \]
 \item
   Linear decision boundary \[
-  \hat{y}=I[w^{T}x+b\geq 0]
+  \hat{y}=\vone[w^{T}x+b\geq 0]   
   \]
 \end{itemize}
 
@@ -236,7 +236,7 @@ P(y=0|x)\propto 1
   want to make the right decision?
 \item
   We can express this as a constraint on the likelihood ratio, \[
-  \frac{P(y=1|x)}{P(y=0|x)}\underline{>}C
+  \frac{P(y=1|x)}{P(y=0|x)}\underline{>}c
   \]
 \item
   For some arbitrary constant \(c>1.\)
@@ -413,7 +413,7 @@ P(y=i|x)=\frac{\exp(w_{i}^{T}x+b_{i})}{\sum_{k}\exp(w_{k}^{T}x+b_{k})}
 \begin{frame}{Multi-class SVMs}
 
 Suppose instead we just want the decision rule to satisfy: \[
-\frac{P(y=\dot{b}|x)}{P(y=k|x)}\geq c \quad \forall k\neq i
+\frac{P(y=i|x)}{P(y=k|x)}\geq c \quad \forall k\neq i
 \] Taking logs as before, this gives: \[
 w_{i}^{T}x-w_{k}^{T}x\geq 1 \quad \forall k\neq i
 \]
