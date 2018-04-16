@@ -1,7 +1,17 @@
 ## vs code
 node_modules/
 ~$*
-.DS_Store   
+.DS_Store
+opt-release*
+*cache*
+*checkpoints
+.vscode
+*log*
+bin
+*.pdf
+*.h5
+template
+
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
