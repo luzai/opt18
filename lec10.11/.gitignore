@@ -1,17 +1,15 @@
 ## vs code
-opt-release
+node_modules/
 *.pdf
-*.h5
-template
-.vscode
-.ipynb_checkpoints
-log.txt 
-log
+trash/
+~$*
+.DS_Store
+out*.md
+main.tex 
+out*.txt
+opt-release*
 
 ## Core latex/pdflatex auxiliary files:
-node_modules/
-.DS_Store
-__pycache__
 *.aux
 *.lof
 *.log
@@ -69,6 +67,22 @@ acs-*.bib
 
 # fixme
 *.lox
+
+#(r)(e)ledmac/(r)(e)ledpar
+*.end
+*.?end
+*.[1-9]
+*.[1-9][0-9]
+*.[1-9][0-9][0-9]
+*.[1-9]R
+*.[1-9][0-9]R
+*.[1-9][0-9][0-9]R
+*.eledsec[1-9]
+*.eledsec[1-9]R
+*.eledsec[1-9][0-9]
+*.eledsec[1-9][0-9]R
+*.eledsec[1-9][0-9][0-9]
+*.eledsec[1-9][0-9][0-9]R
 
 # glossaries
 *.acn
