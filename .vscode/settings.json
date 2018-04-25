@@ -1,4 +1,10 @@
 {
+    "cSpell.userWords": [
+        "CUHK",
+        "bboxes",
+        "rightarrow",
+        "varphi"
+    ],
     "pasteImage.basePath": "${currentFileDir}/fig",
     "pasteImage.path": "${currentFileDir}/fig",
     "latex-workshop.latex.recipes": [
