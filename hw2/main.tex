@@ -1,0 +1,356 @@
+% !TeX spellcheck = en_US
+% !TeX encoding = utf8
+% !TeX program = xelatex
+% !BIB program = bibtex
+
+\documentclass[12pt]{article}
+	\usepackage{amsmath,amssymb,amsfonts}
+	\usepackage{latexsym}
+	\usepackage{graphicx}
+	\usepackage{verbatim}
+	\usepackage{booktabs}
+	\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+	\usepackage{todonotes} % Required for the boxes that questions appear in
+	\usepackage{mmstyles}
+	\newcommand{\mybox}[1]
+	{
+	\par\noindent
+	\todo[inline, backgroundcolor=SkyBlue!40,bordercolor=SkyBlue,size=\large]{\textbf{#1}}
+	
+	}
+
+	\usepackage[top=25mm, bottom=25mm, left=18mm, right=18mm]{geometry}
+
+	\usepackage{fancyhdr}
+	\pagestyle{fancy}
+	\lhead{Linear Optimization Assignment \#1}
+	\chead{}
+	\rhead{Due: Sunday, April 15, 23:59:59}
+	\renewcommand{\headrulewidth}{0.3pt}
+
+	% \usepackage[framed,numbered,autolinebreaks,useliterate,final]{mcode}
+	\usepackage{listings}
+	\title{\textbf{Linear Optimization Assignment \#2}}
+	\author{Due: Sunday, April 15, 23:59:59}
+	\date{}
+
+	% \makeatletter
+	% \def\@seccntformat#1{%
+	% 	\expandafter\ifx\csname c@#1\endcsname\c@section\else
+	% 	\csname the#1\endcsname\quad
+	% 	\fi}
+	% \makeatother
+
+	\usepackage{multirow}
+	\usepackage{fontspec}
+	\usepackage[slantfont,boldfont]{xeCJK}
+	\usepackage{sectsty}
+	% \sectionfont{\color{NavyBlue}\selectfont}
+	% \subsectionfont{\color{SkyBlue}\itshape\selectfont}
+
+	\newcommand{\abs}[1]{\left| #1 \right| }
+	\newcommand{\norm}[1]{\left\| {#1} \right\|}
+	\newcommand{\red}[1]{{\color{red}{#1}}}
+	\usepackage{titlesec,titletoc} 
+	\renewcommand*{\thesection}{\color{NavyBlue}Problem \arabic{section} } 
+	\renewcommand*{\thesubsection}{\color{SkyBlue}Solution \arabic{section} } 
+	\titleformat{\section}[hang]{\bfseries}{\thesection}{1em}{}{}
+	\titleformat{\subsection}[hang]{\itshape}{\thesubsection}{1em}{}{}
+	
+	% \setlength{\parsep}{0em}
+	% \setlength{\itemsep}{0pt}
+	\setlength{\parskip}{.33em}
+	\setlength{\parindent}{0em}	
+
+	\providecommand{\tightlist}{%
+	\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+	\graphicspath{{fig/}}
+\begin{document}
+% \vspace{-1em}
+\maketitle
+
+\textbf{\color{NavyBlue}Instruction:} Write a report and complete code.
+Download the code from ftp (10.13.71.168). Upload report and code to ftp (10.13.72.84).
+\begin{itemize}
+	\tightlist
+	\item {Please} name the report as \red{hw2\_31xxxxxxxx.pdf} and use pdf format; {Please} name the compressed file as \red{hw2\_31xxxxxxxx.zip} or \red{hw2\_31xxxxxxxx.rar}. And put your name into report.
+	\item Upload:
+	      \begin{itemize}
+		      \tightlist
+		      \item    Address: 10.13.72.84
+		      \item Username: opt; Passwd:  opt18; Port: 21
+	      \end{itemize}
+	\item Download:
+	      \begin{itemize}
+		      \tightlist
+		      \item Address: 10.13.71.168
+		      \item  Username: opt; Passwd:  opt18; Port: 21
+	      \end{itemize}
+\end{itemize}
+
+% ------------------------------
+\section{Short Answers}
+
+\begin{description}
+	\item[(a)]  What is the advantage of using cross-validation over splitting a dataset into
+	      dedicated training and test sets? When is that less important?
+	\item[(b)] Describe 3 optimization tricks for speeding up learning in multi-layer perceptron
+	      training for a fixed error function and network design.
+	\item[(c)] Describe the training process of RBF shortly.
+\end{description}
+
+\subsection{Short Answers}
+
+(a)  What is the advantage of using cross-validation over splitting a dataset into
+dedicated training and test sets?  将数据的不同部分轮流作为数据集和验证集,客观公正地测量模型性能。
+When is that less important? 测试集较大，较丰富。 数据集很大时，进行交叉验证会很耗时。 (0.5*2=1 pnts)
+
+（b） mini-batch， momentum， 学习率衰减、batch normalize、 其他合理答案 （0.5*3=1.5 pnts）
+
+（c） 1. 要训练一个 RBF,首先需要找到基函数的中心,可以用 K-means
+算法;
+2. 接着需要计算基函数中的方差项,可以使用上一步 K-means 的结果,计算每一类各
+自的方差,或者使用不同类中心点间的距离;
+3. 然后通过线性回归和最小均方误差准则确定
+权重$w_i$ ;最后需通过交叉验证选择基的个数，以及其他超参数。 （0.5*3=1.5 pnts）
+
+\section{Linear Separability}
+
+Consider the following two sets of points: \(C_1 = \{ (0,0), (-1,1),(1,1) \} \), \(C_2 = \{ (0,2 ), (-2,0), (2,0)\}\).
+
+\begin{description}
+	\item[(a)] Are these points linearly separable? Why or why not?
+	\item[(b)] Design a MLP that can separate them and plot its decision boundaries.
+	\item[(c)] Design a RBF net that can separate them and plot its decision boundaries.
+\end{description}
+
+\subsection{Linear Separability} 
+
+(a) 不是线性可分的,因为找不到一条直线将它们分在直线两侧 (1 pnts)
+
+\begin{center}
+	\includegraphics[width=.4\textwidth]{2018-04-21-16-07-25.png}
+\end{center}
+
+(b) 其他MLP也正确，手算编程算均可。画出MLP结构图(1 pnt)，画出决策面或写出决策面表达式(1 pnt)，有求解过程或程序（1 pnt）
+
+\begin{center}
+	\includegraphics[width=\textwidth]{2018-04-21-22-10-30.png}
+\end{center}
+
+(c) 其他RBF也正确，手算编程算均可。画出决策面或写出决策面表达式(1 pnt)，有求解过程或程序（1 pnt）
+
+\begin{center}
+	\includegraphics[width=\textwidth]{2018-04-21-22-10-22.png}
+\end{center}
+
+% --------------------------------------------------
+\section{Duality}
+
+\begin{description}
+	\item[(a)] Show that the dual LP of \(\min\{  b^T y ; A^T y =c, y \ge 0\}\) is \(\max \{c^T x ; A x \le b\}\). 
+	\item[(b) \textit{Lagrangian relaxation of Boolean LP}]  A Boolean linear program is an optimization problem of the form
+
+	      \begin{equation}
+		      \begin{aligned}
+			      \min \quad          & c^T x                                  \\
+			      \textrm{s.t.} \quad & Ax \le b                               \\
+			                          & x_i \in \{0,1\}, \quad i= 1, \dots , n \\
+		      \end{aligned}
+	      \end{equation}
+
+		  and is, in general, very difficult to solve. Relax  $x_i \in \{0,1\}$ to $0 \le x_i \le 1$, we get LP relaxation of Boolean LP. Relax $x_i \in \{0,1\}$ to $x_i(1 - x_i) = 0$ and find its lagrangian dual, we get lagrangian  relaxation of this problem. 
+		  \begin{itemize}
+			  \item Derive the dual of  LP relaxation 
+			  \item Derive the Lagrangian relaxation, \ie, the dual of $x_i(1 - x_i) = 0$ relaxation.
+			  \item (Bonus, you can choose to skip this question) prove  the optimal value for LP relaxation and lagrangian relaxation  are the same.
+ 		  \end{itemize}
+
+	      \textit{Hint for bonus:}
+	      \begin{itemize}
+		      \item  Derive and use the dual of LP relaxation, since LP satisfies strong duality.
+		      \item standard form convex problem is equivalent to its epigraph form, \ie
+		            \begin{equation}
+			            \begin{aligned}
+				            \min_{x} \quad      & f(x)                                     \\
+				            \textrm{s.t.} \quad & g_i(x) \le  0    , \quad i= 1, \dots , n \\
+				                                & Ax=b                                     \\
+			            \end{aligned}
+					\end{equation}
+					equivalent to 
+		            \begin{equation}
+			            \begin{aligned}
+				            \min_{x,t} \quad    & t                  \\
+				            \textrm{s.t.} \quad & f(x) -t \le 0      \\
+				            & g_i(x) \le  0    , \quad i= 1, \dots , n \\
+				                                & Ax=b               \\
+			            \end{aligned}
+		            \end{equation}
+		      \item To minimize over multiple variables, we  can first minimize one variable.
+
+	      \end{itemize}
+	\item[(c) $l_2$ norm soft margin SVMs] If our data is not linearly separable, then we can  modify our
+	      support vector machine algorithm by introducing an error margin that must be minimized.
+	      Specifically, the formulation we have looked at is known as the $l_1$ norm soft margin SVM.
+	      In this problem we will consider an alternative method, known as the $l_2$ norm soft margin
+	      SVM. This new algorithm is given by the following optimization problem (notice that the
+	      slack penalties are now squared):
+	      \begin{equation}
+		      \begin{aligned}
+			      \min_{w,b,\varepsilon} \quad & 1/2 || w ||^2 + C/2 \sum_{i=1}^{m} \varepsilon_2^2          \\
+			      \textrm{s.t.} \quad          & y_i (w^T x_i + b ) \ge 1-\varepsilon_i , \quad i=1,\dots, m \\
+		      \end{aligned}
+	      \end{equation}
+	      What is the Lagrangian of the $l_2$ soft margin SVM optimization problem? What is the dual of the $l_2$ soft margin SVM optimization problem?
+\end{description}
+
+\subsection{Duality} 
+
+(a), 拉格朗日函数1 pnt，对偶问题 1pnt，必须注意$\lambda$ 是向量，写成$\lambda c$则错误。
+\begin{center}
+	\includegraphics[width=\textwidth]{2018-04-21-22-12-21.png}
+\end{center}
+
+\textbf{(b).} The lagrangian $L$ and dual function $g$ of LP relaxation are (2 pnts) 
+
+\begin{equation}
+	\begin{aligned}
+		L(x,u,v, w) & = c^Tx+ u^T(Ax-b) - v^T x+w^T (x- \vone) \\ 
+		& = (c+A^T u -v+w )^T x -b^T u - \vone^T w \\ 
+	\end{aligned}
+\end{equation}
+
+\[ g(u,v,w) = \begin{cases}
+	-b^T u -\vone ^T w & A^T u -v +w+c=0 \\   
+	- \infty & \text{otherwise.} 
+\end{cases}
+\] 
+
+The dual problem is (1 pnt) 
+\begin{equation}
+	\begin{aligned}
+		\max \quad & -b^T u - \vone^T w \\ 
+		\textrm{s.t.} \quad & A^T u -v +w+c=0 \\ 
+		& u \ge 0,   v \ge 0, w \ge 0 \\ 
+	\end{aligned}
+\end{equation}
+
+The dual function $\tilde{L}$ of lagrangian relaxation  is (2 pnts),  求解过程过程，比如求导求极值、表达式化简（1 pnt）
+
+\begin{center}
+	\includegraphics[width=\textwidth]{2018-04-21-22-16-29.png}
+\end{center}
+
+The lagrangian relaxation of Boolean LP  is （1 pnt）
+\begin{equation} \label{eq:lp}
+	\begin{aligned} 
+		\max \quad & -b^T \mu -\frac{1}{4} \sum_{i=1}^{n} ( c_i + a_i^T \mu -\nu_i)^2 / \nu_i \\ 
+		\textrm{s.t.} \quad & \nu \ge 0, \mu \ge 0  
+	\end{aligned}
+\end{equation}
+
+Bonus部分：
+
+To prove they are equivalent, we can first eliminate $\nu$ from the lagrangian relaxation according to  use hint (3). （+1 pnt）  求解过程过程，比如求导求极值、表达式化简 （+0.5）
+
+$\sum_{\nu_i \ge 0} (- ( c_i + a_i^T \mu -\nu_i)^2 / \nu_i) = \min\{0,4(c_i+a_i^T \mu)\}$
+
+\begin{equation} \label{eq:lag-rex}
+	\begin{aligned} 
+		\max \quad & -b^T \mu + \sum_{i=1}^{n} \min\{0,c_i+a_i^T \mu\}  \\
+		\textrm{s.t.} \quad &  \mu \ge 0  
+	\end{aligned}
+\end{equation}
+
+Let $- \omega_i=\min\{0,c_i+a_i^T \mu\}$, and use hint (2), equation~\ref{eq:lag-rex} is exactly equation~\ref{eq:lp} (+1 pnt)
+ 
+如果是用其他正确方法的， Bonus部分+2 pnt ，过程 0.5
+
+(c) 拉格朗日函数 1 pnt，KKT条件 1 pnt， 求导正确 1 pnt， 对偶问题 1 pnt
+
+\begin{center}
+	\includegraphics[width=\textwidth]{2018-04-21-22-17-16.png}
+\end{center}
+
+% -------------------------------------
+\section{RBF on Double Moon}
+Double Moon data is not linearly separable, ref to fig~\ref{fig:moon}.
+\begin{figure}
+	\centering
+	\includegraphics[width=.45\textwidth]{fig/2018-03-30-11-09-47.png}
+	\caption{Double moon}  \label{fig:moon}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.85\textwidth]{fig/2018-03-30-19-48-17.png}
+	\caption{Results. Note that: the results  are got from random seed = 16. \textbf{Left:} Training data. \textbf{Right:} Decision boundary.} \label{fig:res}
+\end{figure}
+
+\begin{itemize}
+	\item Run `main.py', the code is runnable and supposed to be bug free. If success, you can see fig~\ref{fig:res}. What you need to do is to answer the question and improve the code.
+	\item Read the code, the code is not commented, you need to understand it by yourself. RBF in the code uses mean square loss and least square method to calculate weight and bias. Please improve code, \ie, do one or more of the following:
+	\begin{itemize}
+		\item add $l_2$ regularizetion (0.5 pnt)
+
+		\begin{center}
+			\includegraphics[width=\textwidth]{2018-04-21-22-36-43.png}
+			\includegraphics[width=\textwidth]{2018-04-21-22-39-50.png}
+		\end{center}
+		使用这个式子计算权重得到的分类结果与原来并没有很大的差别 
+
+		\item  gradient based optimization method
+
+		可以不更新center，sigma （2 pnt），也可以求梯度center sigma （3 pnt）
+		\begin{center}
+			\includegraphics[width=\textwidth]{2018-04-21-22-38-51.png}
+			\includegraphics[width=\textwidth]{2018-04-21-22-40-44.png}
+		\end{center}
+
+		\item use logistic regression  to calculate weight and bias. (Thus you may have to implement  gradient based optimization method) 2 pnt 
+ 
+
+	\end{itemize}
+	
+	\item (Bonus: answer one or more questions shown below) Do something extra surrounding the topics in this assignment, using the code you developed.
+		
+		For example, is there some other interesting question we could have asked? Is there any
+		insightful visualization you can plot? 
+
+		Explain the principle  of function `cal\_distmat', Profile and compare with other potential implementation of `cal\_distmat'. 2 pnt 
+		
+		\begin{center}
+			\includegraphics[width=.9\textwidth]{2018-04-21-22-42-17.png}
+		\end{center}
+
+		Is the code robust to all exceptions and/or elegant with enough documents/comments? May comment for it and describe the training process of RBF. 1 pnt 
+		
+		Using `np.ndarray' maybe lengthy, may try `np.matrix' instead? 1 pnt 
+		
+		How to treat bias as weight by $[w^T,b]^T$ notation in gradient based optimization method? 1 pnt 
+		
+		What would happen if `train\_pnts' is not shuffled? 1 pnt 
+		
+		当‘train\_pnts’没有进行打乱时,就会按照原来的先正样本后负样本的顺序排列。
+		
+		如果使用的是全批量学习,每次都用所有的样本进行训练,故对结果不会有
+		什么影响。
+		
+		但当我们使用的 batch size 为一个或者一小批样本的时候,是否打乱就会对结
+		果有较大的影响,我的理解为,如果总是用一批正样本对网络进行训练,那么结果网络会
+		对正样本分的很好,接下来如果调换一下,总是用负样本对网络进行训练,那么网络又会
+		偏向于对负样本分的很好,最后会丢失起初对正样本分的很好的特性。
+		
+		相比起来,如果对样本进行打乱,那么每次对网络进行训练时都含有正负样本,每次
+		网络都考虑要同时分好正负样本,这时的分界面将会变得较为合理,不过分偏向任何一方。
+
+		How about using other hyperparameter\textbf{s} (\eg `n\_clusters')? 1 pnt 
+		
+		
+
+		Can you implement kmeans from scratch? \textit{etc.} 1 pnt 
+\end{itemize}
+
+
+\end{document}
+

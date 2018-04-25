@@ -9,6 +9,8 @@ template
 .ipynb_checkpoints
 log.txt 
 log
+*.pyc
+.idea
 
 ## Core latex/pdflatex auxiliary files:
 node_modules/
