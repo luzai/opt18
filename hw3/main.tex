@@ -26,13 +26,13 @@
 	\pagestyle{fancy}
 	\lhead{Linear Optimization Assignment \#3}
 	\chead{}
-	\rhead{Due: Friday, May 4 (Tentative)}
+	\rhead{Due: Friday, May 4}
 	\renewcommand{\headrulewidth}{0.3pt}
 
 	% \usepackage[framed,numbered,autolinebreaks,useliterate,final]{mcode}
 	\usepackage{listings}
 	\title{\textbf{Linear Optimization Assignment \#3}}
-	\author{Due: Friday, May 4 (Tentative)}
+	\author{Due: Friday, May 4}
 	\date{}
 
 	% \makeatletter
@@ -113,7 +113,7 @@ Download the code from ftp (10.13.71.168). Upload report and code to ftp (10.13.
 	      Assume $i_1+2p-k$ is a multiple of $s$, and the output shape is $o_1$, then is there any other input size $i_x$ to produce same $o_1$?
 
 	      Hint: There is no ambiguity when $s=1$, but when $s\ge 2$, for example, if $i=10,k=3,s=2,p=1$, then $o$ is 5 rather than $11/2$. 
-	\item[(c)] Apply 64 $5\times 5\times 3$ kernel to a $32 \times 32 \times3$ input with unit stride and zero padding, how many float point operation do we need? (We only consider multiply operation, since it is more computational consuming than sum operation). 
+	\item[(c)] Apply 64 $5\times 5\times 3$ kernel to a $32 \times 32 \times3$ input with \red{unit stride and no padding, \ie using $1  \times 1$ strides and padding with a $0\times 0$ border of zeros}, how many float point operation do we need? (We only consider multiply operation, since it is more computational consuming than sum operation). \red{What about unit stride and same padding? \ie Using $1 \times 1$ strides and  padding with a $2 \times 2$ border of zeros?} 
 	\item[(d)] The whole VGGNet is composed of CONV layers that perform 3x3 convolutions with stride 1 and pad 1, and of POOL layers that perform 2x2 max pooling with stride 2 (and no padding). We can write out the size of the representation at each step of the processing and keep track of both the representation size and the total number of weights. Let us fill in the blank:
 	\begin{verbatim}
 INPUT: [224x224x3]        memory:  224*224*3=150K   weights: 0
