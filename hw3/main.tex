@@ -142,6 +142,28 @@ FC: [1x1x1000]  memory:  1000 weights: 4096*1000 = 4,096,000
 
 \end{description}
 
+\subsection{Convolution Arithmetic} 
+
+(a) 
+$\begin{bmatrix}
+		6 & 17 & 3 \\ 
+		8& 17 & 13 \\ 
+		6& 4&4 
+	\end{bmatrix}$ 
+(1 pnt) 过程 0.5 pnt
+
+(b) 根据提示应该有有向下取整，$o=\lfloor (i-k+2p)/s \rfloor +1$，（2 pnts），若写成 $o= (i-k+2p)/s +1$，则1 pnts。 
+
+$i_x = i_1 +1, i_1+2, ... ,i_1+s-1$ （1 pnt）
+
+(c) 第一问 5x5x3x28x28x64=3763200 1 pnt， 第二问 5x5x3x32x32x64=4915200 0.5 pnt. 
+
+(d) 每空0.5 pnt，一共3.5 pnts
+
+\begin{figure}[h]
+	\includegraphics[width=.8\textwidth]{fig/2018-05-03-21-10-02.png}
+\end{figure}
+
 \section{Convolution Neural Network}
 
 \begin{itemize}
@@ -161,6 +183,46 @@ FC: [1x1x1000]  memory:  1000 weights: 4096*1000 = 4,096,000
 	\item Use other building block provided by the code/tensorflow, \eg, BatchNormalize, Dropout, Adam, RMSProp. And/or Tuning  hyperparameters. And/or Try other Network Architecture. Limit the size of dataset, so that it can be trained to converge in acceptable time. Summary/Illustrate our finding.  
 	\item Bonus: Explain the principle of `conv\_forward\_fast' in `fast\_layer.py'. \eg, what is `im2col', why `fast\_layer.py' is faster, why we must move lots of for loop to `.pyx'? (And We may wonder why not use fft?)
 \end{itemize}
+
+（1） 出现前向传播用作低通和高通滤波器的图。(1 pnt)
+
+\begin{figure}[h]
+	\includegraphics[width=.7\textwidth]{fig/2018-05-03-21-17-51.png}
+\end{figure}
+
+出现梯度检查（1 pnt） 
+
+\begin{figure}[h]
+	\includegraphics[width=.65\textwidth]{fig/2018-05-03-21-19-49.png}
+\end{figure}
+
+(2) 出现loss曲线或准确率曲线 0.5 pnt 
+
+出现滤波器的可视化 1 pnt
+
+\begin{figure}[h]
+	\includegraphics[width=.5\textwidth]{fig/2018-05-03-21-26-12.png}
+\end{figure}
+
+出现feature map的可视化 1 pnt
+
+\begin{figure}[h]
+	\includegraphics[width=.5\textwidth]{fig/2018-05-03-21-25-41.png}
+\end{figure}
+
+对embedding降维可视化，观察 separable 1 pnt 
+
+\begin{figure}[h]
+	\includegraphics[width=.9\textwidth]{fig/2018-05-03-21-26-51.png}
+\end{figure}
+
+其他合理的可视化 1 pnt 
+
+(3) 由于mnist数据集比较简单，可能使用新的模块不能体现出很好的效果。比如batchnormlize可能（由于过拟合）反而效果变差也是有可能的。做过实验给出分析即可。1 pnt 每个实验
+
+(4) im2col解释 0.5 pnt, 解释为什么fast layer快 0.5 pnt，解释卷积为什么不用fft 0.5 pnt。 
+
+具体为什么，可能是因为对小的卷积核，矩阵相乘比较快，对大的卷积核fft比较快？可能是复数运算对内存和计算复杂度的要求？
 
 \end{document}
 
