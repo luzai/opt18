@@ -1,5 +1,6 @@
 # opt18
 
-Optimization for Machine Learning， 2018 Fall
+Optimization for Machine Learning, 2018 Fall
 
-Course materials can be found [here](https://pan.zju.edu.cn/share/c270c1bffe7072455a2f41bea3). 
+Course materials can be found [here](https://pan.zju.edu.cn/share/8dd3e9ec9136c12015abb16a1c). 
+
