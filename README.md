@@ -2,5 +2,5 @@
 
 Optimization for Machine Learning, 2018 Fall
 
-Course materials can be found [here](https://pan.zju.edu.cn/share/8dd3e9ec9136c12015abb16a1c). 
+Course materials can be found [here](https://pan.zju.edu.cn/share/eb3781d2aa5dc5e105e71a4d5e). 
 
